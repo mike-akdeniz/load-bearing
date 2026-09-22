@@ -620,7 +620,7 @@ The first question is answered by a diagram. The second is answered by deleting 
 ## Sources
 
 - David L. Parnas, *On the Criteria To Be Used in Decomposing Systems into Modules* — Communications of the ACM 15(12), December 1972. [PDF](https://wstomv.win.tue.nl/edu/2ip30/references/criteria_for_modularization.pdf).
-- FlowCore, `docs/decisions.md` — [github.com/ilke-akdeniz/flowcore](https://github.com/ilke-akdeniz/flowcore).
+- FlowCore, `docs/decisions.md` — [github.com/mike-akdeniz/flowcore](https://github.com/mike-akdeniz/flowcore).
 
 ---
 

@@ -28,7 +28,7 @@ Java and C# appear where a point needs a class-based contrast — Java mostly in
 SQL runs through seven chapters, and C, Rust, and JavaScript appear once or twice each, where nothing else would show the point.
 
 **Running example.**
-[FlowCore](https://github.com/ilke-akdeniz/flowcore) supplies examples in Parts I, II, IV, V and VI — its 38-entry decision log means the reasoning behind a choice can be quoted rather than guessed at.
+[FlowCore](https://github.com/mike-akdeniz/flowcore) supplies examples in Parts I, II, IV, V and VI — its 38-entry decision log means the reasoning behind a choice can be quoted rather than guessed at.
 Each appearance shows a different facet, other domains supply the contrast, and no chapter rests on FlowCore alone.
 
 ## Files
@@ -54,6 +54,6 @@ Lift any snippet into your own project without attribution.
 ## How to cite
 
 > Akdeniz, M. *Load-Bearing: Which Software Principles Hold, and Where They Stop.*
-> https://github.com/ilke-akdeniz/load-bearing — licensed CC BY 4.0.
+> https://github.com/mike-akdeniz/load-bearing — licensed CC BY 4.0.
 
 If you make something with visible traces of this book — a course, a talk, a video, an article — the attribution above and a link are what the license asks for.

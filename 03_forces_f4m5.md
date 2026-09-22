@@ -534,7 +534,7 @@ Part II — *Laws, and Where They Bind* — opens with [chapter 04](04_families-
 - Go 1 and the Future of Go Programs — [go.dev/doc/go1compat](https://go.dev/doc/go1compat).
 - Rob Pike, *What We Got Right, What We Got Wrong*, closing talk at GopherConAU, Sydney, 10 November 2023, published 4 January 2024. [Text and slides](https://commandcenter.blogspot.com/2024/01/what-we-got-right-what-we-got-wrong.html).
 - Go, internal packages — [go.dev/doc/go1.4#internalpackages](https://go.dev/doc/go1.4#internalpackages).
-- FlowCore, `docs/decisions.md`, decision 1 — [github.com/ilke-akdeniz/flowcore](https://github.com/ilke-akdeniz/flowcore).
+- FlowCore, `docs/decisions.md`, decision 1 — [github.com/mike-akdeniz/flowcore](https://github.com/mike-akdeniz/flowcore).
 
 ---
 

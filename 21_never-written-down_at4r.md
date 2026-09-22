@@ -330,8 +330,8 @@ What you end up holding is not an answer but a position. Fixing Y changes Z; som
 - Kerem Zaman and Shashank Srivastava, *Is Chain-of-Thought Really Not Explainability? Chain-of-Thought Can Be Faithful without Hint Verbalization*, 28 December 2025. [arXiv](https://arxiv.org/abs/2512.23032).
 - Matt Pocock, *skills* — `skills/productivity/grilling/SKILL.md`. [github.com/mattpocock/skills](https://github.com/mattpocock/skills). The text quoted here is an earlier version, frozen; upstream has since changed.
 - Jason Ku, on using the technique during development. [Video](https://www.youtube.com/watch?v=ikGhv9kKFdU&t=356s).
-- FlowCore, `docs/decisions.md`, decisions 12 and 18 — [github.com/ilke-akdeniz/flowcore](https://github.com/ilke-akdeniz/flowcore).
-- FlowCore, `CLAUDE.md` — the iteration scope, and the identifier rule's reference to the log — [github.com/ilke-akdeniz/flowcore](https://github.com/ilke-akdeniz/flowcore).
+- FlowCore, `docs/decisions.md`, decisions 12 and 18 — [github.com/mike-akdeniz/flowcore](https://github.com/mike-akdeniz/flowcore).
+- FlowCore, `CLAUDE.md` — the iteration scope, and the identifier rule's reference to the log — [github.com/mike-akdeniz/flowcore](https://github.com/mike-akdeniz/flowcore).
 - Michael Nygard, *Documenting Architecture Decisions*, 15 November 2011 — [cognitect.com/blog/2011/11/15/documenting-architecture-decisions](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions).
 
 ---
