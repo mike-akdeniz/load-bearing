@@ -2,7 +2,7 @@
 
 *Which Software Principles Hold, and Where They Stop*
 
-By [Mike Akdeniz](https://github.com/mike-akdeniz)  ·  [CC BY 4.0](LICENSE)  ·  [How this book was written](#how-this-book-was-written)
+By [Mike Akdeniz](https://github.com/mike-akdeniz)  ·  [CC BY-NC 4.0](LICENSE)  ·  [How this book was written](#how-this-book-was-written)
 
 **Many claims you meet about software are one of five kinds, and the kind determines how much authority it has** — not the confidence of the person saying it, not their track record, not how widely it is repeated.
 The same wiring code is unremarkable in Go and gets sent back in review in C#, and neither version is more correct.

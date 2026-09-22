@@ -45,8 +45,9 @@ Working documents live in `docs/`:
 
 ## License
 
-The prose is licensed **[CC BY 4.0](../LICENSE)** — read it, quote it, translate it, teach from it, build on it.
-The one condition is credit: name the author, link back, and say if you changed anything.
+The prose is licensed **[CC BY-NC 4.0](../LICENSE)** — read it, quote it, translate it, teach from it, build on it.
+Two conditions: credit — name the author, link back, and say if you changed anything — and not for commercial purposes, which the licence defines as use primarily intended for commercial advantage or monetary compensation.
+Commercial rights are reserved; ask.
 
 **Code samples are CC0** — public domain.
 Lift any snippet into your own project without attribution.
@@ -54,6 +55,6 @@ Lift any snippet into your own project without attribution.
 ## How to cite
 
 > Akdeniz, M. *Load-Bearing: Which Software Principles Hold, and Where They Stop.*
-> https://github.com/mike-akdeniz/load-bearing — licensed CC BY 4.0.
+> https://github.com/mike-akdeniz/load-bearing — licensed CC BY-NC 4.0.
 
 If you make something with visible traces of this book — a course, a talk, a video, an article — the attribution above and a link are what the license asks for.
