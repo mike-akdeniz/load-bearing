@@ -101,4 +101,5 @@ Each chapter states its own claim and where that claim stops, so the contents pa
 
 How the book is put together — the chapter rubric, the language conventions, the running example, the license and how to cite it — is in **[`docs/ABOUT.md`](docs/ABOUT.md)**.
 
-> **Status: complete draft.** All twenty-two chapters are written and under review.
+> **Status: v1.0.** All twenty-two chapters are written and have been read end to end.
+> Corrections and disagreements welcome — open an issue.

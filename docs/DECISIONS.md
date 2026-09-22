@@ -8151,3 +8151,31 @@ Twenty-two repetitions of the same line, and the navigation row already reaches 
 
 **Consequence.**
 `docs/ABOUT.md`'s citation block is no longer the only place the book says who wrote it.
+
+---
+
+## 213. The book carries a version, not a stage
+
+**Date.** 2026-09-22
+
+**Context.**
+`README.md` closed on *"Status: complete draft. All twenty-two chapters are written and under review."*
+That sentence is precise inside this repository's vocabulary, where **draft** is a per-chapter state defined in `CLAUDE.md`.
+To a reader who does not have that vocabulary it says the book is not finished, which is not what it means and not what is true.
+
+**Options.**
+
+- **complete** — claims a final state the book does not want. Revision continues.
+- **draft** — accurate internally, and to an outside reader it reads as *not ready for you yet*.
+- **a version number** — done and shipped, with more possible and nothing promised.
+
+**Decision.**
+`Status: v1.0`, with the sentence saying what it rests on: twenty-two chapters written and read end to end.
+A `v1.0` tag marks the commit, so the version is a state of the repository rather than a word in a README — the same standard the book applies to its own claims.
+
+**The second line is not decoration.**
+*Corrections and disagreements welcome — open an issue* states that revision continues, which is what **draft** was there to say, and does it as an invitation.
+A book whose every chapter names a boundary on its own claim should say plainly that it expects to be argued with.
+
+**What does not change.**
+`docs/STATUS.md` keeps every chapter at **draft**. The chapter state and the book's version are different axes, and neither should be edited to match the other.
