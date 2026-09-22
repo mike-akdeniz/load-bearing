@@ -8170,8 +8170,15 @@ To a reader who does not have that vocabulary it says the book is not finished, 
 - **a version number** — done and shipped, with more possible and nothing promised.
 
 **Decision.**
-`Status: v1.0`, with the sentence saying what it rests on: twenty-two chapters written and read end to end.
-A `v1.0` tag marks the commit, so the version is a state of the repository rather than a word in a README — the same standard the book applies to its own claims.
+`Status: v1.0.0`, with the sentence saying what it rests on: twenty-two chapters written and read end to end.
+A `v1.0.0` tag marks the commit, so the version is a state of the repository rather than a word in a README — the same standard the book applies to its own claims.
+
+**The format is Semantic Versioning, and the shape was chosen rather than assumed.**
+Lowercase `v`, three components: `v1.0.0`, not `V1.0`, `V 1.0` or `v.1.0`.
+Two-part `v1.0` is common and would not be called an error, but it is not what semver defines, and Go modules require the full three-part form with the `v` prefix — so FlowCore's eventual tag has no choice, and a different shape here would be an inconsistency visible on the profile where both repositories appear together.
+
+**What the numbers will mean for a book.**
+A revised chapter or added material moves the middle number; corrected typos and dead links move the last; a restructure that renumbers chapters moves the first.
 
 **The second line is not decoration.**
 *Corrections and disagreements welcome — open an issue* states that revision continues, which is what **draft** was there to say, and does it as an invitation.
