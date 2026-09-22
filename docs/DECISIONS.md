@@ -8116,3 +8116,38 @@ Four chapters carry no `## Sources`, and slice 3 decided that deliberately for t
 - **`Why the upstream artifacts lose their owners`** still said *last in the chain*, written by the draft one pass before the author swept *chain* out of [chapter 22](../22_assigned-to-the-team_3fjx.md) in decision 209.
 
 Both are the same failure in miniature: a row written to match a chapter, and the chapter moved afterwards.
+
+---
+
+## 212. The book is signed
+
+**Date.** 2026-09-21
+
+**Context.**
+The book named its author once, in the citation block in [`ABOUT.md`](ABOUT.md), which is a working document two clicks from the front door.
+`README.md` said *the author* four times without saying who that was, and every chapter is unsigned.
+So a reader arriving on a chapter link — which is how most readers arrive — could not reach the person who wrote it.
+
+**Options.**
+
+- Leave it unsigned, on the grounds that the book's voice is deliberately impersonal.
+- A byline in the README.
+- A byline on every chapter.
+
+**Decision.**
+One line under the subtitle: author, license, and a link to the authorship section.
+Chapters stay unsigned.
+
+**Why the impersonal-voice objection does not hold.**
+The rule the book keeps is *never argue from who said it*, and that governs arguments rather than attribution — every source in the book's own Sources sections is signed, and none of them is cited as proof.
+A byline makes no argument.
+
+**Why it does not muddy the authorship disclosure.**
+The README already states the position at more length and more precisely than a byline could disturb: the sentences are generated, the judgment is the author's.
+Signing follows from that sentence rather than sitting in tension with it, and the byline links directly to the section that says so, so the disclosure is one click from the title rather than seventy percent of the way down the page.
+
+**Why not per chapter.**
+Twenty-two repetitions of the same line, and the navigation row already reaches the contents page, which reaches the README.
+
+**Consequence.**
+`docs/ABOUT.md`'s citation block is no longer the only place the book says who wrote it.
