@@ -8186,3 +8186,30 @@ A book whose every chapter names a boundary on its own claim should say plainly 
 
 **What does not change.**
 `docs/STATUS.md` keeps every chapter at **draft**. The chapter state and the book's version are different axes, and neither should be edited to match the other.
+
+---
+
+## 214. The authorship sentence leads with the author
+
+**Date.** 2026-09-22
+
+**Context.**
+Every surface carried a version of *the prose is LLM-drafted under my editorial control*.
+The author's objection, on reading it in a letter to a cited author:
+
+> reads like: "this is AI slop, I'm trying to take credit."
+
+**The defect is grammatical.**
+The model is the subject of the sentence and the author is a modifier hanging off it, so a reader's attention lands on the model.
+*Under my editorial control* then asserts authority with nothing behind it, which is the shape of a claim being defended rather than stated.
+
+**The author's replacement, and the one change made to it.**
+They proposed *"drafted by an LLM based on the ideas, directions and examples of the author, followed by a substantial process of direct edits, reviews and rewrites."*
+The active framing is theirs and is kept. *Substantial process of direct edits, reviews and rewrites* stacks three near-synonyms, and emphasis is what a sentence reaches for when it has no evidence — so the adjectives are replaced by the number that was already established: **95 review passes, in the commit history, reproducible with one grep.**
+
+**What changed here.**
+The opening of *How this book was written* now reads *"The ideas, the arguments and the examples are the author's; the prose was drafted by a large language model (Claude), one chapter at a time, and then edited and sent back."*
+The separate line *The idea is the author's* is absorbed into it rather than repeated.
+*Every chapter is read, argued with, and sent back* gains the count, so the paragraph that lists what the author caught now opens on a checkable figure.
+
+**The closing sentence is unchanged**, because it was already right: *the sentences are generated; the argument, the judgment, and the responsibility for what it says are the author's.*
