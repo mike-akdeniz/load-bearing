@@ -138,7 +138,7 @@ Which reframes the registration test above. It is not what happens when someone 
 
 The ordering has been measured on its own, separately from everything bundled with it, by a study whose title is the question: *A Dissection of the Test-Driven Development Process: Does It Really Matter to Test-First or to Test-Last?*
 
-In it, Fucci, Erdogmus, Turhan, Oivo and Juristo went at it differently. Rather than split people into a TDD group and a control group, they recorded what developers actually did. Thirty-nine professional developers — averaging 7.3 years of Java experience — worked through programming tasks in an IDE recording every action, producing 82 usable data points. Instead of asking *did the TDD group do better*, they broke the work itself into four things they could measure:
+Rather than split people into a TDD group and a control group, Fucci, Erdogmus, Turhan, Oivo and Juristo recorded what developers actually did. Thirty-nine professionals, averaging 7.3 years of Java experience, worked through tasks in an IDE that logged every action, producing 82 usable sessions. They scored each session on four properties of the process:
 
 ```text
  granularity   how long one cycle usually was
@@ -147,33 +147,19 @@ In it, Fucci, Erdogmus, Turhan, Oivo and Juristo went at it differently. Rather 
  refactoring   how much of the work was refactoring
 ```
 
-They scored two outcomes: how much of a supplied acceptance suite the finished code passed, and how quickly those assertions were earned. Then they asked which of the four predicted either.
+And on two outcomes: how much of a supplied acceptance suite the finished code passed, and how quickly those assertions were earned.
 
-**Sequencing predicted neither.** Cycle length, cycle evenness, and refactoring survived the analysis; the test-first share did not, for quality or for speed. Quality improves by about 14% as the typical cycle falls from around 50 minutes to around 8.
+**Of the four, granularity and uniformity predicted both outcomes. Sequencing predicted neither.** The quality gain from shorter cycles reaches about 14% at the extreme — from the longest cycles observed, around fifty minutes, down to the dataset's average of eight — and below the *"often suggested values of five to ten minutes"* there is little further improvement. Short cycles and even ones also *"go hand in hand, meaning these two characteristics together make a difference. In isolation, they may not be as effective."*
 
-The authors are careful about how much weight that carries, and the chapter should be too. Short cycles and even ones *"go hand in hand, meaning these two characteristics together make a difference. In isolation, they may not be as effective"* — two of the four factor-outcome pairings have coefficients too weak to stand alone. And there is a floor: cutting cycles below the *"often suggested values of five to ten minutes results in little improvement."*
+Their conclusion, in their words: the benefits *"may not be due to its distinctive test-first dynamic, but rather due to the fact that TDD-like processes encourage fine-grained, steady steps that improve focus and flow."*
 
-Their own conclusion puts it better than a summary could. The secret of TDD, they write, *"might not be centered on its test-first nature, but rather on its ability to encourage developers to consistently take fine-grained steps, what Kent Beck calls baby steps, provided that they keep writing tests."*
+Three conditions come with that, stated in the same paper:
 
-And the corollary they draw is the sharpest sentence in the paper: writing tests last and writing them first *"could be substitutes and equally effective provided that they are performed at the same level of granularity and uniformity."*
+- **Every process measured wrote tests.** The comparison is test-first against test-last, never against not testing, and the conclusion says so in the clause easiest to drop: *"provided that they keep writing tests."*
+- **The substitution is conditional.** The two are substitutable *"at the same level of granularity and uniformity"* — short steps of roughly even length. A team that drops the ritual and returns to hour-long cycles has changed the thing that mattered rather than the thing that didn't.
+- **A cycle is one green test run.** The paper defines it as the interval *"delimited by the successful execution of a regression test suite (the green bar in JUnit),"* observed from about one minute to forty-nine, median four and a half. The finding is about how often code comes back green — not about how often you settle an interface, size a queue, or choose a storage model.
 
-Not *the order is irrelevant*. **Two practices are interchangeable once matched on step size — and both of them include writing the tests.**
-
-It travels as *TDD doesn't work* or *the order doesn't matter*. Five things in the paper forbid both readings, three of them in that same closing passage.
-
-**The tests are not the variable.** Every process measured here wrote tests. The comparison is test-first against test-last, never against not testing, and the conclusion says so in the clause that is easiest to drop: *provided that they keep writing tests*.
-
-**The result carries a condition.** Substitutable *"at the same level of granularity and uniformity"* — short steps, of roughly even length, one after another. A team that abandons the ritual and returns to hour-long cycles has changed the thing that mattered rather than the thing that didn't.
-
-**Finding nothing is not finding against.** They looked for a link between the order and the outcomes and got none in either direction. Had writing tests first been actively harmful, more of it would have gone with worse results, and it did not.
-
-**They measured hours, not careers.** The gains may be *"small or uncertain in the short term,"* and a test-first dynamic *"may provide long-term advantages not addressed by or detected in our study"* — they name three: working out what the requirements actually are, forcing design decisions into the open, and getting more tests written at all.
-
-**The cycle it measures is a code change, not a decision.** A cycle here is *"delimited by the successful execution of a regression test suite (the green bar in JUnit),"* and the observed lengths ran from about one minute to forty-nine, median four and a half. So the finding is about how often code comes back green. Applying it to how often anything else should happen — how often you settle an interface, size a queue, choose a storage model — takes a word that was pinned to one unit and resolves it outward to a scope nobody measured. Nobody designs a video pipeline in eight-minute increments, and nothing in this paper says they should.
-
-Two limits of the design, which they also state: it is a single-group study with no control group, and two of the three tasks were artificial rather than representative of professional work. They also report that earlier work — Rafique and Mišić among others — had already speculated that granularity was the thing doing the work, and say these findings support it, so this is not a lone result.
-
-**Read those and the finding is narrower, and more useful, than either slogan.** It does not say the ritual is worthless. It says the ritual's value is in what it makes you do — small steps, evenly sized, with tests — and that you can have that without the ritual, if you actually do it. Which is a harder instruction than either *always write the test first* or *test-first is a myth*, and the only one of the three that tells you what to change on Monday.
+Three limits, which they also state: a single group with no control group, two of the three tasks artificial rather than representative, and a horizon of hours — the gains may be *"small or uncertain in the short term,"* and a test-first dynamic *"may provide long-term advantages not addressed by or detected in our study."* They name three such: working out what the requirements actually are, forcing design decisions into the open, and getting more tests written at all. And sequencing failing to predict is a failure to detect a difference, not a finding against writing tests first.
 
 This is [chapter 15](15_principle-loses-scope_b86v.md)'s mechanism — a Principle losing its scope — running on a peer-reviewed paper rather than a proverb. The conditions were published beside the finding, by the same authors, in the same section. What travelled was the finding.
 

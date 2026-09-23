@@ -8235,3 +8235,42 @@ The chapter closed its tight-reading section with *"The distinction that survive
 
 **Consequence.**
 The section ends on the chapter's own distinction. The Sources entry goes with it.
+
+---
+
+## 216. *What the ordering was measured to buy* is rewritten, and two errors in it are corrected
+
+**Date.** 2026-09-22
+
+**Context.**
+The author's diagnosis, reading the section while a letter to its authors was being drafted:
+
+> A study or paper infiltrated the book, imposing its tone and claims. The entire section is a caricature of the study with its tone.
+
+And the principle it rests on:
+
+> the claims are the researcher's, we just offer that as something people can reach. We shouldn't be saying "yes even the scientists support us see!"
+
+**What the section had become.**
+Nine hundred words, of which five bolded items were a list of things *"the paper forbids"*, introduced by a sentence saying the authors are careful and the chapter should be too.
+That is the book arguing on the paper's behalf rather than using it, and it is the register rule in `CLAUDE.md` failing in its own chapter — the source's structure carried across instead of its finding.
+
+**The model the author supplied was the paper's own abstract**, which states method, result and conclusion in six sentences without defending anything.
+
+**Two factual errors surfaced while rewriting, both found by reading the paper rather than by asking its authors.**
+
+*The 14% figure.* The chapter said *"Quality improves by about 14% as the typical cycle falls from around 50 minutes to around 8."* The paper says the improvement *"can be as high as 14% when cycle length is reduced from its maximum observed value at around 50 minutes down to the average observation of eight minutes."* A ceiling had become a typical value, and maximum-to-average had become typical-to-typical. An overstatement of someone else's result, in the chapter about claims outrunning their evidence.
+
+*Refactoring was misfiled, and is now simply absent.* The chapter listed it among the factors that *"survived the analysis"*, which put it beside the two positives and implied it helped; it in fact predicted both outcomes **negatively**.
+
+The first fix stated the direction and the authors' own doubt about it. The author cut that too, and was right: the negative result is only surprising inside the doctrine that makes refactoring a prescribed step, and the book says nothing about refactoring anywhere. So the chapter now reports the two factors that predicted and the one that did not, and is silent on the fourth. The code fence still lists all four, because that is the study's design.
+
+**What the rewrite keeps**, because `docs/LEDGER.md` assigns them here: sequencing dropping out of the model, the paper's own conditions, the cycle pinned to a green bar, and the four dimensions with their glosses.
+The scope limits stay — they are the chapter's subject — but as conditions stated in the paper rather than as a defence mounted by the book.
+
+**What it drops:** the five-item forbidding list, the self-congratulating frame, and the running argument with two slogans.
+A closing line recommending the paper went too — *"short, open, and better than any summary of it"* reads as an advertisement, and the Sources section already carries both the preprint and the paywalled version.
+The claims are the researchers'; the book's job is to state them accurately and let the citation do the rest.
+
+**Consequence.**
+The section is 654 words, down from about 900. Ledger row *Fucci et al.'s four dimensions* is corrected to carry refactoring's direction.
