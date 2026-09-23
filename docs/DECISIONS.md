@@ -8274,3 +8274,29 @@ The claims are the researchers'; the book's job is to state them accurately and 
 
 **Consequence.**
 The section is 654 words, down from about 900. Ledger row *Fucci et al.'s four dimensions* is corrected to carry refactoring's direction.
+
+---
+
+## 217. The closing paragraph of the Fucci section goes
+
+**Date.** 2026-09-22
+
+**Context.**
+The section ended: *"This is [chapter 15](../15_principle-loses-scope_b86v.md)'s mechanism — a Principle losing its scope — running on a peer-reviewed paper rather than a proverb. The conditions were published beside the finding, by the same authors, in the same section. What travelled was the finding."*
+
+**The author's objection.**
+
+> Here we are saying that the paper was also part of a process where the principle it laid out lost its scope. This is simply wrong and unfounded.
+
+**Right on the evidence.**
+The chapter shows no instance of anyone citing the study with its conditions stripped — no blog post, no talk, no quotation. The paragraph asserts a reception history the book never demonstrates, which is the same defect the book spends [chapter 15](../15_principle-loses-scope_b86v.md) documenting in other people.
+
+**And decision 216 had already stranded it.**
+The sentence it depended on — *"It travels as TDD doesn't work or the order doesn't matter"* — was cut in that rewrite, so *what travelled* referred to nothing the section any longer said.
+
+**What is unaffected.**
+[Chapter 15](../15_principle-loses-scope_b86v.md)'s connection survives at the section on the tight reading, which says outright that 15 owns the general answer.
+And the chapter's *other* claim about scope loss stands, because it is a different claim: *granularity is pinned to a green bar* warns against **this chapter's own** term being resolved outward by its reader, and the chapter states that boundary itself rather than reporting one the world crossed.
+
+**Consequence.**
+Ledger row *The paper states its own conditions* loses its trailing claim about b86v's mechanism running on a peer-reviewed finding.

@@ -161,8 +161,6 @@ Three conditions come with that, stated in the same paper:
 
 Three limits, which they also state: a single group with no control group, two of the three tasks artificial rather than representative, and a horizon of hours — the gains may be *"small or uncertain in the short term,"* and a test-first dynamic *"may provide long-term advantages not addressed by or detected in our study."* They name three such: working out what the requirements actually are, forcing design decisions into the open, and getting more tests written at all. And sequencing failing to predict is a failure to detect a difference, not a finding against writing tests first.
 
-This is [chapter 15](15_principle-loses-scope_b86v.md)'s mechanism — a Principle losing its scope — running on a peer-reviewed paper rather than a proverb. The conditions were published beside the finding, by the same authors, in the same section. What travelled was the finding.
-
 ---
 
 ## What the tight reading looks like
