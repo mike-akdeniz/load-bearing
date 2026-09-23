@@ -8213,3 +8213,25 @@ The separate line *The idea is the author's* is absorbed into it rather than rep
 *Every chapter is read, argued with, and sent back* gains the count, so the paragraph that lists what the author caught now opens on a checkable figure.
 
 **The closing sentence is unchanged**, because it was already right: *the sentences are generated; the argument, the judgment, and the responsibility for what it says are the author's.*
+
+---
+
+## 215. Khorikov comes out of [chapter 16](../16_tdd-and-mocks_u8eu.md)
+
+**Date.** 2026-09-22
+
+**Context.**
+The chapter closed its tight-reading section with *"The distinction that survives: mock what you cannot run, not what would merely be inconvenient to run"*, then added Vladimir Khorikov's managed/unmanaged split as **"a sharper version of the same line"**.
+
+**Three reasons it goes, and the first is the book's own rule.**
+
+**The vocabulary was used once and never again.** *Managed* and *unmanaged* are introduced, defined, and quoted — and neither word appears anywhere later in the chapter or the book. Two terms for a reader to decode with no subsequent payoff is the source's register carried across rather than its finding.
+
+**It is not a sharper version of the same line; it is a different criterion.** The chapter sorts by whether you can run the dependency. Khorikov sorts by whether the communication is observable outside your system, on the grounds that external applications cannot be redeployed alongside you. The two agree on a payment gateway and come apart on anything runnable but externally observable — a message bus in a container, an SMTP server you host. Presenting them as one line flattens that, and a reader who tries to see how the second refines the first will not find it.
+
+**And the rule welds two independent questions together.** That a communication is externally observable argues for asserting its shape strictly. It does not argue for replacing the dependency: with a broker you can run, you publish, read the message back, and pin exactly the same contract with no double in the test. Observability decides *what to assert*; feasibility decides *mock or real*. The chapter already answers the second, and *A mock asserting a call, where the call is the behaviour* already answers the first for the case that matters.
+
+**What was read.** His post, *When to Mock*, which is what the chapter cited. He treats the subject at greater length in *Unit Testing: Principles, Practices, and Patterns*, which was not read — so nothing here is a claim about his position in general, and the chapter now makes no claim about it at all.
+
+**Consequence.**
+The section ends on the chapter's own distinction. The Sources entry goes with it.

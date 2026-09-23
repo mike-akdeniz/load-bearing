@@ -319,10 +319,6 @@ What changes is what the double is allowed to claim. A test using one is a test 
 
 The distinction that survives: mock what you cannot run, not what would merely be inconvenient to run.
 
-Vladimir Khorikov states a sharper version of the same line, and it is worth having because it says *why* rather than *which*. He splits out-of-process dependencies into **managed** — ones you control, such as your own database — and **unmanaged** — ones other systems also reach, such as an SMTP server. Use real instances of the first; replace only the second. The reason:
-
-> Communications with managed dependencies are implementation details; communications with unmanaged dependencies are part of your system's observable behavior.
-
 ## A mock asserting a call, where the call is the behaviour
 
 Sometimes the effect under test *is* that a particular call was made. Registration should send a welcome email; the test asserts the mailer was invoked with the right address. There is no state to inspect afterwards, and the call is the whole of the requirement.
@@ -383,7 +379,6 @@ A more general question is worth asking before a release: **if this behaviour is
 - Martin Fowler, *Mocks Aren't Stubs*, 2007 — [martinfowler.com/articles/mocksArentStubs.html](https://martinfowler.com/articles/mocksArentStubs.html).
 - Martin Fowler, *TestDrivenDevelopment* — [martinfowler.com/bliki/TestDrivenDevelopment.html](https://martinfowler.com/bliki/TestDrivenDevelopment.html).
 - Kent Beck, *Canon TDD*, 2023 — [newsletter.kentbeck.com/p/canon-tdd](https://newsletter.kentbeck.com/p/canon-tdd).
-- Vladimir Khorikov, *When to Mock* — [enterprisecraftsmanship.com/posts/when-to-mock](https://enterprisecraftsmanship.com/posts/when-to-mock/).
 - Python, `unittest.mock` — [docs.python.org/3/library/unittest.mock.html](https://docs.python.org/3/library/unittest.mock.html).
 
 ---
