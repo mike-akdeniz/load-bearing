@@ -434,7 +434,7 @@ The log doubles as the authorship record for an AI-assisted work, so it has to s
 The procedure:
 
 - **Interview until there is shared understanding, then act.** Nothing is written to a chapter until the author says the questions are settled. Applying decisions as they are agreed loses the ability to order the work by what depends on what.
-- **One question at a time**, waiting for the answer before the next one. A batch of questions is bewildering, and it also hides which ones were dependent on which.
+- **One question at a time**, waiting for the answer before the next one. Two questions in view divides the attention and the decision quality drops, whatever their dependency structure — so a scheme that batches only the independent ones does not answer this. The cost of the extra round trips is the draft's, and the decision is the author's.
 - **Give a recommended answer with every question**, and the reasoning for it. A question with no recommendation pushes the work back onto the author, which is the opposite of the point.
 - **Look facts up rather than asking.** Counts, cross-references, what a source actually says, what a rename would cost — go and find out. The *decisions* are the author's; the facts are Claude's job, and a fact discovered before the question is asked often settles it.
 - **Order the questions by dependency.** Ask the root decision first. [Chapter 18](18_six-profiles_dnkz.md)'s terminology question came first because the title, every heading, the TOC entry, three ledger rows and two cross-references all inherited from it, and asking anything else first would have meant asking it twice.
