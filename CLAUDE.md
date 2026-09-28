@@ -626,12 +626,7 @@ Here this is not a matter of taste. Every surface claims the judgment is the aut
 
 **Never use the "X, and that is the Y" formula**, or its relatives: *it is not X, it is Y*; *and that is the whole point*; *which is exactly why it matters*. Each announces a conclusion instead of stating one.
 
-**The other tells, all of which have shipped in drafts here:**
-
-- A closing sentence engineered to be quotable. Ask whether it adds a fact. Usually the sentence before it already carried the point.
-- Three parallel clauses, three item lists, a triple where two would do.
-- Bold lead ins on every paragraph, so the text reads as a briefing rather than as someone talking.
-- Announcing a count and then delivering it: *three things are worth noticing here*.
+**The other tells:**
 - Vocabulary that almost nobody types by hand: *delve*, *leverage*, *a testament to*, *in today's landscape*.
 - Every paragraph in a chapter landing on the same rhythm: setup, pivot, epigram. Fine once. Recognisable by the fourth.
 
