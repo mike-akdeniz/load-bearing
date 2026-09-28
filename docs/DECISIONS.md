@@ -8300,3 +8300,20 @@ And the chapter's *other* claim about scope loss stands, because it is a differe
 
 **Consequence.**
 Ledger row *The paper states its own conditions* loses its trailing claim about b86v's mechanism running on a peer-reviewed finding.
+
+---
+
+## 218. Chapter revisions move the book to v1.1.0
+
+**Date.** 2026-09-28
+
+**Context.**
+The book was tagged `v1.0.0` at the state where all twenty-two chapters had been written and read end to end. Since that tag, chapter 16's account of the Fucci study was substantially rewritten, with two factual errors corrected and unsupported framing removed. Other changes include a prose license, revised authorship language, and copy edits across the chapters.
+
+**Decision.**
+The README version moves to `v1.1.0`. Decision 213 defines the middle number for a revised chapter or added material, the last number for typo and dead-link corrections, and the first number for a restructure that renumbers chapters. The post-`v1.0.0` work includes a substantive chapter revision, and no chapter renumbering, so `v1.1.0` is the fitting next version.
+
+The `v1.0.0` tag remains on its original commit. An annotated `v1.1.0` tag should mark the commit containing this version update and decision, so the README's version describes an actual repository state.
+
+**What does not change.**
+`docs/STATUS.md` continues to track chapter status separately from the book's version, as established in decision 213.
