@@ -411,6 +411,29 @@ A chapter sits at **in progress** for the whole review cycle, however many passe
 It moves to **draft** on the author's word and not on Claude's judgment that it looks finished.
 **Ready** is a separate, later decision, and nothing reaches it by default.
 
+### Session handover
+
+When the owner says **handover** in a prompt, save the context the next Claude Code or Codex session needs to continue to `docs/pending-tasks/agent-handover.md`. Don't append to the existing content of the file, every handover should wipe previous content.
+This supports starting a fresh context window or switching agents or models.
+Write the file as part of that request; do not merely provide a summary in chat.
+
+Keep one current handover, replacing stale content while preserving anything unresolved that still matters.
+Include:
+
+- The handover date, current task, and intended outcome.
+- Decisions and constraints agreed with the owner, including relevant exact wording and any interview questions still awaiting answers.
+- Work completed, work remaining, and the next concrete step, following any agreed plan's order.
+- The current branch and pending changes, distinguishing implemented, verified, and still unreviewed work.
+- Checks run and their results, known failures, blockers, and any relevant running processes or environment setup.
+- Links to the authoritative docs, task plans, and files needed to resume without reconstructing the session.
+
+Keep it concise and actionable; link to durable records rather than copying them, and never include secrets.
+Ensure the handover file is linked from `docs/pending-tasks/index.md` when populated.
+Writing a handover does not change project statuses or authorize a commit.
+
+At the start of a new session, read this file if present alongside `docs/status.md`.
+Treat it as continuation context, verify its account against the working tree, and follow the authoritative design docs and agreed plans if it is stale or conflicts with them.
+
 ## How we work
 
 The author leads, reviews every chapter, and makes the editorial calls.
@@ -594,6 +617,23 @@ Read a finished section aloud. If the paragraphs share one rhythm, rewrite the f
 When one of these is found in review, **treat it as a signal that the surrounding claim may not be worked out.**
 Decoration usually appears where an argument is thin — it is covering the gap rather than filling it.
 Rewrite the claim, not the phrase.
+
+### Copy must not read as machine-written
+
+Here this is not a matter of taste. Every surface claims the judgment is the author's. Copy carrying the visible habits of generated text disproves that claim before anyone clicks a link, so a tell is a factual problem rather than an aesthetic one.
+
+**Never use an em dash.** It is the most recognisable signature of generated prose in 2026. Use a comma, a colon, a semicolon, brackets, or start a new sentence. Most em dashes disappear without replacement.
+
+**Never use the "X, and that is the Y" formula**, or its relatives: *it is not X, it is Y*; *and that is the whole point*; *which is exactly why it matters*. Each announces a conclusion instead of stating one.
+
+**The other tells, all of which have shipped in drafts here:**
+
+- A closing sentence engineered to be quotable. Ask whether it adds a fact. Usually the sentence before it already carried the point.
+- Three parallel clauses, three item lists, a triple where two would do.
+- Bold lead ins on every paragraph, so the text reads as a briefing rather than as someone talking.
+- Announcing a count and then delivering it: *three things are worth noticing here*.
+- Vocabulary that almost nobody types by hand: *delve*, *leverage*, *a testament to*, *in today's landscape*.
+- Every paragraph in a chapter landing on the same rhythm: setup, pivot, epigram. Fine once. Recognisable by the fourth.
 
 ## Identifier naming in code samples
 
