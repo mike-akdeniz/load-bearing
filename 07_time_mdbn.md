@@ -2,11 +2,11 @@
 
 ## The claim
 
-**You can never read the current value of anything — all you get is a past value. No clock can tell you what happened first.**
+**You can never read the current value of anything: all you get is a past value. No clock can tell you what happened first.**
 
 This claim sounds like clickbait, but it is not. It appears counter-intuitive to most people but still holds on many different levels.
 
-Start with the simplest scenario. Your program reads the variable `price` from memory, gets `20`, and acts on that value on the very next line. Strictly speaking, are you allowed to assume *the price is 20* on that second line? Most of the time we write code as though that were guaranteed, without thinking about it. Sometimes the guarantee breaks, and we reach for a concurrency mechanism to fix the exceptional case — but this chapter's point is that the same issue sits underneath every read: **there is no shared now.**
+Start with the simplest scenario. Your program reads the variable `price` from memory, gets `20`, and acts on that value on the very next line. Strictly speaking, are you allowed to assume *the price is 20* on that second line? Most of the time we write code as though that were guaranteed, without thinking about it. Sometimes the guarantee breaks, and we reach for a concurrency mechanism to fix the exceptional case, but this chapter's point is that the same issue sits underneath every read: **there is no shared now.**
 
 Inside one machine that means your observation is already stale when you act on it, no matter how quickly the act follows the read. Across machines it means there is no agreed ordering of events at all, and the timestamps you would use to build one are not up to the job.
 
@@ -17,16 +17,16 @@ So far it looks like every line of code is in danger. It is not, and it is worth
 Reading state and then acting on it is only a problem when **all three** of these hold:
 
 1. **Something else can write that state** between your read and your act.
-2. **Your decision depends on what you read** — you are not just reporting it.
-3. **The rule spans data you did not hold still** — other rows, other keys, other files.
+2. **Your decision depends on what you read**; you are not just reporting it.
+3. **The rule spans data you did not hold still**: other rows, other keys, other files.
 
-If any one of them is missing, there is nothing here to fix. Reading configuration at startup in a single-threaded process, reading a row you already hold a lock on, reading a value only you ever write, reading anything immutable — all safe, and all extremely common.
+If any one of them is missing, there is nothing here to fix. Reading configuration at startup in a single-threaded process, reading a row you already hold a lock on, reading a value only you ever write, and reading anything immutable are all safe, and all extremely common.
 
 When all three do hold, the fix is almost always one of three ordinary moves:
 
 - **Do the whole thing in one operation**, so nothing can happen in between.
 - **Let the component holding the data enforce the rule**, usually the database.
-- **Do not rely on a read** — attempt the thing, and handle the failure.
+- **Do not rely on a read**: attempt the thing, and handle the failure.
 
 None of those is exotic, and none costs much. The reason this chapter is long is that recognizing the shape is harder than fixing it.
 
@@ -34,7 +34,7 @@ None of those is exotic, and none costs much. The reason this chapter is long is
 
 ## Check-then-act is not atomic
 
-Check-then-act is the common name for the shape: read a value, decide something on the strength of it, then act — where the act quietly assumes the value has not changed since the read.
+Check-then-act is the common name for the shape: read a value, decide something on the strength of it, then act, while quietly assuming the value has not changed since the read.
 
 A sign-up handler holding user records. It refuses an email that already has an account, and the code says so plainly:
 
@@ -62,7 +62,7 @@ func (s *Store) SignUp(email, password string) error {
 }
 ```
 
-`findByEmail` and `append` each take a mutex internally — a lock that lets one goroutine at a time touch the slice, the way `synchronized` does in Java or `lock` in C#:
+`findByEmail` and `append` each take a mutex internally (a lock that lets one goroutine at a time touch the slice), the way `synchronized` does in Java or `lock` in C#:
 
 ```go
 func (s *Store) findByEmail(email string) bool {
@@ -99,9 +99,9 @@ Three things are worth taking from that number.
 
 **Locking each step protects each step and nothing else.** The users slice was never corrupted. What broke was a rule that spans two operations, and no amount of locking inside them can span them.
 
-**The window is as wide as the work you do in it.** Remove the password hashing and the same code produces one row on this machine, most of the time — which is worse, not better, because the bug is still there and now it only appears under load, in production, when the machine is busy.
+**The window is as wide as the work you do in it.** Remove the password hashing and the same code produces one row on this machine, most of the time. That is worse, not better, because the bug is still there and now it only appears under load, in production, when the machine is busy.
 
-**Nothing in the code looks wrong.** There is no missing lock to spot in review. The defect is in the shape — a decision made from a reading, and an action taken later — and that shape is invisible if you are looking for unguarded variables.
+**Nothing in the code looks wrong.** There is no missing lock to spot in review. The defect is in the shape: a decision made from a reading and an action taken later. That shape is invisible if you are looking for unguarded variables.
 
 And here is the whole fix, which is the first of the three moves:
 
@@ -135,7 +135,7 @@ That is the shape of the ordinary fix: **not more locking, but locking the right
 
 ## The same bug, in whatever language you own
 
-The shape does not belong to Go, or to databases. Here it is against the filesystem, which is where the name **TOCTOU** — time of check to time of use — comes from, and where the consequence is worse than a duplicate row.
+The shape does not belong to Go, or to databases. Here it is against the filesystem, which is where the name **TOCTOU** (time of check to time of use) comes from, and where the consequence is worse than a duplicate row.
 
 An upload handler validates a file before reading it: it must not be a symbolic link, and it must not be enormous.
 
@@ -158,7 +158,7 @@ BAD : SECRET-DB-PASSWORD=swordfish
 
 No exception, no error, no sign that anything went wrong. The handler validated one file and read another, because **`os.stat(path)` and `open(path)` each resolve the name separately**, and the name was repointed in between. This is the original meaning of TOCTOU and it is a security bug, not a tidiness one.
 
-The fix is the first move again — bind yourself to the object once, and ask your questions of the thing you are holding:
+The fix is the first move again: bind yourself to the object once, and ask your questions of the thing you are holding:
 
 ```python
 fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)  # refuses a symlink outright
@@ -184,7 +184,7 @@ select count(*) from account where email = $1;   -- CHECK
 insert into account (email) values ($1);         -- ACT
 ```
 
-And the fix uses the other two moves together — hand the rule to whoever holds the data, then stop checking and let the attempt answer for itself:
+And the fix uses the other two moves together: hand the rule to whoever holds the data, then stop checking and let the attempt answer for itself:
 
 ```sql
 -- Declared once, when the table is created.
@@ -196,9 +196,9 @@ insert into account (email) values ($1)
 on conflict do nothing;
 ```
 
-The `select` is gone entirely. That is what "do not check at all" looks like in practice — you were never able to trust the answer, so you stop asking and let the write succeed or fail.
+The `select` is gone entirely. That is what "do not check at all" looks like in practice: you were never able to trust the answer, so you stop asking and let the write succeed or fail.
 
-And the same in C#, Java, or anything else with two statements and a gap between them. **The bug survives every translation, because it is not about the language** — and so does the fix, because all three moves are one idea: make the decision and the action inseparable.
+And the same in C#, Java, or anything else with two statements and a gap between them. **The bug survives every translation, because it is not about the language;** the fix survives too, because all three moves are one idea: make the decision and the action inseparable.
 
 ## Shared mutable state plus concurrency equals races
 
@@ -210,7 +210,7 @@ count := 0
 for i := 0; i < 1000; i++ {
 	wg.Add(1)
 
-	// `go` starts this function on its own goroutine — a thread, for
+	// `go` starts this function on its own goroutine (a thread, for
 	// present purposes. All thousand of them share the one `count`.
 	go func() {
 		defer wg.Done()
@@ -223,9 +223,9 @@ for i := 0; i < 1000; i++ {
 BAD  counter: 968
 ```
 
-Run it again and it produces 961. The count is wrong, differently, every time. `count++` is not one operation — it reads, adds, and writes back, and two goroutines that read the same value both write the same result, so one increment vanishes.
+Run it again and it produces 961. The count is wrong, differently, every time. `count++` is not one operation: it reads, adds, and writes back. Two goroutines that read the same value both write the same result, so one increment vanishes.
 
-The fix is one instruction, and it is the first move again — make the read, the add, and the write a single thing nothing can split:
+The fix is one instruction, and it is the first move again: make the read, the add, and the write a single thing nothing can split:
 
 ```go
 var safe int64
@@ -237,7 +237,7 @@ atomic.AddInt64(&safe, 1) // one indivisible operation
 GOOD counter: 1000
 ```
 
-Exactly a thousand, every run. This is `Interlocked.Increment` in C# and `AtomicLong.incrementAndGet` in Java, and it is not a lock — the processor guarantees the read, the add, and the write happen as a unit.
+Exactly a thousand, every run. This is `Interlocked.Increment` in C# and `AtomicLong.incrementAndGet` in Java. It is not a lock; the processor guarantees the read, the add, and the write happen as a unit.
 
 That is the cheap fix for one number. For the general case, the equation in the heading has three terms, and you only have to remove one:
 
@@ -257,19 +257,19 @@ The registration fix above works because one mutex covered both steps. Two proce
 create unique index ux_account_email on account (lower(email));
 ```
 
-The rule is now checked by the component that holds the row locks, at the instant of the write. There is no window, because there is no separate check — the decision and the write are one statement, and the loser of a race gets an error rather than a duplicate row.
+The rule is now checked by the component that holds the row locks, at the instant of the write. There is no window, because there is no separate check: the decision and the write are one statement, and the loser of a race gets an error rather than a duplicate row.
 
-**The general rule, and it is the useful one:** a rule about data can only be enforced by whatever can see all of that data and stop it changing. Application code cannot enforce uniqueness across rows it has not read and cannot hold still. It is not that the database is a *better* place for the rule — it is the only place the rule can be enforced at all.
+**The general rule, and it is the useful one:** a rule about data can only be enforced by whatever can see all of that data and stop it changing. Application code cannot enforce uniqueness across rows it has not read and cannot hold still. The database is not merely a *better* place for the rule; it is the only place the rule can be enforced at all.
 
 There is a corollary worth stating separately, because it is the part people resist: **an application-level check is not wrong, but it is not the enforcement.** Keep it, because it produces a good error message and saves a round trip in the common case. Do not count it as the guarantee, and do not remove the constraint because the check is there.
 
 ## The single-writer principle
 
-The strongest version of removing the sharing. If exactly one thread, process, or partition ever writes a piece of state, then no write can interleave with another, and the entire apparatus above becomes unnecessary — no locks, no atomics, no constraint to enforce.
+The strongest version of removing the sharing. If exactly one thread, process, or partition ever writes a piece of state, then no write can interleave with another, and the entire apparatus above becomes unnecessary: no locks, no atomics, no constraint to enforce.
 
-This is why partitioned designs are fast. A queue consumer that owns its partition, an actor that owns its state, a shard that owns its key range — each is a single writer, and the coordination cost is zero because there is nothing to coordinate with.
+This is why partitioned designs are fast. A queue consumer that owns its partition, an actor that owns its state, a shard that owns its key range, each is a single writer, and the coordination cost is zero because there is nothing to coordinate with.
 
-The contrast is the same work without the partition. Four workers appending to one shared `users` slice all take the same mutex, so every write waits behind the other three, and a fifth worker adds contention rather than throughput. Nothing is incorrect — the mutex does its job — but each writer now pays for the existence of the others, and the payment grows with the number of them. Partitioning does not make that coordination cheaper. It removes the need for it.
+The contrast is the same work without the partition. Four workers appending to one shared `users` slice all take the same mutex, so every write waits behind the other three, and a fifth worker adds contention rather than throughput. Nothing is incorrect, the mutex does its job, but each writer now pays for the existence of the others, and the payment grows with the number of them. Partitioning does not make that coordination cheaper. It removes the need for it.
 
 The price is that the partition is now part of your design, permanently. Any operation spanning two partitions is back to needing coordination, and the boundaries are difficult to move once data has accumulated behind them ([Ch. 03](03_forces_f4m5.md), on why that decision expires).
 
@@ -277,7 +277,7 @@ The price is that the partition is now part of your design, permanently. Any ope
 
 The second sentence of the claim, and it even surprises people who accept the first easily.
 
-The intuition is that if event A has an earlier timestamp than event B, A happened first. Start with one machine — no network, no skew, one process — and ask whether the clock can even distinguish two adjacent events:
+The intuition is that if event A has an earlier timestamp than event B, A happened first. Start with one machine (no network, no skew, one process) and ask whether the clock can even distinguish two adjacent events:
 
 ```go
 timestampA := time.Now().UnixNano()
@@ -291,9 +291,9 @@ consecutive Now() pairs with an identical wall-clock value: 189090 of 200000 (95
 smallest non-zero gap observed: 1000 ns
 ```
 
-Python agrees, to within a percent. **Ninety-five per cent of the time, two consecutive readings of the clock are the same number.** The wall clock on this machine advances in one-microsecond steps, and anything finer than that is invisible to it. Two events a hundred nanoseconds apart do not get an order — they get the same timestamp.
+Python agrees, to within a percent. **Ninety-five per cent of the time, two consecutive readings of the clock are the same number.** The wall clock on this machine advances in one-microsecond steps, and anything finer than that is invisible to it. Two events a hundred nanoseconds apart do not get an order, they get the same timestamp.
 
-That is one machine, with a working clock and nothing malfunctioning — and the ordering has already failed. Now add the things that can also break:
+That is one machine, with a working clock and nothing malfunctioning, yet the ordering has already failed. Now add the things that can also break:
 
 - **Skew.** Two machines' clocks disagree, typically by milliseconds under NTP and by far more when NTP is broken, which it silently is more often than anyone assumes.
 - **Jumps.** The wall clock is corrected, and moves *backwards*. A timestamp taken after another can be smaller than it.
@@ -313,13 +313,13 @@ update doc set body = $1, version = version + 1
  where id = $2 and version = $3;            -- $3 is what the writer read
 ```
 
-The second is optimistic concurrency control, and it needs no clock at all: the version number is a counter, the database is the single authority that increments it, and a writer working from a stale read matches zero rows and is told so. A database sequence, a monotonically increasing transaction id, or `now()` evaluated on the server all do the same job — **one source of order, rather than several sources of approximate time.**
+The second is optimistic concurrency control, and it needs no clock at all: the version number is a counter, the database is the single authority that increments it, and a writer working from a stale read matches zero rows and is told so. A database sequence, a monotonically increasing transaction id, or `now()` evaluated on the server all do the same job: **one source of order, rather than several sources of approximate time.**
 
 That is enough for the large majority of systems, which have one database. The apparatus in the next section is for when you do not.
 
 ## What does order events
 
-When there is no single authority to ask — several databases, several regions, offline clients that reconcile later — the answer is still counters rather than clocks.
+When there is no single authority to ask (several databases, several regions, offline clients that reconcile later), the answer is still counters rather than clocks.
 
 A **Lamport clock** is a number per node, incremented on every event, and sent along with every message; a receiver takes the larger of its own value and the one it received, then adds one:
 
@@ -342,7 +342,7 @@ lamport: A's write=1  B's receipt=2  B's next=3  (A before B, always)
 
 Whatever the two machines' wall clocks say, B's receipt carries a number larger than A's write, because B saw A's message. Causality is preserved by construction rather than by hoping the clocks agree.
 
-What a Lamport clock does *not* give you is the reverse reading: a smaller number does not prove an event came first, only that it did not come after. Two unrelated events can carry any numbers at all. **Vector clocks** — one counter per node, carried as a set — recover the missing information: they can tell you that two events are concurrent, meaning neither caused the other, which is exactly the case where last-write-wins is silently choosing a winner. The cost is a value that grows with the number of nodes.
+What a Lamport clock does *not* give you is the reverse reading: a smaller number does not prove an event came first, only that it did not come after. Two unrelated events can carry any numbers at all. **Vector clocks** (one counter per node, carried as a set) recover the missing information: they can tell you that two events are concurrent, meaning neither caused the other, which is exactly the case where last-write-wins is silently choosing a winner. The cost is a value that grows with the number of nodes.
 
 ---
 
@@ -350,9 +350,9 @@ What a Lamport clock does *not* give you is the reverse reading: a smaller numbe
 
 Both sentences reduce to one property of the world: **an observation is a statement about the past.**
 
-The moment you read a value, that reading describes a state that may already be gone. Nothing about being careful changes this — the gap between reading and acting is where instructions execute, and instructions take time. A lock does not abolish the gap; it stops anyone else from using it, which is a different and more expensive thing.
+The moment you read a value, that reading describes a state that may already be gone. Nothing about being careful changes this: the gap between reading and acting is where instructions execute, and instructions take time. A lock does not abolish the gap; it stops anyone else from using it, which is a different and more expensive thing.
 
-Ordering across machines is the same property viewed from further away. To say two events happened in an order you need a shared reference, and a shared reference is exactly what independent machines lack. A clock is not a shared reference — it is a local approximation of one, and comparing two approximations gives you an answer that is usually right and fails in the case you built the comparison to handle.
+Ordering across machines is the same property viewed from further away. To say two events happened in an order you need a shared reference, and a shared reference is exactly what independent machines lack. A clock is not a shared reference; it is a local approximation of one, and comparing two approximations gives you an answer that is usually right and fails in the case you built the comparison to handle.
 
 This is why the material is definitional rather than empirical. There is no faster machine on which check-then-act becomes atomic, and no better NTP configuration that makes wall clocks order events. The claims follow from what "check," "act," and "clock" mean.
 
@@ -366,17 +366,17 @@ And it is why the failures are so hard to catch in review. **Every line of the b
 
 A build script. A migration run once by one operator. A game loop that updates the world on a single thread and hands a finished frame to the renderer. An embedded controller in a `while(1)` loop with interrupts disabled in the critical section.
 
-In each, there is exactly one thread of control touching the state. Check-then-act is not atomic there either — the Law is as true as anywhere — but nothing can interleave, so it has nothing to act on. Adding a mutex buys nothing and costs a lock acquisition, a reader's attention, and the suggestion to the next person that concurrency exists here.
+In each, there is exactly one thread of control touching the state. Check-then-act is not atomic there either (the Law is as true as anywhere), but nothing can interleave, so it has nothing to act on. Adding a mutex buys nothing and costs a lock acquisition, a reader's attention, and the suggestion to the next person that concurrency exists here.
 
 This matters more than it sounds, because the defensive habit travels further than the danger. A distributed-systems reflex applied to a single-threaded program produces machinery that cannot help, and hides the fact that the program's real risks are elsewhere.
 
-The check is [chapter 02](02_the-five-kinds_cjx4.md)'s: **name the second writer.** If you cannot, the Law is inert. If you can, it binds — and the number of writers is a Force whose intensity you should have read rather than assumed ([Ch. 03](03_forces_f4m5.md)).
+The check is [chapter 02](02_the-five-kinds_cjx4.md)'s: **name the second writer.** If you cannot, the Law is inert. If you can, it binds; the number of writers is a Force whose intensity you should have read rather than assumed ([Ch. 03](03_forces_f4m5.md)).
 
 ### The window is sometimes cheaper than the fix
 
 Not every race is worth removing.
 
-A view counter that occasionally loses an increment is a defect. Whether it is a defect worth an atomic operation depends on what the number is used for — and if the answer is "a rough popularity sort on a dashboard," then the lost update costs nothing and the coordination costs something on every write.
+A view counter that occasionally loses an increment is a defect. Whether it is a defect worth an atomic operation depends on what the number is used for. If the answer is "a rough popularity sort on a dashboard," then the lost update costs nothing and the coordination costs something on every write.
 
 This is not permission to leave races in. It is the observation that "remove the race" has a price, and the price is only obviously worth paying when the state is load-bearing. The way to tell is the same as ever: what happens when it is wrong, and who finds out ([Ch. 03](03_forces_f4m5.md), blast radius).
 
@@ -384,13 +384,13 @@ This is not permission to leave races in. It is the observation that "remove the
 
 Clocks do not order events *across machines*. Within one process, a monotonic counter, a mutex-protected sequence, or the database's own transaction ordering gives you a real order at negligible cost, and a great many systems need no more than that.
 
-The failure is importing distributed-systems machinery — vector clocks, causal metadata, conflict-free replicated types — into a system with one database that already provides ordering for free. [Chapter 08](08_distribution_49yh.md) works through where that machinery genuinely becomes necessary.
+The failure is importing distributed-systems machinery (vector clocks, causal metadata, conflict-free replicated types) into a system with one database that already provides ordering for free. [Chapter 08](08_distribution_49yh.md) works through where that machinery genuinely becomes necessary.
 
 ---
 
 ## What the claim costs
 
-**Coordination costs latency, and it is not optional.** Every lock, every transaction, every quorum is a point where one party waits for another. That wait is bounded by how far the signal has to travel — nanoseconds within a core, microseconds across a machine, milliseconds across a continent — and it is paid on every operation, forever. The cheapest correct design is the one that needs the least coordination, which is why single-writer partitions win where they fit.
+**Coordination costs latency, and it is not optional.** Every lock, every transaction, every quorum is a point where one party waits for another. That wait is bounded by how far the signal has to travel: nanoseconds within a core, microseconds across a machine, milliseconds across a continent. It is paid on every operation, forever. The cheapest correct design is the one that needs the least coordination, which is why single-writer partitions win where they fit.
 
 **Coordination does not compose.** Two individually correct locked operations are not a correct combined operation, which is the whole content of the registration example. Building bigger safe things out of smaller safe things is exactly what this material forbids, and it is the intuition most engineers arrive with.
 
@@ -406,7 +406,7 @@ The failure is importing distributed-systems machinery — vector clocks, causal
 
 **In a codebase:**
 
-- **A read and a write to the same state, separated by anything at all** — a validation, a log line, an API call. That gap is the bug, and its width is how often it fires.
+- **A read and a write to the same state, separated by anything at all**: a validation, a log line, an API call. That gap is the bug, and its width is how often it fires.
 - **`if not exists: insert`** in application code, with no unique constraint underneath. The check makes the duplicate rarer, which means the report arrives later and from a customer.
 - **Two individually locked operations composed into a business rule.** Each is safe; the rule is not.
 - **`select … for update` missing from a read whose value is about to be written back.**
@@ -417,25 +417,25 @@ The failure is importing distributed-systems machinery — vector clocks, causal
 
 **In a conversation:**
 
-- **"That's very unlikely to happen."** It is a statement about the width of a window, not about whether the window exists — and windows widen under load, which is when it matters.
+- **"That's very unlikely to happen."** It is a statement about the width of a window, not about whether the window exists. Windows widen under load, which is when it matters.
 - **"We check for that before inserting."** The right follow-up is: what stops something happening between the check and the insert?
 - **"We'll use a timestamp to work out which one is newer."** From which machine, and by how much can those two clocks differ?
 - **"It works in testing."** Testing on an idle machine is testing with the narrowest windows the code will ever have.
-- **"Let's just add a lock"** — asked about a rule spanning two operations, where the lock will go around each of them and change nothing.
+- **"Let's just add a lock,"** asked about a rule spanning two operations, where the lock will go around each of them and change nothing.
 
 The question that does the work: **what could have changed between the moment I read this and the moment I act on it?**
 
-If the answer is *nothing, because nothing else writes here*, the Law is inert and you are done. If it is *anything at all*, you do not have a check — you have a guess with good manners.
+If the answer is *nothing, because nothing else writes here*, the Law is inert and you are done. If it is *anything at all*, you do not have a check; you have a guess with good manners.
 
-[Chapter 08](08_distribution_49yh.md) takes the same problem across machines, where coordination stops being expensive and starts being impossible — and works through what has been proved unachievable, along with the engineering that exists because of it.
+[Chapter 08](08_distribution_49yh.md) takes the same problem across machines, where coordination stops being expensive and starts being impossible, then works through what has been proved unachievable and the engineering that exists because of it.
 
 ---
 
 ## Sources
 
-- Python, `os` — [docs.python.org/3/library/os.html](https://docs.python.org/3/library/os.html).
-- PostgreSQL, unique indexes — [postgresql.org/docs/current/indexes-unique.html](https://www.postgresql.org/docs/current/indexes-unique.html).
-- Leslie Lamport, *Time, Clocks, and the Ordering of Events in a Distributed System* — Communications of the ACM 21(7), July 1978. [PDF](https://lamport.azurewebsites.net/pubs/time-clocks.pdf).
+- Python, `os`, [docs.python.org/3/library/os.html](https://docs.python.org/3/library/os.html).
+- PostgreSQL, unique indexes, [postgresql.org/docs/current/indexes-unique.html](https://www.postgresql.org/docs/current/indexes-unique.html).
+- Leslie Lamport, *Time, Clocks, and the Ordering of Events in a Distributed System*, Communications of the ACM 21(7), July 1978. [PDF](https://lamport.azurewebsites.net/pubs/time-clocks.pdf).
 
 ---
 

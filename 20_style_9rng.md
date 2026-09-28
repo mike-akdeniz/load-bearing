@@ -2,7 +2,7 @@
 
 ## The claim
 
-**A Style discussion has no fact that would settle it, so it ends only when a person who can enforce a style decides to act — and everything before that produces nothing.**
+**A Style discussion has no fact that would settle it, so it ends only when a person who can enforce a style decides to act; and everything before that produces nothing.**
 
 [Chapter 02](02_the-five-kinds_cjx4.md) puts Style at the bottom of the ladder and gives the test that puts things there: the compiler or the runtime acts on an Idiom, and ignores a Style.
 
@@ -58,9 +58,9 @@ $ gofmt -d alt/untidy.go
 
 Nobody on a Go team argues about this, and the reason is not that Go programmers are more reasonable. The argument was taken away from them before they arrived.
 
-Rob Pike, looking back at Go's first fourteen years, gives the history and is explicit about who did it: before Robert Griesemer wrote `gofmt` — *"which, by the way, he insisted on doing from the very beginning"* — automated formatters were poor and therefore mostly unused. Pike's assessment of the trade is the claim of this chapter, made by someone who paid for it: **"The time saved by not arguing over spaces and newlines is worth all the time spent defining a standard format and writing this rather difficult piece of code to automate it."** He adds that today essentially every language worth using has a standard formatter.
+Rob Pike, looking back at Go's first fourteen years, gives the history and is explicit about who did it: before Robert Griesemer wrote `gofmt` (*"which, by the way, he insisted on doing from the very beginning"*), automated formatters were poor and therefore mostly unused. Pike's assessment of the trade is the claim of this chapter, made by someone who paid for it: **"The time saved by not arguing over spaces and newlines is worth all the time spent defining a standard format and writing this rather difficult piece of code to automate it."** He adds that today essentially every language worth using has a standard formatter.
 
-That is one person, with the standing to make it stick, acting early. The result was not that Go settled the brace question correctly — there is no correct answer — but that Go stopped paying for it. Python's Black and JavaScript's Prettier are the same move made later.
+That is one person, with the standing to make it stick, acting early. The result was not that Go settled the brace question correctly, since there is no correct answer, but that Go stopped paying for it. Python's Black and JavaScript's Prettier are the same move made later.
 
 ## The same question, with nothing to end it
 
@@ -78,7 +78,7 @@ func Total(a []int) int {
 
 Same output. And `gofmt` reports nothing, because a formatter has no opinion about whether the parameter is called `amounts` or `a`.
 
-**That silence is the reason naming arguments outlive formatting arguments.** Which word you choose is arbitrary in the way any word is arbitrary — Italian and Mongolian give the same table entirely different names and both work — so there is nothing for a tool to compute. The enforcement has to come from a person, repeatedly, for as long as people are still writing code. There is a floor under this, and the boundary section works out where it is.
+**That silence is the reason naming arguments outlive formatting arguments.** Which word you choose is arbitrary in the way any word is arbitrary: Italian and Mongolian give the same table entirely different names and both work, so there is nothing for a tool to compute. The enforcement has to come from a person, repeatedly, for as long as people are still writing code. There is a floor under this, and the boundary section works out where it is.
 
 Two decisions in this book's own history show what that costs. FlowCore deviates from Go's short-name convention, on the grounds that abbreviations like `def` and `mgr` must be decoded rather than read, and that the decoding **does not get cheaper with familiarity** the way the convention assumes. This book deviates from the same convention for a different reason: its reader meets a sample once and never returns to it, so a truncated domain noun is one more thing to decode in a language most of them do not write.
 
@@ -90,9 +90,9 @@ Neither could be automated, so both were written down instead. Which is this cha
 
 Every other kind in this book has something that ends an argument about it.
 
-A Law has a mechanical consequence: violate its preconditions and the program is wrong, and you can go and be wrong ([Ch. 04](04_families-of-law_q5c6.md)). A Principle has a Force with a value, and the value can be looked up — the row count, the number of writers ([Ch. 03](03_forces_f4m5.md)). An Idiom has a compiler or a runtime that acts on the choice, so there is a machine you can ask ([Ch. 02](02_the-five-kinds_cjx4.md)), and [chapter 19](19_idioms_7nkn.md) works out what that machine's answer costs.
+A Law has a mechanical consequence: violate its preconditions and the program is wrong, and you can go and be wrong ([Ch. 04](04_families-of-law_q5c6.md)). A Principle has a Force with a value, and the value can be looked up, such as the row count or the number of writers ([Ch. 03](03_forces_f4m5.md)). An Idiom has a compiler or a runtime that acts on the choice, so there is a machine you can ask ([Ch. 02](02_the-five-kinds_cjx4.md)), and [chapter 19](19_idioms_7nkn.md) works out what that machine's answer costs.
 
-**Style is the only kind where no such thing exists.** Not that the evidence is hard to gather or expensive to measure — there is no evidence, because there is nothing for evidence to be about. Two spellings of the same program are the same program.
+**Style is the only kind where no such thing exists.** The evidence is not hard to gather or expensive to measure; there is no evidence, because there is nothing for evidence to be about. Two spellings of the same program are the same program.
 
 An argument with no possible evidence has no terminating condition. It does not converge, because converging requires something to converge on; it stops when somebody gets bored, or leaves, or outranks the others. Joel Spolsky's description of the second stage of a programmer's development is the same observation from 2005, and it is worth more than a complaint would be, because he spends the rest of that essay arguing that some naming conventions are worth a great deal:
 
@@ -112,7 +112,7 @@ Which is why the only variable is how early somebody ends it, and why the ending
 
 The claim assumes you have two spellings of one thing. Sometimes you have one spelling of two things, and it looks identical on the page.
 
-A trailing comma in a Python list is the model Style question — invisible, arguable, and settled in most codebases by whichever formatter is installed:
+A trailing comma in a Python list is the model Style question: invisible, arguable, and settled in most codebases by whichever formatter is installed:
 
 ```python
 regions = ["us-east", "eu-west",]
@@ -133,7 +133,7 @@ without          -> ProgrammingError: parameters are of unsupported type
 
 `(order_id,)` is a one-element tuple. `(order_id)` is an integer with brackets around it, because in Python the comma makes a tuple and the parentheses only group. So the second line is not the same query written in a different style; it passes an integer where a sequence was required, and the driver rejects it.
 
-**There were never two options here.** The question presented as a Style question — a comma, a matter of house preference, the same token the formatter had an opinion about two paragraphs ago — and one of the two apparent choices did not exist. No amount of deciding, enforcing, or agreeing would have helped, because the disagreement was with Python rather than with a colleague.
+**There were never two options here.** The question presented as a Style question, a comma and a matter of house preference, the same token the formatter had an opinion about two paragraphs ago, and one of the two apparent choices did not exist. No amount of deciding, enforcing, or agreeing would have helped, because the disagreement was with Python rather than with a colleague.
 
 ### A name that does not name
 
@@ -149,9 +149,9 @@ func G(p []int) int {
 }
 ```
 
-It compiles, `go vet` is silent, `gofmt` approves it, and it prints `1745`. Every machine test in this chapter says it is the same program, and it is — so this looks like a Style choice by the definition.
+It compiles, `go vet` is silent, `gofmt` approves it, and it prints `1745`. Every machine test in this chapter says it is the same program, and it is, so this looks like a Style choice by the definition.
 
-The resolution is similar to the tuple's. `Total` and `Sum` are different names for the same function and nothing separates them; that is the Style question and it has no answer. `G` *is not a third name* for the same function. It names nothing, so it is not an alternative to the others — it is the choice not to name the thing. So the example settles what `G` is and not what naming is: the first question has an answer and the second still does not.
+The resolution is similar to the tuple's. `Total` and `Sum` are different names for the same function and nothing separates them; that is the Style question and it has no answer. `G` *is not a third name* for the same function. It names nothing, so it is not an alternative to the others; it is the choice not to name the thing. So the example settles what `G` is and not what naming is: the first question has an answer and the second still does not.
 
 And that question has evidence behind it, which is what settles it. Show a colleague `func Total(amounts []int) int` and ask what it returns; they answer. Show them `func G(p []int) int`; they cannot. The experiment has an outcome, so the question can be settled, so by this chapter's own account it was never Style.
 
@@ -165,9 +165,9 @@ Which gives the rule covering both cases: **before treating something as Style, 
 
 **It licenses deciding without thinking, and that is nearly the point.** The claim says the content of a Style decision does not matter, which is true and which reads as permission to stop caring. The part that does matter is that the decision is made and then held to, and a leader who takes the first half without the second has produced a convention nobody follows and an argument that resumes next month.
 
-**Enforcing late costs more than enforcing early, and the difference is not linear.** Applying a formatter to an established codebase rewrites files nobody edited, so a `git blame` on any of those lines now names the person who ran the formatter. That is a real loss of history, and it is the reason the claim is about timing at all — the same decision is cheap on the first day and expensive on the thousandth.
+**Enforcing late costs more than enforcing early, and the difference is not linear.** Applying a formatter to an established codebase rewrites files nobody edited, so a `git blame` on any of those lines now names the person who ran the formatter. That is a real loss of history, and it is the reason the claim is about timing at all: the same decision is cheap on the first day and expensive on the thousandth.
 
-**"It's only style" becomes a way to close a real question.** The boundary above is the reason: a disagreement that looks like Style sometimes is not, and the phrase that dismisses it is available before anyone has checked. The cost of being wrong here is asymmetric — dismissing a real question as Style ships a defect, and treating a Style question seriously wastes an afternoon.
+**"It's only style" becomes a way to close a real question.** The boundary above is the reason: a disagreement that looks like Style sometimes is not, and the phrase that dismisses it is available before anyone has checked. The cost of being wrong here is asymmetric: dismissing a real question as Style ships a defect, and treating a Style question seriously wastes an afternoon.
 
 ---
 
@@ -191,7 +191,7 @@ The question that does the work: **do these two versions produce the same progra
 
 If they do, nothing further can be learned by discussing it, and the only useful act is for somebody to choose. If they do not, this was never a Style question, and the time spent settling it will produce something.
 
-[Chapter 21](21_never-written-down_at4r.md) opens Part VI, *Your Own Decisions*, on the case the rest of the book assumed away — where nobody ever stated a claim, so there is nothing to place — and on what a record has to hold for the reasoning behind a decision to outlast it.
+[Chapter 21](21_never-written-down_at4r.md) opens Part VI, *Your Own Decisions*, on the case the rest of the book assumed away: nobody ever stated a claim, so there is nothing to place. It also takes up what a record has to hold for the reasoning behind a decision to outlast it.
 
 ---
 

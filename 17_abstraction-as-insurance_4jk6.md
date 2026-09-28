@@ -45,7 +45,7 @@ insert … returning id  postgres  2
                                  syntax … near 'returning id' at line 1
 ```
 
-**The method that survived is the one the team would have worried about.** Row locking sounds like the proprietary thing and is not: MySQL holds the row exactly as asked. What cannot be implemented is `Create`, because MySQL has no `RETURNING` clause and the row as stored has to be fetched back in a second statement — which is a different number of round trips, and a gap in which somebody else can write.
+**The method that survived is the one the team would have worried about.** Row locking sounds like the proprietary thing and is not: MySQL holds the row exactly as asked. What cannot be implemented is `Create`, because MySQL has no `RETURNING` clause and the row as stored has to be fetched back in a second statement, which is a different number of round trips, and a gap in which somebody else can write.
 
 The method is on the interface because Postgres has the feature. **The abstraction did not abstract over the engine; it published one of the engine's capabilities as a promise to its own callers.**
 
@@ -64,19 +64,19 @@ insert … on conflict (id) do update
             balance = excluded.balance' at line 1
 ```
 
-MySQL has upsert — as `on duplicate key update`, with its own semantics for what counts as a conflict and what the affected-row count means. So this one is not absent, which is worse: it is present in a shape the interface cannot express without choosing one engine's spelling.
+MySQL has upsert, as `on duplicate key update`, with its own semantics for what counts as a conflict and what the affected-row count means. So this one is not absent, which is worse: it is present in a shape the interface cannot express without choosing one engine's spelling.
 
-So the lowest common denominator is not a list anyone knows in advance. It is the intersection of the feature sets of engines you have not chosen, which means in practice it gets approximated by superstition — a team avoiding `jsonb`, partial indexes, advisory locks, and generated columns because those *sound* proprietary, while the actual boundary sits somewhere nobody has checked.
+So the lowest common denominator is not a list anyone knows in advance. It is the intersection of the feature sets of engines you have not chosen, which means in practice it gets approximated by superstition, a team avoiding `jsonb`, partial indexes, advisory locks, and generated columns because those *sound* proprietary, while the actual boundary sits somewhere nobody has checked.
 
 ### The swap is a data problem and the abstraction is in the code layer
 
-[Chapter 03](03_forces_f4m5.md)'s durability Force puts the schema below the code and moving more slowly. The interface lives in the fast layer. What has to move on migration day — rows, types, constraints, indexes, the queries a planner was tuned for, the operational runbook — lives in the slow one.
+[Chapter 03](03_forces_f4m5.md)'s durability Force puts the schema below the code and moving more slowly. The interface lives in the fast layer. What has to move on migration day, rows, types, constraints, indexes, the queries a planner was tuned for, the operational runbook, lives in the slow one.
 
 Counting what a repository interface covers in an engine migration is a short exercise. It covers the call sites. It does not cover the schema translation, the data copy, the verification, the cutover, or the rollback. The insurance was filed against the smallest line item on the invoice.
 
 ### If the swap comes, it comes for a reason the abstraction defeats
 
-Nobody changes database engines for entertainment. They change for different scaling behaviour, different consistency guarantees, or a different bill — and each of those cashes out as *we need to use something the new engine can do*.
+Nobody changes database engines for entertainment. They change for different scaling behaviour, different consistency guarantees, or a different bill, and each of those cashes out as *we need to use something the new engine can do*.
 
 A lowest-common-denominator interface is precisely the thing standing between you and that capability. You arrive at the migration you prepared for, and the preparation is what prevents the migration paying off.
 
@@ -90,7 +90,7 @@ Rollback for an engine migration is operational rather than architectural:
 
 - Logical replication or change data capture into the new engine, running for weeks before anything moves.
 - Both engines serving reads, results compared, until the diff is empty.
-- Cutting over per-tenant or per-route rather than all at once — [chapter 12](12_patterns-that-survive-translation_us2k.md)'s strangler fig.
+- Cutting over per-tenant or per-route rather than all at once, [chapter 12](12_patterns-that-survive-translation_us2k.md)'s strangler fig.
 - Keeping the old engine running and receiving writes for a defined window.
 
 You roll back by pointing at a database that is still there and still current. A repository interface enables none of that, and none of it can usefully be built in advance, because every part of it is specific to the pair of engines and to the shape of the data on the day.
@@ -113,7 +113,7 @@ Then he gives the criterion, and it is not *use an interface*:
 
 > a "Good Dependency" is a dependency upon something that is very stable. The more stable the target of the dependency, the more "Good" the dependency is.
 
-An interface is a means. Stability is the test — which is [chapter 05](05_dependency-and-hiding_agjy.md)'s reading of this same sentence, arrived at there from the mechanism and confirmed here by the source.
+An interface is a means. Stability is the test, which is [chapter 05](05_dependency-and-hiding_agjy.md)'s reading of this same sentence, arrived at there from the mechanism and confirmed here by the source.
 
 **And his argument for why `Reader` and `Writer` are stable is the part that decides this chapter.** He gives two reasons. They depend on nothing, so nothing can ripple up into them. And:
 
@@ -121,7 +121,7 @@ An interface is a means. Stability is the test — which is [chapter 05](05_depe
 
 Stability, in the source, comes from having many implementations. It is produced by plurality rather than assumed in its absence.
 
-Now apply that test to a repository interface written against one database, for a swap nobody has scheduled. It has one implementation, so it gains no stability from dependents. And it is not independent of anything — as the next sections show, it encodes the engine it was written over. It fails the principle's test on both counts while carrying its name.
+Now apply that test to a repository interface written against one database, for a swap nobody has scheduled. It has one implementation, so it gains no stability from dependents. And it is not independent of anything, as the next sections show, it encodes the engine it was written over. It fails the principle's test on both counts while carrying its name.
 
 **The paper also states a limit, in its last paragraph**, and this is the part that did not travel:
 
@@ -135,30 +135,30 @@ That is a scope statement written down by the author in the original paper. [Cha
 
 Almost every repository interface could be justified by the same feature: *the ability to switch databases.* This feature can be expanded to two different situations, and the machinery is only earned by one of them.
 
-- **Simultaneous plurality.** Two implementations exist at the same time and something chooses between them while the program runs. Tenant A on Oracle, tenant B on SQL Server. A vendor shipping on-premises software onto whatever the customer already has. Here the interface is *exercised* — both implementations load, and dispatch is a real decision the program makes.
+- **Simultaneous plurality.** Two implementations exist at the same time and something chooses between them while the program runs. Tenant A on Oracle, tenant B on SQL Server. A vendor shipping on-premises software onto whatever the customer already has. Here the interface is *exercised*, both implementations load, and dispatch is a real decision the program makes.
 - **Sequential replacement.** SQL Server today, Postgres from next March, forever after. At every instant there is exactly one implementation. The interface is never exercised as an interface. It is a shape the code is held in, not a choice anything makes.
 
 *We need to support two databases* is the requirement for the first situation. *We might need to switch databases* is the one for the second.
 
 Martin's example is the first. Keyboard and printer and disk file are readers and writers that exist at the same time, and the whole argument for `Copy` turns on being able to drive any of them. **The names for the two cases are this book's and are not standard vocabulary**, but the distinction is in the source; what the folk version dropped is that only one of the two produces the stability the Principle asks for.
 
-Everything demonstrated earlier in this chapter is the second case. The two are easy to conflate because the code they produce is very similar — the same interface, the same constructor, the same dependency arrow.
+Everything demonstrated earlier in this chapter is the second case. The two are easy to conflate because the code they produce is very similar, the same interface, the same constructor, the same dependency arrow.
 
 ## Why the wide reading gets taken
 
-[Chapter 15](15_principle-loses-scope_b86v.md)'s mechanism is at work again. The version that travels — *depend on abstractions, not concretions* — names the technique and omits the test the technique was supposed to pass. Read alone it is an instruction to introduce an interface on every seam. Read with the paper, it becomes an instruction to depend on something stable, of which an interface is one way and not a guarantee.
+[Chapter 15](15_principle-loses-scope_b86v.md)'s mechanism is at work again. The version that travels, *depend on abstractions, not concretions*, names the technique and omits the test the technique was supposed to pass. Read alone it is an instruction to introduce an interface on every seam. Read with the paper, it becomes an instruction to depend on something stable, of which an interface is one way and not a guarantee.
 
 That is in essence [chapter 05](05_dependency-and-hiding_agjy.md)'s reading: put what changes least at the bottom, and an interface is not automatically the thing that changes least. A repository interface over an evolving schema changes every time the schema does, and now changes in two files rather than one.
 
-So the question the sentence appears to ask — *is there an interface here* — is not the question it was drawn from. [Chapter 05](05_dependency-and-hiding_agjy.md) states the usable form: put the thing that changes least at the bottom, and sometimes that is an interface, often it is a data type, a constant, or a function signature that has earned its shape. A repository interface over one engine fails that test not because one engine is too few, but because it is not the stable thing: it moves whenever the schema moves, and now it moves in two files.
+So the question the sentence appears to ask, *is there an interface here*, is not the question it was drawn from. [Chapter 05](05_dependency-and-hiding_agjy.md) states the usable form: put the thing that changes least at the bottom, and sometimes that is an interface, often it is a data type, a constant, or a function signature that has earned its shape. A repository interface over one engine fails that test not because one engine is too few, but because it is not the stable thing: it moves whenever the schema moves, and now it moves in two files.
 
-The compressed form survives because the technique is checkable and the test is not. Whether a file contains an interface can be seen in review. Whether the thing it depends on is stable is a claim about the future, which nobody can settle at the moment the decision is made — so the half that can be enforced is the half that gets enforced.
+The compressed form survives because the technique is checkable and the test is not. Whether a file contains an interface can be seen in review. Whether the thing it depends on is stable is a claim about the future, which nobody can settle at the moment the decision is made, so the half that can be enforced is the half that gets enforced.
 
-**The second mechanism is that the cost and the benefit arrive at different times, and only one of them ever arrives.** The premium is paid continuously, in small amounts, by people who do not know they are paying it — a query not written, a feature not used, a mapping function maintained. The payout is a single event, in the future, that mostly does not occur; and on the rare occasion it does, the payout fails for reasons that are only visible at that moment.
+**The second mechanism is that the cost and the benefit arrive at different times, and only one of them ever arrives.** The premium is paid continuously, in small amounts, by people who do not know they are paying it, a query not written, a feature not used, a mapping function maintained. The payout is a single event, in the future, that mostly does not occur; and on the rare occasion it does, the payout fails for reasons that are only visible at that moment.
 
 So the practice is never disconfirmed by experience. A team that abstracted and never migrated concludes the insurance was cheap. A team that abstracted and did migrate concludes the migration was hard, which it was, and rarely audits how much of the difficulty the abstraction removed.
 
-**This is not YAGNI**. *You aren't gonna need it* says you paid for something that never happened, and the reply — *but what if we do need it* — is a good one, because sometimes you do. The argument here concedes that reply entirely. Assume the swap comes. The premium was still paid daily, the interface was still shaped by the engine it was insuring against, and the migration is still a data problem sitting in a slower layer than the abstraction. You paid, the event occurred, and the cover did not apply.
+**This is not YAGNI**. *You aren't gonna need it* says you paid for something that never happened, and the reply, *but what if we do need it*, is a good one, because sometimes you do. The argument here concedes that reply entirely. Assume the swap comes. The premium was still paid daily, the interface was still shaped by the engine it was insuring against, and the migration is still a data problem sitting in a slower layer than the abstraction. You paid, the event occurred, and the cover did not apply.
 
 ---
 
@@ -178,29 +178,29 @@ func NewOrders(database *sql.DB) *Orders     // injected, concrete
 func NewOrders(database Repository) *Orders  // injected, abstract
 ```
 
-The first is fully injected: the composition root chooses the database, the component reaches for nothing, and the wiring is explicit. No abstraction is involved anywhere in that. What the second adds is the interface — and only that addition is the subject of this chapter.
+The first is fully injected: the composition root chooses the database, the component reaches for nothing, and the wiring is explicit. No abstraction is involved anywhere in that. What the second adds is the interface, and only that addition is the subject of this chapter.
 
 ## Portability is a contract term
 
 If you sell software customers install against their own database, supporting three engines is something you have promised. That is simultaneous plurality: the implementations both load, the dispatch is real, and the interface is exercised on every deployment.
 
-The Force is [chapter 03](03_forces_f4m5.md)'s *control of the callers* pointed at the substrate instead — you do not control the environment your code runs in. Everything above assumes you do, and that there is one production database whose name you chose.
+The Force is [chapter 03](03_forces_f4m5.md)'s *control of the callers* pointed at the substrate instead, you do not control the environment your code runs in. Everything above assumes you do, and that there is one production database whose name you chose.
 
 Note what this boundary also buys: because the interface is exercised, the lowest-common-denominator restriction stops being a cost with no benefit and becomes the actual product requirement. You are not giving up `for update` speculatively. You are giving it up because a customer runs something that lacks it.
 
 ## The migration is funded and dated
 
-Once the move is decided, scheduled, and staffed, the abstraction stops being speculative. It may still be the wrong tool — the rollback section applies unchanged — but the objection has moved from *this will never happen* to *this is not how to do it*, and those need different conversations.
+Once the move is decided, scheduled, and staffed, the abstraction stops being speculative. It may still be the wrong tool, the rollback section applies unchanged, but the objection has moved from *this will never happen* to *this is not how to do it*, and those need different conversations.
 
 ## Tests are a second implementation
 
 The honest reason most repository interfaces exist is not a future engine. It is that the test suite wants something the production code does not, and Postgres in production with a fake in tests *is* simultaneous plurality by the definition above.
 
-[Chapter 16](16_tdd-and-mocks_u8eu.md) owns that argument and answers it: test against the real database, and reserve doubles for dependencies you cannot run. This chapter does not reopen it. But the dependency runs the other way — if you reject 17's position, the interface has a justification that has nothing to do with insurance, and none of this chapter reaches it.
+[Chapter 16](16_tdd-and-mocks_u8eu.md) owns that argument and answers it: test against the real database, and reserve doubles for dependencies you cannot run. This chapter does not reopen it. But the dependency runs the other way, if you reject 17's position, the interface has a justification that has nothing to do with insurance, and none of this chapter reaches it.
 
 ## One implementation is not the same as speculative
 
-The claim is about interfaces justified by a future substitution, not about interfaces. [Chapter 05](05_dependency-and-hiding_agjy.md) owns the legitimate uses and they are common: narrowing what a consumer can reach, breaking a cycle, declaring a seam whose shape the consumer owns. Any of those can be right with exactly one implementation and no plan for a second — and the test is whether you can state the reason without using the word *later*.
+The claim is about interfaces justified by a future substitution, not about interfaces. [Chapter 05](05_dependency-and-hiding_agjy.md) owns the legitimate uses and they are common: narrowing what a consumer can reach, breaking a cycle, declaring a seam whose shape the consumer owns. Any of those can be right with exactly one implementation and no plan for a second, and the test is whether you can state the reason without using the word *later*.
 
 ---
 
@@ -219,31 +219,31 @@ The claim is about interfaces justified by a future substitution, not about inte
 **In a codebase:**
 
 - **An interface and its only implementation differ by an affix.** `IOrderRepository` / `OrderRepository`, `Store` / `PostgresStore`. When the two can only be told apart by a prefix, nobody decided what to hide; a shape was applied.
-- **A repository method named after an engine feature rather than after what the caller wanted.** `GetForUpdate` is on the interface because Postgres has row locks; `Upsert` because it has `on conflict`. The test is whose vocabulary the name is in: *reserve the seat* is the caller's and can be satisfied any number of ways, while *get for update* is the engine's and commits every future implementation to having that mechanism. A domain object's own `Update` or `Copy` is not this — the bullet is about the interface that was drawn to make the engine replaceable.
+- **A repository method named after an engine feature rather than after what the caller wanted.** `GetForUpdate` is on the interface because Postgres has row locks; `Upsert` because it has `on conflict`. The test is whose vocabulary the name is in: *reserve the seat* is the caller's and can be satisfied any number of ways, while *get for update* is the engine's and commits every future implementation to having that mechanism. A domain object's own `Update` or `Copy` is not this, the bullet is about the interface that was drawn to make the engine replaceable.
 - **The interface changes in the same commit as the schema, every time.** Then it is not insulating code from the database; it is a second file that must agree with the first.
 - **A second implementation that exists only in tests.** That is [chapter 16](16_tdd-and-mocks_u8eu.md)'s subject, and it means the insurance framing was never the real reason.
 
 **In a conversation:**
 
 - **"We might need to switch databases."** The question that separates the cases: *would two of them ever be running at once?* If no, it is sequential replacement and the interface is a shape, not a decision.
-- **"It's just an interface, it's cheap."** Writing it is cheap. What costs is the feature set it commits you to: the day a query needs something the interface does not expose, the options are to widen it — and implement the new method everywhere — or to write around it.
-- **"This way we're not coupled to Postgres."** Ask what happens the first time a write needs its row back — `returning` is not a clause every engine has, and the interface already promises the row.
+- **"It's just an interface, it's cheap."** Writing it is cheap. What costs is the feature set it commits you to: the day a query needs something the interface does not expose, the options are to widen it, and implement the new method everywhere, or to write around it.
+- **"This way we're not coupled to Postgres."** Ask what happens the first time a write needs its row back, `returning` is not a clause every engine has, and the interface already promises the row.
 - **"We'll swap it out later if we need to."** *Later* is the tell. An interface with a reason that survives deleting that word is one [chapter 05](05_dependency-and-hiding_agjy.md) would defend.
 
 The question that does the work: **if the swap happened next quarter, which of its steps would this interface remove?**
 
-Answer it by listing the steps — schema translation, data copy, verification, cutover, rollback, retuning — and marking the ones the abstraction touches. The usual answer is the call sites, which were never the expensive part, and the usual reaction to seeing the list is more useful than any argument in this chapter.
+Answer it by listing the steps, schema translation, data copy, verification, cutover, rollback, retuning, and marking the ones the abstraction touches. The usual answer is the call sites, which were never the expensive part, and the usual reaction to seeing the list is more useful than any argument in this chapter.
 
-[Chapter 18](18_six-profiles_dnkz.md) turns from single pieces of advice to whole systems — six situations where one Force sits far outside its ordinary range, and the standard advice that was written as though it never did.
+[Chapter 18](18_six-profiles_dnkz.md) turns from single pieces of advice to whole systems, six situations where one Force sits far outside its ordinary range, and the standard advice that was written as though it never did.
 
 ---
 
 ## Sources
 
-- PostgreSQL, `SELECT … FOR UPDATE` — [postgresql.org/docs/current/sql-select.html#SQL-FOR-UPDATE-SHARE](https://www.postgresql.org/docs/current/sql-select.html#SQL-FOR-UPDATE-SHARE); `INSERT … RETURNING` — [postgresql.org/docs/current/sql-insert.html](https://www.postgresql.org/docs/current/sql-insert.html).
-- MySQL 8.4, `INSERT` — [dev.mysql.com/doc/refman/8.4/en/insert.html](https://dev.mysql.com/doc/refman/8.4/en/insert.html); `INSERT … ON DUPLICATE KEY UPDATE` — [dev.mysql.com/doc/refman/8.4/en/insert-on-duplicate.html](https://dev.mysql.com/doc/refman/8.4/en/insert-on-duplicate.html).
-- Go, `database/sql` — [pkg.go.dev/database/sql](https://pkg.go.dev/database/sql).
-- Robert C. Martin, *OO Design Quality Metrics: An Analysis of Dependencies*, October 1994 — [PDF](https://objectmentor.com/resources/articles/oodmetrc.pdf).
+- PostgreSQL, `SELECT … FOR UPDATE`, [postgresql.org/docs/current/sql-select.html#SQL-FOR-UPDATE-SHARE](https://www.postgresql.org/docs/current/sql-select.html#SQL-FOR-UPDATE-SHARE); `INSERT … RETURNING`, [postgresql.org/docs/current/sql-insert.html](https://www.postgresql.org/docs/current/sql-insert.html).
+- MySQL 8.4, `INSERT`, [dev.mysql.com/doc/refman/8.4/en/insert.html](https://dev.mysql.com/doc/refman/8.4/en/insert.html); `INSERT … ON DUPLICATE KEY UPDATE`, [dev.mysql.com/doc/refman/8.4/en/insert-on-duplicate.html](https://dev.mysql.com/doc/refman/8.4/en/insert-on-duplicate.html).
+- Go, `database/sql`, [pkg.go.dev/database/sql](https://pkg.go.dev/database/sql).
+- Robert C. Martin, *OO Design Quality Metrics: An Analysis of Dependencies*, October 1994, [PDF](https://objectmentor.com/resources/articles/oodmetrc.pdf).
 
 ---
 

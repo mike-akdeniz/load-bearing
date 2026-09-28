@@ -1,4 +1,4 @@
-*Part III — Patterns, Graded*
+*Part III: Patterns, Graded*
 
 # What a Design Pattern Is For
 
@@ -6,31 +6,31 @@
 
 **A design pattern name earns its place by doing two things: saving more words than it costs, and ruling something out. Most named things do the first. Far fewer do the second.**
 
-Those are the two tests, and the rest of Part III applies them. They are independent — a name can pass one and fail the other, and the names that fail the second are the ones that cause trouble, because they feel informative while carrying almost nothing.
+Those are the two tests, and the rest of Part III applies them. They are independent: a name can pass one and fail the other, and the names that fail the second are the ones that cause trouble, because they feel informative while carrying almost nothing.
 
 ## A pattern is not a claim in itself
 
-A claim is a statement that can be true, false, or conditional. A pattern is a **name for a shape**, and a name is a noun rather than a statement — *Strategy* can no more be true than *triangle* can.
+A claim is a statement that can be true, false, or conditional. A pattern is a **name for a shape**, and a name is a noun rather than a statement. *Strategy* can no more be true than *triangle* can.
 
 So [chapter 02](02_the-five-kinds_cjx4.md)'s classification test has nothing to work on. Asking how much authority *Singleton* carries is asking a question about a word, and the question is malformed rather than hard. What the test works on is the sentence the name is sitting in, and the same name can sit in three different kinds of sentence.
 
-- **A definition.** *Strategy is a family of interchangeable algorithms behind one interface.* True because that is what the words mean — [chapter 04](04_families-of-law_q5c6.md)'s second family of Law, where nothing falsifies the claim and the words may simply not describe your code.
+- **A definition.** *Strategy is a family of interchangeable algorithms behind one interface.* True because that is what the words mean. [Chapter 04](04_families-of-law_q5c6.md) calls this the second family of Law, where nothing falsifies the claim and the words may simply not describe your code.
 - **A description.** *This shape recurs in object-oriented systems.* An empirical claim, and what would settle it is going and counting.
 - **A prescription.** *Use Strategy when you have more than one way of doing something.* The only one of the three that is advice, and so the only one a Force can make wrong.
 
-The trouble starts when a pattern is used as a prescription and received as a definition or a description. That distinction is easy to miss, because the first two sentences above are claims and they are true — so the third arrives sounding equally settled.
+The trouble starts when a pattern is used as a prescription and received as a definition or a description. That distinction is easy to miss, because the first two sentences above are claims and they are true, so the third arrives sounding equally settled.
 
 ## What a pattern catalogue actually is
 
-A pattern catalogue is a record of shapes that were already occurring. Fowler's *Patterns of Enterprise Application Architecture* wrote down what enterprise Java teams were doing in 2002. The Gang of Four book — Gamma, Helm, Johnson, and Vlissides, 1994, and the source of most pattern vocabulary in circulation — catalogued shapes its authors found in existing C++ and Smalltalk systems.
+A pattern catalogue is a record of shapes that were already occurring. Fowler's *Patterns of Enterprise Application Architecture* wrote down what enterprise Java teams were doing in 2002. The Gang of Four book, by Gamma, Helm, Johnson, and Vlissides in 1994 and the source of most pattern vocabulary in circulation, catalogued shapes its authors found in existing C++ and Smalltalk systems.
 
 That is **ethnography**: someone observed a population and named the recurring structures. It is descriptive work, and it is genuinely useful, because a shape that keeps appearing independently is worth having a word for.
 
-What happens next is the problem, and it is a mechanism the book has already named. [Chapter 04](04_families-of-law_q5c6.md) draws the line between a claim that **describes** what happens and one that **prescribes** what to do — and notes that only a prescription can be bad advice, because only a prescription is advice.
+What happens next is the problem, and it is a mechanism the book has already named. [Chapter 04](04_families-of-law_q5c6.md) draws the line between a claim that **describes** what happens and one that **prescribes** what to do, and notes that only a prescription can be bad advice, because only a prescription is advice.
 
-A catalogue does both, and the Gang of Four is open about it: every entry in the book follows a fixed template, and one of its sections is **Applicability** — the situations in which the pattern applies, and the poor designs it addresses. The advice was written down beside the observation, with its conditions attached.
+A catalogue does both, and the Gang of Four is open about it: every entry in the book follows a fixed template, and one of its sections is **Applicability**, which names the situations in which the pattern applies and the poor designs it addresses. The advice was written down beside the observation, with its conditions attached.
 
-What travels is the name without them. Read as a checklist, "shapes that occur" silently becomes "shapes you should have," and a list of observations becomes a list of obligations — a condition dropped rather than an assertion invented, which is the mechanism [chapter 15](15_principle-loses-scope_b86v.md) works through in full.
+What travels is the name without them. Read as a checklist, "shapes that occur" silently becomes "shapes you should have," and a list of observations becomes a list of obligations: a condition dropped rather than an assertion invented, which is the mechanism [chapter 15](15_principle-loses-scope_b86v.md) works through in full.
 
 Nobody performs that conversion deliberately. It happens because a catalogue of solutions, read by someone with a problem, looks exactly like a menu.
 
@@ -42,22 +42,22 @@ Nobody performs that conversion deliberately. It happens because a catalogue of 
 
 The straightforward test, and the easier one to pass.
 
-A name compresses when it stands in for a description you would otherwise have to write out. That is measurable — count the words:
+A name compresses when it stands in for a description you would otherwise have to write out. That is measurable: count the words:
 
 ```text
  name                 words   the description it replaces      ratio
  Transaction Script     2     26 words                          13:1
  Singleton              1     14 words                          14:1
  Idempotency key        2     22 words                          11:1
- Manager                1     no agreed description               —
- Helper                 1     no agreed description               —
+ Manager                1     no agreed description             n/a
+ Helper                 1     no agreed description             n/a
 ```
 
 For the first three, the compression is real. Writing *a procedure that handles one business operation end to end, owning its own transaction boundary, orchestrating stateless data access, with no persistent object model in between* is twenty-six words; writing *Transaction Script* is two, and the reader recovers the same content.
 
 The last two fail, and it is worth being exact about why, because it is not that the words are short. **They fail because there is nothing specific for them to stand in for.** Ask two engineers what a `Manager` is and you get two answers, so the name saves you writing a description only by not conveying one.
 
-**Compression has a condition, and it is the one people forget.** The saving only exists for a reader who already knows the term. Introduce *Transaction Script* to someone who has not met it and you have spent twenty-six words on the definition plus two on the name — you are worse off than if you had described the thing.
+**Compression has a condition, and it is the one people forget.** The saving only exists for a reader who already knows the term. Introduce *Transaction Script* to someone who has not met it and you have spent twenty-six words on the definition plus two on the name. You are worse off than if you had described the thing.
 
 So compression is a claim about a shared vocabulary, not about a word. A name coined inside one codebase compresses nothing for anyone outside it, however precise it is. That is the difference between vocabulary and jargon, and it is decided by the audience rather than by the term.
 
@@ -67,7 +67,7 @@ The harder test, and the one that separates a name carrying information from a n
 
 The test is mechanical: **take the name, and try to write code it forbids.** If you can write the forbidden code and still honestly use the name, the name is not constraining anything.
 
-**Singleton** — a type with exactly one instance for the lifetime of the process.
+**Singleton:** a type with exactly one instance for the lifetime of the process.
 
 ```go
 // Permitted, and the only way in.
@@ -83,7 +83,7 @@ second := NewThing()
 
 A strong constraint. Being told something is a Singleton tells you that any two references to it are the same object, without opening the file.
 
-**Transaction Script** — a procedure that handles one business operation end to end.
+**Transaction Script:** a procedure that handles one business operation end to end.
 
 ```go
 // Permitted: the rule is in the procedure, the data is inert.
@@ -100,9 +100,9 @@ order.ApplyDiscount(percent)      // the rule lives on the object
 repository.Save(order)            // written back through a mapper
 ```
 
-Also a real constraint. It tells you where the business rule is *not* — not on a loaded object graph — and that rules out an entire style.
+Also a real constraint. It tells you where the business rule does not live: on a loaded object graph. That rules out an entire style.
 
-**Facade** — an object providing a simplified interface to a larger body of code. Now try to write what it forbids:
+**Facade:** an object providing a simplified interface to a larger body of code. Now try to write what it forbids:
 
 ```go
 type Billing struct{ /* ... */ }
@@ -122,14 +122,14 @@ Facade is the case that proves it: it compresses well and constrains nothing. Pu
 
 | | **Rules something out** | **Rules nothing out** |
 |---|---|---|
-| **Compresses** | earns its place — *Singleton, Transaction Script, Idempotency Key* | vocabulary only — *Facade, Component* |
-| **Doesn't compress** | rare, and usually a convention rather than a pattern | noise — *Manager, Helper, Util, Service* |
+| **Compresses** | earns its place: *Singleton, Transaction Script, Idempotency Key* | vocabulary only: *Facade, Component* |
+| **Doesn't compress** | rare, and usually a convention rather than a pattern | noise: *Manager, Helper, Util, Service* |
 
 The top-left names are worth learning and worth using in review. They let you say something short and be understood precisely, and they let you rule out implementations without reading them.
 
 The top-right names are fine in conversation and useless in an argument. "This should be a Facade" is not a design position, because it excludes nothing.
 
-The bottom-right is where naming goes to die. `OrderManager`, `PaymentHelper`, `DataUtil` — each tells you the file exists and nothing else, and their prevalence is a symptom rather than a style: they appear when nobody could name what the code actually does.
+The bottom-right is where naming goes to die. `OrderManager`, `PaymentHelper`, and `DataUtil` each tell you the file exists and nothing else. Their prevalence is a symptom rather than a style: they appear when nobody could name what the code actually does.
 
 ---
 
@@ -139,11 +139,11 @@ Both tests are about the same thing from two directions: **how much does knowing
 
 Compression measures it in words. If the name replaces a description, hearing it saves you reading that description.
 
-Constraint measures it in possibilities. If the name forbids implementations, hearing it eliminates them from what the code might be doing — before you open the file.
+Constraint measures it in possibilities. If the name forbids implementations, hearing it eliminates them from what the code might be doing before you open the file.
 
 A name that does neither has not told you anything. It has only asserted that the author had a word for it, and it is the *feeling* of having been told something that makes this hard to notice. `OrderManager` reads like a description. It behaves like a filename.
 
-There is one more reason a name can be worth having even when both tests are marginal, and it is worth stating because it is the honest case for keeping pattern vocabulary at all: **a name is an index into the literature on its failure modes.** Knowing your design is a Saga lets you find out what other people got wrong with sagas. That value is real and has nothing to do with either test — it is a claim about the name being *searchable*, not about it being informative.
+There is one more reason a name can be worth having even when both tests are marginal, and it is worth stating because it is the honest case for keeping pattern vocabulary at all: **a name is an index into the literature on its failure modes.** Knowing your design is a Saga lets you find out what other people got wrong with sagas. That value is real and has nothing to do with either test. It is a claim about the name being *searchable*, not about it being informative.
 
 ---
 
@@ -153,7 +153,7 @@ There is one more reason a name can be worth having even when both tests are mar
 
 The tests assume you can say what the code does. Early on you cannot, and then a vague name is the honest one.
 
-A folder holding four things that do not yet belong together is a holding pen, and calling it something precise would be a claim you have not earned — one you would then have to maintain, or quietly break. Waiting for a little more functionality to accumulate often turns four awkward things into three natural ones, and the natural ones name themselves.
+A folder holding four things that do not yet belong together is a holding pen, and calling it something precise would be a claim you have not earned, one you would then have to maintain or quietly break. Waiting for a little more functionality to accumulate often turns four awkward things into three natural ones, and the natural ones name themselves.
 
 So the failure is not the vague name. It is **losing track of the fact that it is provisional**, at which point the holding pen becomes the architecture by default, and a name that was honest becomes a name that hides.
 
@@ -163,7 +163,7 @@ The check is the one [chapter 03](03_forces_f4m5.md) gives for any deferred deci
 
 A team that has agreed what a "projection" means in their system gets full compression from the word, and gets nothing from it in a conference talk.
 
-That is fine, and it is not a lesser thing than a published pattern. It fails the compression test only against outsiders, and a codebase is mostly read by insiders. The mistake is exporting the word without the definition — a design document that uses a local term as though it were standard, read by someone who has to guess.
+That is fine, and it is not a lesser thing than a published pattern. It fails the compression test only against outsiders, and a codebase is mostly read by insiders. The mistake is exporting the word without the definition: a design document that uses a local term as though it were standard, read by someone who has to guess.
 
 ### When the name is load-bearing for search
 
@@ -171,7 +171,7 @@ Some names are worth using even where they compress poorly, because they are how
 
 If you are building something that periodically stops calling a failing service, calling it a *Circuit Breaker* buys you access to two decades of people writing about half-open states, failure thresholds, and what happens when the breaker itself becomes a single point of failure. The name is a mediocre description and an excellent search term. Use it, and do not pretend it is doing the other job.
 
-**This is also the whole of what a weak name gives a learner**, which is worth saying because the opposite is widely assumed. Telling a student *this is a Facade* does not teach them when a simplified interface is the right move, what it costs, or how to design one that is pleasant to use. It teaches them a word — and if the reason behind the shape is not given alongside it, the name can make things worse, because the student now has a label and believes they have an idea. The conditions under which the shape is wrong were never mentioned, which is the mechanism [chapter 15](15_principle-loses-scope_b86v.md) traces from compressed judgement to slogan.
+**This is also the whole of what a weak name gives a learner**, which is worth saying because the opposite is widely assumed. Telling a student *this is a Facade* does not teach them when a simplified interface is the right move, what it costs, or how to design one that is pleasant to use. It teaches them a word. If the reason behind the shape is not given alongside it, the name can make things worse, because the student now has a label and believes they have an idea. The conditions under which the shape is wrong were never mentioned, which is the mechanism [chapter 15](15_principle-loses-scope_b86v.md) traces from compressed judgement to slogan.
 
 The defensible version is narrow: a name a learner can search is a door into the discussion of when the shape fails. A name without that discussion attached is a sound they can make in a meeting.
 
@@ -183,7 +183,7 @@ The defensible version is narrow: a name a learner can search is a door into the
 
 **The tests are a licence to be tiresome.** "Well, what does that rule out?" is a real question and also an excellent way to stall a design discussion. Ask it when a name is carrying the weight of a decision. Do not ask it about every noun in the room.
 
-**Naming precisely costs more than naming vaguely.** `OrderManager` takes no thought, which is why it exists. Naming the file for what it actually does requires knowing what it actually does, and sometimes the reason nobody named it well is that it does four unrelated things — in which case the naming problem is a structural problem wearing a disguise — unless the design is genuinely too young to name, which the boundary section above covers.
+**Naming precisely costs more than naming vaguely.** `OrderManager` takes no thought, which is why it exists. Naming the file for what it actually does requires knowing what it actually does. Sometimes the reason nobody named it well is that it does four unrelated things, in which case the naming problem is a structural problem wearing a disguise. The design may also be genuinely too young to name, as the boundary section above covers.
 
 **A name that passes both tests can still be the wrong shape for you.** Singleton compresses and constrains beautifully, and is usually a mistake. The tests measure whether a name carries information, not whether the thing it names is a good idea. That is a separate question, and Part III spends the rest of its chapters on it.
 
@@ -194,15 +194,15 @@ The defensible version is narrow: a name a learner can search is a door into the
 **In a codebase:**
 
 - **`Manager`, `Helper`, `Util`, `Service`, `Handler`, `Processor`, `Data` in a type name**, where removing the suffix would lose nothing. The suffix is standing in for the description nobody wrote.
-- **Two files whose names differ only by suffix** — `OrderService` and `OrderManager` — where nothing tells you which does what.
+- **Two files whose names differ only by suffix:** `OrderService` and `OrderManager`, where nothing tells you which does what.
 - **A pattern name in a type name that is not true of the type.** `UserFactory` that returns one hard-coded instance, `PaymentStrategy` with one implementation and no second in prospect.
-- **A directory named for a pattern rather than for the domain**, so `strategies/` holds four unrelated things whose only common property is that somebody applied the same word to them. The reason it fails: **a directory should group things that change together, and a pattern name groups things that are shaped alike** — so every feature change reaches into a folder of code belonging to other features, and nothing in it can be read without first working out which feature it serves.
+- **A directory named for a pattern rather than for the domain**, so `strategies/` holds four unrelated things whose only common property is that somebody applied the same word to them. The reason it fails: **a directory should group things that change together, and a pattern name groups things that are shaped alike**. Every feature change reaches into a folder of code belonging to other features, and nothing in it can be read without first working out which feature it serves.
 - **A design document that names patterns and never says what they exclude.**
 
 **In a conversation:**
 
 - **"That should be a Repository."** Followed up with: what would that rule out that the current code does?
-- **"We're using the Strategy pattern here."** Sometimes real information. Sometimes a description of `if`, or of passing a function — [chapter 13](13_missing-language-features_esqm.md) works through the Gang of Four names that turn out to be language features once the language has them, and Strategy is the clearest case.
+- **"We're using the Strategy pattern here."** Sometimes real information. Sometimes a description of `if`, or of passing a function. [Chapter 13](13_missing-language-features_esqm.md) works through the Gang of Four names that turn out to be language features once the language has them, and Strategy is the clearest case.
 - **"This doesn't follow the pattern."** Which pattern, and what makes following it correct here rather than elsewhere?
 - **A design review scored against a catalogue**, where the finding is that a named shape is absent rather than that something concrete goes wrong.
 - **A name introduced in a meeting and used as a premise by the end of it.** The gap between naming a thing and having established anything about it is where most of this goes wrong.
@@ -217,8 +217,8 @@ If the answer is a description you no longer have to write, the name compresses.
 
 ## Sources
 
-- Martin Fowler, *Patterns of Enterprise Application Architecture* — Addison-Wesley, 2002. [martinfowler.com/books/eaa.html](https://martinfowler.com/books/eaa.html).
-- Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides, *Design Patterns: Elements of Reusable Object-Oriented Software* — Addison-Wesley, 1994.
+- Martin Fowler, *Patterns of Enterprise Application Architecture*, Addison-Wesley, 2002. [martinfowler.com/books/eaa.html](https://martinfowler.com/books/eaa.html).
+- Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides, *Design Patterns: Elements of Reusable Object-Oriented Software*, Addison-Wesley, 1994.
 
 ---
 

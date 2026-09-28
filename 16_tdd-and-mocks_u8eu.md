@@ -18,7 +18,7 @@ Take both sentences at face value. Write the test first, and replace what it dep
 
 ### What a mocked test is about
 
-A registration service enforces one account per email address. The uniqueness is the database's — a `unique` constraint on the column:
+A registration service enforces one account per email address. The uniqueness is the database's, a `unique` constraint on the column:
 
 ```python
 SCHEMA = """
@@ -118,7 +118,7 @@ Mocking the database means nothing that happens inside the database is covered. 
 
 Both of those failures come from following the two sentences literally. Both sentences arrive in code review as though they were consensus, and neither is.
 
-**Writing the test first has a stated purpose, and it is not that the order improves the code.** Fowler's definition gives two benefits: self-testing code, and that *"thinking about the test first forces us to think about the interface to the code first."* Beck's own recent minimal statement of the loop says what it is for in terms of confidence — that everything which used to work still works, that the new behaviour works, that the system is ready for the next change. Neither claims the sequence itself makes the resulting code better. That is the claim that travels, and the next section is what happened when somebody measured it.
+**Writing the test first has a stated purpose, and it is not that the order improves the code.** Fowler's definition gives two benefits: self-testing code, and that *"thinking about the test first forces us to think about the interface to the code first."* Beck's own recent minimal statement of the loop says what it is for in terms of confidence, that everything which used to work still works, that the new behaviour works, that the system is ready for the next change. Neither claims the sequence itself makes the resulting code better. That is the claim that travels, and the next section is what happened when somebody measured it.
 
 **Mocking is not a default at all. It is one side of a disagreement with names.** Fowler set them out in 2007 and they have been the vocabulary since:
 
@@ -128,7 +128,7 @@ He also says which side he is on, and why:
 
 > I don't see any compelling benefits for mockist TDD, and am concerned about the consequences of coupling tests to implementation.
 
-So *mock your dependencies* is the mockist default stated as if it were the only one. The position this chapter argues for — use the real thing where you can run it — is the classical default, and it has had a name for nearly two decades.
+So *mock your dependencies* is the mockist default stated as if it were the only one. The position this chapter argues for, use the real thing where you can run it, is the classical default, and it has had a name for nearly two decades.
 
 Which reframes the registration test above. It is not what happens when someone follows the consensus. It is what happens when one school's *mock by default* approach is applied to a dependency that Fowler and later writers say should be left real.
 
@@ -149,45 +149,45 @@ Rather than split people into a TDD group and a control group, Fucci, Erdogmus, 
 
 And on two outcomes: how much of a supplied acceptance suite the finished code passed, and how quickly those assertions were earned.
 
-**Of the four, granularity and uniformity predicted both outcomes. Sequencing predicted neither.** The quality gain from shorter cycles reaches about 14% at the extreme — from the longest cycles observed, around fifty minutes, down to the dataset's average of eight — and below the *"often suggested values of five to ten minutes"* there is little further improvement. Short cycles and even ones also *"go hand in hand, meaning these two characteristics together make a difference. In isolation, they may not be as effective."*
+**Of the four, granularity and uniformity predicted both outcomes. Sequencing predicted neither.** The quality gain from shorter cycles reaches about 14% at the extreme, from the longest cycles observed, around fifty minutes, down to the dataset's average of eight, and below the *"often suggested values of five to ten minutes"* there is little further improvement. Short cycles and even ones also *"go hand in hand, meaning these two characteristics together make a difference. In isolation, they may not be as effective."*
 
 Their conclusion, in their words: the benefits *"may not be due to its distinctive test-first dynamic, but rather due to the fact that TDD-like processes encourage fine-grained, steady steps that improve focus and flow."*
 
 Three conditions come with that, stated in the same paper:
 
 - **Every process measured wrote tests.** The comparison is test-first against test-last, never against not testing, and the conclusion says so in the clause easiest to drop: *"provided that they keep writing tests."*
-- **The substitution is conditional.** The two are substitutable *"at the same level of granularity and uniformity"* — short steps of roughly even length. A team that drops the ritual and returns to hour-long cycles has changed the thing that mattered rather than the thing that didn't.
-- **A cycle is one green test run.** The paper defines it as the interval *"delimited by the successful execution of a regression test suite (the green bar in JUnit),"* observed from about one minute to forty-nine, median four and a half. The finding is about how often code comes back green — not about how often you settle an interface, size a queue, or choose a storage model.
+- **The substitution is conditional.** The two are substitutable *"at the same level of granularity and uniformity"*, short steps of roughly even length. A team that drops the ritual and returns to hour-long cycles has changed the thing that mattered rather than the thing that didn't.
+- **A cycle is one green test run.** The paper defines it as the interval *"delimited by the successful execution of a regression test suite (the green bar in JUnit),"* observed from about one minute to forty-nine, median four and a half. The finding is about how often code comes back green, not about how often you settle an interface, size a queue, or choose a storage model.
 
-Three limits, which they also state: a single group with no control group, two of the three tasks artificial rather than representative, and a horizon of hours — the gains may be *"small or uncertain in the short term,"* and a test-first dynamic *"may provide long-term advantages not addressed by or detected in our study."* They name three such: working out what the requirements actually are, forcing design decisions into the open, and getting more tests written at all. And sequencing failing to predict is a failure to detect a difference, not a finding against writing tests first.
+Three limits, which they also state: a single group with no control group, two of the three tasks artificial rather than representative, and a horizon of hours, the gains may be *"small or uncertain in the short term,"* and a test-first dynamic *"may provide long-term advantages not addressed by or detected in our study."* They name three such: working out what the requirements actually are, forcing design decisions into the open, and getting more tests written at all. And sequencing failing to predict is a failure to detect a difference, not a finding against writing tests first.
 
 ---
 
 ## What the tight reading looks like
 
-*Mock your dependencies* does not say what a dependency is. Under the widest reading — anything your unit does not itself compute — the database is a dependency, the clock is a dependency, the file system is a dependency, and so is the other class you wrote last Tuesday. Under the tight reading, a dependency you must replace is one you **cannot run**: it costs money per call, it needs hardware you do not have, or it belongs to somebody else.
+*Mock your dependencies* does not say what a dependency is. Under the widest reading, anything your unit does not itself compute, the database is a dependency, the clock is a dependency, the file system is a dependency, and so is the other class you wrote last Tuesday. Under the tight reading, a dependency you must replace is one you **cannot run**: it costs money per call, it needs hardware you do not have, or it belongs to somebody else.
 
 The two readings differ on exactly one thing, and it is the thing this chapter is about: whether the rule you care about lives inside the dependency or outside it.
 
-FlowCore takes the tight reading and states it as a rule: its tests run against a real Postgres, not a fake. The reason is visible in its schema. Its decision 4 pushes same-definition integrity into composite foreign keys, and decision 9 puts uniqueness — scoped, case-insensitive, length-capped — into constraints. A fake repository would be a second implementation of every one of those rules, written by the same person who wrote the first, agreeing with it by construction, and unable to disagree with the schema when the schema is wrong.
+FlowCore takes the tight reading and states it as a rule: its tests run against a real Postgres, not a fake. The reason is visible in its schema. Its decision 4 pushes same-definition integrity into composite foreign keys, and decision 9 puts uniqueness, scoped, case-insensitive, length-capped, into constraints. A fake repository would be a second implementation of every one of those rules, written by the same person who wrote the first, agreeing with it by construction, and unable to disagree with the schema when the schema is wrong.
 
-That is the general form. **A test double — a mock, a stub, or a hand-written fake — can only encode the constraints its author already knows about.** The constraints worth testing are the ones somebody will get wrong, and the drift between the real constraint and its stand-in is what costs you.
+That is the general form. **A test double, a mock, a stub, or a hand-written fake, can only encode the constraints its author already knows about.** The constraints worth testing are the ones somebody will get wrong, and the drift between the real constraint and its stand-in is what costs you.
 
 ## Why the wide reading gets taken
 
 [Chapter 15](15_principle-loses-scope_b86v.md) owns the general answer, and it is not repeated here: the half that tells you what to do survives, the half that tells you whether to do it does not. What these two add is that they lost different halves. One never had a settled purpose to lose. The other had one, and it was measured.
 
-**For mocks.** The instruction is *replace your dependencies with doubles*. The mechanism is that a test's power comes from the set of reasons it can fail for. Every double you install removes a region of that set — deliberately, since that is what makes the test fast and deterministic. The question the instruction cannot answer is whether the rule you are testing lived in the region you just removed. When the rule is a schema constraint, a query plan, a transaction boundary, or a third-party API's actual behaviour, it did.
+**For mocks.** The instruction is *replace your dependencies with doubles*. The mechanism is that a test's power comes from the set of reasons it can fail for. Every double you install removes a region of that set, deliberately, since that is what makes the test fast and deterministic. The question the instruction cannot answer is whether the rule you are testing lived in the region you just removed. When the rule is a schema constraint, a query plan, a transaction boundary, or a third-party API's actual behaviour, it did.
 
 This is why the failure is silent rather than loud. A test that has lost its subject does not error; it passes faster than before. Nothing in the run distinguishes *this assertion is meaningful* from *this assertion is about the fixture*, which is what makes mutation the only mechanical check.
 
-**For ordering.** The instruction is *write the test first*. The mechanism proposed for it is usually design pressure — that being forced to name the behaviour before implementing it produces a better interface. That is a claim about what writing a test first does to your thinking, and it is plausible. What the measurement above found is that when you separate the ordering from the other things a test-first workflow forces on you — small steps, a steady rhythm — the ordering is not the part carrying the measured effect.
+**For ordering.** The instruction is *write the test first*. The mechanism proposed for it is usually design pressure, that being forced to name the behaviour before implementing it produces a better interface. That is a claim about what writing a test first does to your thinking, and it is plausible. What the measurement above found is that when you separate the ordering from the other things a test-first workflow forces on you, small steps, a steady rhythm, the ordering is not the part carrying the measured effect.
 
 **The credit moves.** A team that adopted test-first and got better results may have got them from the cycle length the ritual imposed; a team that drops the ritual and keeps fifty-minute cycles has kept the half that was doing the work.
 
 **The shared shape** is that both slogans name an action and leave out what the action is for. *Mock your dependencies* is an instruction about a technique with no statement of which failures it is meant to preserve. *Write the test first* is an instruction about an order with no statement of which benefit the order produces. In both cases the missing part is the only thing that would let you tell whether your situation qualifies.
 
-**The two are not independent — they arrive as one practice.** What is taught is not an ordering but a loop, run at minutes: write a failing test, make it pass, refactor, repeat. Keeping that loop turning needs a suite that answers in seconds, and *replace the slow dependency with a double* is what usually follows. Worth noting that it does not follow in the canon: Beck's own statement of the loop mentions no mocking, no isolation requirement and no speed requirement anywhere. The bundling is in the teaching rather than in the definition. The median cycle in the study was about eight minutes, and short cycles are the part the evidence credits.
+**The two are not independent, they arrive as one practice.** What is taught is not an ordering but a loop, run at minutes: write a failing test, make it pass, refactor, repeat. Keeping that loop turning needs a suite that answers in seconds, and *replace the slow dependency with a double* is what usually follows. Worth noting that it does not follow in the canon: Beck's own statement of the loop mentions no mocking, no isolation requirement and no speed requirement anywhere. The bundling is in the teaching rather than in the definition. The median cycle in the study was about eight minutes, and short cycles are the part the evidence credits.
 
 So the ingredient that works is also the ingredient that produces the pressure to mock. The granularity carrying the measured benefit is the same granularity that pushes the database out of the test, and pushing the database out of the test is what produced a test that passes with the constraint deleted.
 
@@ -225,7 +225,7 @@ Nothing is mocked here and nothing turns on the order it was written in. It is a
 
 It passes. It uses a real database, no mock anywhere, and it asserts on state read back afterwards rather than on a call it made.
 
-It also cannot fail, and the reason is in the fixture. `an_account` does not create an account; it writes a row that resembles one, with a status chosen by hand. **The precondition was fabricated rather than established** — and the value fabricated happens to be the value the assertion expects, so `verify` has nothing left to do.
+It also cannot fail, and the reason is in the fixture. `an_account` does not create an account; it writes a row that resembles one, with a status chosen by hand. **The precondition was fabricated rather than established**, and the value fabricated happens to be the value the assertion expects, so `verify` has nothing left to do.
 
 That is this chapter's own subject arriving where nobody invited it. The fixture is standing in for the part of the system that produces a new account, and standing in for it is what removes the reason this test could fail. There is no `Mock` object anywhere; the substitution is a hand-written `insert`.
 
@@ -252,7 +252,7 @@ AssertionError: 'pending' != 'active'
 FAILED (failures=1)
 ```
 
-The test was always this weak. Nothing in the passing run said so, and neither would coverage — the line ran, which is all coverage measures.
+The test was always this weak. Nothing in the passing run said so, and neither would coverage, the line ran, which is all coverage measures.
 
 Changing that one word makes the test work, but it is the smaller fix. The larger one is to stop writing the row by hand and let the system make the account:
 
@@ -267,13 +267,13 @@ def test_status_is_active_after_verifying(self):
     self.assertEqual(accounts.status_of("ada@example.com"), "active")
 ```
 
-The starting status is now whatever registration actually produces, and the test fails the moment `verify` stops working — `AssertionError: 'pending' != 'active'` — with no fixture value that anyone chose, and so none that can go stale against the code.
+The starting status is now whatever registration actually produces, and the test fails the moment `verify` stops working, `AssertionError: 'pending' != 'active'`, with no fixture value that anyone chose, and so none that can go stale against the code.
 
-This could look like a rookie mistake, or an example built for the book — *why would anyone set the result they assert at the start of the test?* It stops looking artificial once you consider how a test file arrives in this state. When `an_account` was written, the need was a status to insert, and the one an account usually has was picked; nothing asserted on status then, so the choice was harmless. The status assertion came later, needed an account, and `an_account` provided one. Neither decision is wrong on its own, and nothing obvious connects them.
+This could look like a rookie mistake, or an example built for the book, *why would anyone set the result they assert at the start of the test?* It stops looking artificial once you consider how a test file arrives in this state. When `an_account` was written, the need was a status to insert, and the one an account usually has was picked; nothing asserted on status then, so the choice was harmless. The status assertion came later, needed an account, and `an_account` provided one. Neither decision is wrong on its own, and nothing obvious connects them.
 
 **And it is not hypothetical.** FlowCore hit it, in a workflow fixture that declared one status and pointed both of its terminal actions at it, so a run reported the same status before and after finishing. It was caught the same way: `completeWorkflow` was changed to stamp `completed_at` and never the status columns, and **the entire suite passed**. Its decision 37 records two things worth more than the fix.
 
-The first is the count — it was **the fifth toothless test in one iteration**, meaning the fifth that asserted nothing, and the first mutation used to investigate it was itself broken, so its failure proved nothing until it was repaired. Even the check needed checking.
+The first is the count, it was **the fifth toothless test in one iteration**, meaning the fifth that asserted nothing, and the first mutation used to investigate it was itself broken, so its failure proved nothing until it was repaired. Even the check needed checking.
 
 The second is that the code had said so. A comment sat directly above the weak fixture:
 
@@ -293,7 +293,7 @@ Two situations sit outside the argument above.
 
 The tight reading still leaves real cases, and they are the ones the wide reading was built for.
 
-A payment gateway charges real money and its sandbox is not the same system. Hardware may not exist on the build machine. A third-party API may rate-limit, or require credentials no CI job should hold, or simply be down when you need to ship. Here you cannot run the dependency, and a double is not a shortcut — it is the only option.
+A payment gateway charges real money and its sandbox is not the same system. Hardware may not exist on the build machine. A third-party API may rate-limit, or require credentials no CI job should hold, or simply be down when you need to ship. Here you cannot run the dependency, and a double is not a shortcut, it is the only option.
 
 What changes is what the double is allowed to claim. A test using one is a test of your code's behaviour *given an assumption about theirs*, and that assumption is now an untested input. The honest versions make the assumption checkable rather than pretending it is not there:
 
@@ -313,19 +313,19 @@ That is a legitimate use of a mock and it is not what this chapter argues agains
 
 ## What following the advice costs
 
-**Writing the test first couples the test to a structure being designed as you write it.** The test names an interface before that interface has settled, so it encodes the shape as well as the behaviour. Structural change then costs test change in proportion: add a field and you touch every test that constructs the object, split a class and its tests split with it. This follows from the method rather than being a failure of it — the tests are fine-grained because the loop is, and fine-grained tests attach to the shape of the thing they test.
+**Writing the test first couples the test to a structure being designed as you write it.** The test names an interface before that interface has settled, so it encodes the shape as well as the behaviour. Structural change then costs test change in proportion: add a field and you touch every test that constructs the object, split a class and its tests split with it. This follows from the method rather than being a failure of it, the tests are fine-grained because the loop is, and fine-grained tests attach to the shape of the thing they test.
 
-**The loop is hard to run, and the study shows how hard.** Across all 82 sessions — both arms, test-first and test-last — the highest share of test-first cycles anyone reached was 87.5%, so no session in the study was run purely test-first, and the authors describe the upper quarter as writing test-first *"approximately half of the time."* The third step fares worse: subjects refactored about a third of the time and a quarter of them refactored in under a tenth of their cycles, which the authors call unsurprising because it is what happens in real projects. These were professionals given ten hours of training for it — a five-hour hands-on tutorial on unit testing with JUnit, and five hours on applying TDD — then working observed, on tasks chosen for the purpose. Whatever the discipline costs, it is enough that it is mostly not performed as described.
+**The loop is hard to run, and the study shows how hard.** Across all 82 sessions, both arms, test-first and test-last, the highest share of test-first cycles anyone reached was 87.5%, so no session in the study was run purely test-first, and the authors describe the upper quarter as writing test-first *"approximately half of the time."* The third step fares worse: subjects refactored about a third of the time and a quarter of them refactored in under a tenth of their cycles, which the authors call unsurprising because it is what happens in real projects. These were professionals given ten hours of training for it, a five-hour hands-on tutorial on unit testing with JUnit, and five hours on applying TDD, then working observed, on tasks chosen for the purpose. Whatever the discipline costs, it is enough that it is mostly not performed as described.
 
 ## What taking the alternative costs
 
 **Real dependencies make the suite slower and more fragile.** A test that starts a database is orders of magnitude slower than one that does not, and [chapter 09](09_scale_637f.md)'s arithmetic applies to test suites like anything else. Once the suite is slow enough to skip, it stops being run, and a test nobody runs is worth less than a weak one.
 
-**They need infrastructure that must exist everywhere the suite runs.** A developer laptop, a CI runner, and a container image that all agree. FlowCore's answer is to truncate rather than recreate between tests and to run against a pre-migrated database, which is cheap per test and pushes the setup cost to once per suite — but somebody built that, and it is a real cost that a fake repository does not have.
+**They need infrastructure that must exist everywhere the suite runs.** A developer laptop, a CI runner, and a container image that all agree. FlowCore's answer is to truncate rather than recreate between tests and to run against a pre-migrated database, which is cheap per test and pushes the setup cost to once per suite, but somebody built that, and it is a real cost that a fake repository does not have.
 
 **Parallelism gets harder.** Two tests sharing a real database contend on state in a way two tests sharing nothing do not, so isolation becomes a design problem rather than a default.
 
-**Mutation testing is expensive.** Catching a test that cannot fail means running the whole suite once for every deliberate break, which for a large suite is hours. It is worth it for load-bearing code and it is not worth it everywhere, which means somebody has to decide where — and that decision has no rule to hand.
+**Mutation testing is expensive.** Catching a test that cannot fail means running the whole suite once for every deliberate break, which for a large suite is hours. It is worth it for load-bearing code and it is not worth it everywhere, which means somebody has to decide where, and that decision has no rule to hand.
 
 ---
 
@@ -333,7 +333,7 @@ That is a legitimate use of a mock and it is not what this chapter argues agains
 
 **In a codebase:**
 
-- **A test whose fixture supplies the error it asserts on.** `side_effect`, `thenThrow`, `Returns(...)` — where the value being configured is the thing the test is named after, the assertion is about the configuration.
+- **A test whose fixture supplies the error it asserts on.** `side_effect`, `thenThrow`, `Returns(...)`, where the value being configured is the thing the test is named after, the assertion is about the configuration.
 - **The suite passes with the feature deleted.** The direct check, and the only conclusive one. Delete the constraint, comment out the write, return the wrong status, and see whether anything goes red.
 - **A comment explaining why an assertion is weak.** The weakness was seen and recorded rather than fixed. FlowCore's entry names this exactly.
 - **Coverage high, defects arriving in production at the boundaries.** Coverage says a line ran, not that a test would fail if the line were wrong. Boundary defects concentrate where the doubles are.
@@ -350,20 +350,20 @@ The question that does the work: **if this behaviour broke, would this test fail
 
 Broken the way code actually breaks, not deleted in the abstract: someone drops the constraint in a migration, someone returns early, someone updates the wrong column. Pick the likeliest one, make that change, run the test, put it back. It takes about a minute, and most of the value of mutation testing is available without the tooling, because the tests that matter are few and you already know which they are.
 
-A more general question is worth asking before a release: **if this behaviour is broken in production tomorrow, can we say the cause is not in our code, because these tests would have caught it?** That one reaches what the narrow question misses — the dependency that is faked in every environment below production, the fixture data that is tidier than anything real. The honest answer is usually more specific, and less comfortable, than a coverage number.
+A more general question is worth asking before a release: **if this behaviour is broken in production tomorrow, can we say the cause is not in our code, because these tests would have caught it?** That one reaches what the narrow question misses, the dependency that is faked in every environment below production, the fixture data that is tidier than anything real. The honest answer is usually more specific, and less comfortable, than a coverage number.
 
-[Chapter 17](17_abstraction-as-insurance_4jk6.md) takes the last of the cases — an abstraction bought as insurance against a change that has not been scheduled, and shaped by the thing it was insuring against.
+[Chapter 17](17_abstraction-as-insurance_4jk6.md) takes the last of the cases, an abstraction bought as insurance against a change that has not been scheduled, and shaped by the thing it was insuring against.
 
 ---
 
 ## Sources
 
-- Davide Fucci, Hakan Erdogmus, Burak Turhan, Markku Oivo, Natalia Juristo, *A Dissection of the Test-Driven Development Process: Does It Really Matter to Test-First or to Test-Last?* — IEEE Transactions on Software Engineering, 2017. [arXiv preprint](https://arxiv.org/abs/1611.05994), [IEEE](https://ieeexplore.ieee.org/document/7592412/).
-- FlowCore, `docs/decisions.md`, decisions 4, 9, and 37 — [github.com/mike-akdeniz/flowcore](https://github.com/mike-akdeniz/flowcore).
-- Martin Fowler, *Mocks Aren't Stubs*, 2007 — [martinfowler.com/articles/mocksArentStubs.html](https://martinfowler.com/articles/mocksArentStubs.html).
-- Martin Fowler, *TestDrivenDevelopment* — [martinfowler.com/bliki/TestDrivenDevelopment.html](https://martinfowler.com/bliki/TestDrivenDevelopment.html).
-- Kent Beck, *Canon TDD*, 2023 — [newsletter.kentbeck.com/p/canon-tdd](https://newsletter.kentbeck.com/p/canon-tdd).
-- Python, `unittest.mock` — [docs.python.org/3/library/unittest.mock.html](https://docs.python.org/3/library/unittest.mock.html).
+- Davide Fucci, Hakan Erdogmus, Burak Turhan, Markku Oivo, Natalia Juristo, *A Dissection of the Test-Driven Development Process: Does It Really Matter to Test-First or to Test-Last?*, IEEE Transactions on Software Engineering, 2017. [arXiv preprint](https://arxiv.org/abs/1611.05994), [IEEE](https://ieeexplore.ieee.org/document/7592412/).
+- FlowCore, `docs/decisions.md`, decisions 4, 9, and 37, [github.com/mike-akdeniz/flowcore](https://github.com/mike-akdeniz/flowcore).
+- Martin Fowler, *Mocks Aren't Stubs*, 2007, [martinfowler.com/articles/mocksArentStubs.html](https://martinfowler.com/articles/mocksArentStubs.html).
+- Martin Fowler, *TestDrivenDevelopment*, [martinfowler.com/bliki/TestDrivenDevelopment.html](https://martinfowler.com/bliki/TestDrivenDevelopment.html).
+- Kent Beck, *Canon TDD*, 2023, [newsletter.kentbeck.com/p/canon-tdd](https://newsletter.kentbeck.com/p/canon-tdd).
+- Python, `unittest.mock`, [docs.python.org/3/library/unittest.mock.html](https://docs.python.org/3/library/unittest.mock.html).
 
 ---
 

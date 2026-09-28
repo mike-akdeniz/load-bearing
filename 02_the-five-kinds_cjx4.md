@@ -1,6 +1,6 @@
 # The Five Kinds of Claim
 
-**Many claims you meet about software are one of five kinds: Law, Force, Principle, Idiom, Style. And the kind of a claim determines how much authority it has** — not the confidence of the person saying it, not their track record, not how widely it is repeated.
+**Many claims you meet about software are one of five kinds: Law, Force, Principle, Idiom, Style. And the kind of a claim determines how much authority it has**, not the confidence of the person saying it, not their track record, not how widely it is repeated.
 
 Four of them are advice, and form a ladder of authority:
 
@@ -8,15 +8,15 @@ Four of them are advice, and form a ladder of authority:
 
 The fifth, Force, is not advice at all. It is the input that decides where on that ladder you should be standing.
 
-So the count is not five of one thing. **There are four levels and five kinds** — the levels are rungs on the ladder, and Force is the fifth kind precisely because it is not on it. That distinction matters more than it first appears, and the rest of the chapter turns on it.
+So the count is not five of one thing. **There are four levels and five kinds**: the levels are rungs on the ladder, and Force is the fifth kind precisely because it is not on it. That distinction matters more than it first appears, and the rest of the chapter turns on it.
 
 ## Law
 
 True by the mechanics of computation. Violating one produces a **wrong program**, and the wrongness does not depend on your language, your team, or your taste.
 
-**Example:** *Exactly-once delivery is impossible.* You can arrange for a message to arrive at least once, or at most once, and there is no third option — not in a better language, not with a larger budget, because the sender cannot find out whether a message it got no answer to was received.
+**Example:** *Exactly-once delivery is impossible.* You can arrange for a message to arrive at least once, or at most once, and there is no third option, even in a better language or with a larger budget, because the sender cannot find out whether a message it got no answer to was received.
 
-You do not get to disagree with a Law. You only get to be in a situation where its preconditions are absent — which is a different thing, and the subject of *How Forces relate to each kind of advice*, below.
+You do not get to disagree with a Law. You only get to be in a situation where its preconditions are absent. That is a different thing, and the subject of *How Forces relate to each kind of advice*, below.
 
 ## Force
 
@@ -30,9 +30,9 @@ A Force is read before any pattern or technique is in view because that's the gr
 
 ## Principle
 
-Advice that is **good given certain Forces** and stops being good — sometimes reverses outright — when those Forces change.
+Advice that is **good given certain Forces** and stops being good, sometimes reversing outright, when those Forces change.
 
-**Example:** *Don't repeat yourself.* Sound where the two copies really are one idea, and actively harmful where they only look alike — deduplicating them couples two things that were free to change separately, and the next change to one breaks the other.
+**Example:** *Don't repeat yourself.* Sound where the two copies really are one idea, and actively harmful where they only look alike. Deduplicating them couples two things that were free to change separately, and the next change to one breaks the other.
 
 The mark of a Principle is that it has conditions. A Principle stated without its conditions has been promoted, usually by accident, and that promotion is the failure this book exists to catch.
 
@@ -42,7 +42,7 @@ An **ecosystem convention**. Locally correct, non-transferable, and usually trac
 
 **Example:** *Accept interfaces, return structs.* Good advice in Go and close to meaningless in Python, which has no compile-time interface to accept. Nothing about the problem changed on the way across; the language did.
 
-An Idiom is not arbitrary — there is normally a real reason it grew where it did. But the reason is local, so the conclusion is local.
+An Idiom is not arbitrary. There is normally a real reason it grew where it did. But the reason is local, so the conclusion is local.
 
 **What separates an Idiom from a Style is mechanical: the compiler or the runtime acts on an Idiom, and ignores a Style.** The visible behaviour of the software does not change because of an Idiom. *Visible behaviour* means what the program produces when it succeeds. That is a narrow definition on purpose, and it leaves out a great deal: failure modes, developer experience, maintainability.
 
@@ -52,7 +52,7 @@ Dependency injection shows how the compiler and the runtime can act on an Idiom.
 
 Naming, formatting, file layout. **Arbitrary, but worth being consistent about.**
 
-**Example:** *Tabs or spaces.* The compiler cannot tell, the runtime cannot tell, and the program is the same program either way — which is why the argument has run for forty years without either side producing evidence.
+**Example:** *Tabs or spaces.* The compiler cannot tell, the runtime cannot tell, and the program is the same program either way. That is why the argument has run for forty years without either side producing evidence.
 
 Neither the compiler nor the runtime can tell which way you chose. Style has no authority at all, and the correct response to a Style argument is to pick one and stop discussing it.
 
@@ -60,7 +60,7 @@ Neither the compiler nor the runtime can tell which way you chose. Style has no 
 
 ## How Forces relate to each kind of advice
 
-**A Force never makes a Law false.** Laws are true unconditionally. What a Force decides is whether a Law **has anything to act on** — whether it binds in your situation or sits inert.
+**A Force never makes a Law false.** Laws are true unconditionally. What a Force decides is whether a Law **has anything to act on**: whether it binds in your situation or sits inert.
 
 Amdahl's Law bounds how much faster a program can get from more processors, given the fraction of it that cannot be split. It has no use on a single-threaded script, because there is no parallel portion for it to bound. The Law is still true, and its effects are measurable the moment that script stops being single-threaded ([Ch. 09](09_scale_637f.md) works the arithmetic).
 
@@ -68,8 +68,8 @@ Amdahl's Law bounds how much faster a program can get from more processors, give
 
 | Kind | What a Force changes |
 |---|---|
-| **Law** | whether it **binds** — true either way, sometimes inert |
-| **Principle** | whether it is **right or wrong** — can reverse |
+| **Law** | whether it **binds**; true either way, sometimes inert |
+| **Principle** | whether it is **right or wrong**; can reverse |
 | **Idiom** | nothing; the ecosystem decides |
 | **Style** | nothing; nothing decides |
 
@@ -77,8 +77,8 @@ So both Laws and Principles are Force-sensitive, in different ways. **A Law can 
 
 Getting this backwards produces two recognizable errors:
 
-- Treating an inert Law as a live constraint — building locking machinery for a program with one writer.
-- Treating an inverted Principle as still binding — "we must not duplicate this" in a case where the duplication was the right call.
+- Treating an inert Law as a live constraint: building locking machinery for a program with one writer.
+- Treating an inverted Principle as still binding: "we must not duplicate this" in a case where the duplication was the right call.
 
 ---
 
@@ -112,7 +112,7 @@ customer B: update → ok
 result: one seat, two tickets
 ```
 
-Now translate it. C# with EF Core, Python with SQLAlchemy, Java with Hibernate, Rust with sqlx — **the bug survives every translation**, because it is not about the language. No reviewer's preference changes the outcome. No team convention makes it correct.
+Now translate it. C# with EF Core, Python with SQLAlchemy, Java with Hibernate, Rust with sqlx: **the bug survives every translation**, because it is not about the language. No reviewer's preference changes the outcome. No team convention makes it correct.
 
 That is what a Law violation looks like: the program is wrong, and the wrongness is mechanical.
 
@@ -121,7 +121,7 @@ That is what a Law violation looks like: the program is wrong, and the wrongness
 ## An Idiom difference: same shape, opposite reception
 
 ```go
-// Go — completely ordinary. Nobody comments on this in review.
+// Go: completely ordinary. Nobody comments on this in review.
 func main() {
 	pool, _ := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
 	catalog := NewCatalog(pool)
@@ -134,7 +134,7 @@ func main() {
 ```
 
 ```csharp
-// C# — the same shape. This gets flagged in review.
+// C#: the same shape. This gets flagged in review.
 public class ApproveController : ControllerBase {
     private static readonly WorkflowCatalog Catalog =
         new(NpgsqlDataSource.Create(Environment.GetEnvironmentVariable("DATABASE_URL")!));
@@ -158,8 +158,8 @@ That is the signature of an Idiom. The rule is real, it is worth following, and 
 Take the seat-reservation code again, unchanged, and put it somewhere else:
 
 ```go
-// A one-off CLI tool. One process, one goroutine — Go's lightweight
-// thread — run by one operator, on a database nothing else is touching.
+// A one-off CLI tool. One process, one goroutine (Go's lightweight
+// thread), run by one operator, on a database nothing else is touching.
 func main() {
 	if err := Reserve(ctx, db, os.Args[1]); err != nil {
 		log.Fatal(err)
@@ -171,9 +171,9 @@ Identical code. Now it is correct.
 
 Be precise about why, because the sloppy version of this claim is where the model goes wrong.
 
-**The Law did not bend.** Check-then-act is still not atomic — that remains true of this code, on this line, right now. What changed is that the Law's precondition is absent: non-atomicity only produces a wrong program when a second writer can interleave, and here there isn't one.
+**The Law did not bend.** Check-then-act is still not atomic. That remains true of this code, on this line, right now. What changed is that the Law's precondition is absent: non-atomicity only produces a wrong program when a second writer can interleave, and here there isn't one.
 
-The Law is true and inert. The code is correct — not "correct despite breaking a rule."
+The Law is true and inert. The code is correct, not "correct despite breaking a rule."
 
 This is why Force is its own kind rather than a footnote to Principle: **the same Law is decisive in one situation and silent in another, and only the Forces tell you which situation you are in.**
 
@@ -185,11 +185,11 @@ Five questions, in order. Stop at the first that answers.
 
 **1. Is this a statement about my situation rather than a recommendation?** → **Force**. "Requests are handled concurrently." "This schema will outlive three rewrites." "We do not control the callers." These masquerade as advice surprisingly often, and mistaking one for advice is how arguments become unresolvable.
 
-**2. When its preconditions hold, does violating it produce a wrong program — in any language, on any team?** → **Law**. The test is mechanical consequence, not severity: a slow program is not a wrong one. The clause about preconditions is doing real work; without it you will misclassify every Law that happens to be inert where you are standing.
+**2. When its preconditions hold, does violating it produce a wrong program in any language, on any team?** → **Law**. The test is mechanical consequence, not severity: a slow program is not a wrong one. The clause about preconditions is doing real work; without it you will misclassify every Law that happens to be inert where you are standing.
 
 **3. Can it become *wrong* advice if circumstances change?** → **Principle**. Follow-up worth asking every time: can I state those circumstances? If not, I do not yet understand the advice well enough to apply it.
 
-**4. Does the compiler or the runtime act on the choice, while the program behaves the same either way?** → **Idiom**. It will usually also be specific to a language or ecosystem, and competent engineers elsewhere will often do the opposite — but that is a consequence of the answer rather than the test, because plenty of Style is local too.
+**4. Does the compiler or the runtime act on the choice, while the program behaves the same either way?** → **Idiom**. It will usually also be specific to a language or ecosystem, and competent engineers elsewhere will often do the opposite. But that is a consequence of the answer rather than the test, because plenty of Style is local too.
 
 **5. Does neither of them act on the choice?** → **Style**.
 
@@ -208,16 +208,16 @@ Five questions, in order. Stop at the first that answers.
 | "We don't control our callers" | **Force** | the whole reason library design differs |
 | "Prefer composition over inheritance" | **Principle** | conditions: variation on multiple axes |
 | "Don't repeat yourself" | **Principle** | famously over-applied; duplication beats wrong coupling |
-| "Validate input at the boundary" | **Principle** | and partly a Law — one of the claims that spans kinds |
+| "Validate input at the boundary" | **Principle** | and partly a Law, one of the claims that spans kinds |
 | "Functions should be short" | **Principle** | Force: working-memory limits |
 | "Push invariants to the layer that can enforce them" | **Principle** | conditions: a layer that *can* |
 | "Premature optimization is the root of all evil" | **Principle** | routinely quoted with Knuth's conditions removed |
 | "Use dependency injection" | **Principle** | the technique |
-| "Use a DI container" | **Idiom** | the tooling — a different kind of claim entirely |
+| "Use a DI container" | **Idiom** | the tooling, a different kind of claim entirely |
 | "Every repository gets an interface" | **Idiom** | C#/Java; [Ch. 16](16_tdd-and-mocks_u8eu.md) for why |
 | "Accept interfaces, return structs" | **Idiom** | Go |
 | "Exceptions are for exceptional cases" | **Idiom** | Go and Python disagree at the root |
-| "Short local names" | **Style** | Go-specific, and still Style — nothing sees it; [Ch. 20](20_style_9rng.md) |
+| "Short local names" | **Style** | Go-specific, and still Style; nothing sees it; [Ch. 20](20_style_9rng.md) |
 | "Prefer `var` / avoid `var`" | **Style** | pick one, stop talking |
 | "Tabs vs spaces" | **Style** | genuinely arbitrary |
 
@@ -229,11 +229,11 @@ One row is worth pausing on.
 
 ## Why the order runs one way
 
-Forces are the only inputs. They are not advice, they take nothing from the other kinds, and they are either true where you are standing or they are not. Laws take nothing from them either — a Force decides only whether a Law binds, which is what *How Forces relate to each kind of advice* sets out above. The two conditional kinds are where the direction matters: a Principle is conditioned on a fact about your system, an Idiom on a fact about your surroundings ([Ch. 19](19_idioms_7nkn.md)). So the model runs one way, from the facts to the advice.
+Forces are the only inputs. They are not advice, they take nothing from the other kinds, and they are either true where you are standing or they are not. Laws take nothing from them either. A Force decides only whether a Law binds, which is what *How Forces relate to each kind of advice* sets out above. The two conditional kinds are where the direction matters: a Principle is conditioned on a fact about your system, an Idiom on a fact about your surroundings ([Ch. 19](19_idioms_7nkn.md)). So the model runs one way, from the facts to the advice.
 
 Read that way, every step takes its input from the one before it, and every claim carries something that would prove it wrong. *This Principle applies because the schema outlives the code* fails the day somebody checks and it does not.
 
-Read the other way, nothing falsifies. Start from *every repository gets an interface* and there is no later step at which the interface could turn out to be unnecessary. You can name a Principle it serves — depend on abstractions ([Ch. 17](17_abstraction-as-insurance_4jk6.md)) — and then find conditions that support that Principle, and the chain will be consistent the whole way down. It is also unfalsifiable, because it was assembled from the answer backwards.
+Read the other way, nothing falsifies. Start from *every repository gets an interface* and there is no later step at which the interface could turn out to be unnecessary. You can name a Principle it serves: depend on abstractions ([Ch. 17](17_abstraction-as-insurance_4jk6.md)). Then find conditions that support that Principle, and the chain will be consistent the whole way down. It is also unfalsifiable, because it was assembled from the answer backwards.
 
 That is not sloppiness and it is not peculiar to software. Working backwards from a conclusion produces a consistent justification every time, in any field. What it does not produce is a way of finding out that the conclusion was wrong.
 
@@ -243,11 +243,11 @@ That is not sloppiness and it is not peculiar to software. Working backwards fro
 
 Four mechanisms, none of them anyone's fault in particular.
 
-**Tone does not vary with authority.** Confidence is a personality trait and a rhetorical choice. Someone stating a proven theorem and someone stating a formatting preference can sound identical — and frequently the formatting preference sounds *more* certain, because there is less to qualify.
+**Tone does not vary with authority.** Confidence is a personality trait and a rhetorical choice. Someone stating a proven theorem and someone stating a formatting preference can sound identical. Frequently the formatting preference sounds *more* certain, because there is less to qualify.
 
 **Advocacy compresses.** "Always do X" travels further than "do X when Y, unless Z." The conditions are the first thing lost, and they were the content. [Chapter 15](15_principle-loses-scope_b86v.md) traces this mechanism in detail.
 
-**Monoculture makes Idioms look like physics.** If you have only worked in one ecosystem, its conventions are indistinguishable from necessity. You have never seen the counter-example, so you conclude there isn't one. This is the single most common source of confusion here, and the only reliable cure is working in a second ecosystem long enough to be fluent — long enough that its conventions stop feeling wrong and start feeling like conventions.
+**Monoculture makes Idioms look like physics.** If you have only worked in one ecosystem, its conventions are indistinguishable from necessity. You have never seen the counter-example, so you conclude there isn't one. This is the single most common source of confusion here, and the only reliable cure is working in a second ecosystem long enough to be fluent, until its conventions stop feeling wrong and start feeling like conventions.
 
 **Teaching leaves the training wheels on.** Beginners are given rules, because rules are teachable and judgement is not. "Never use global state." "Always write a test first." Nobody comes back later to say which parts were scaffolding.
 
@@ -259,17 +259,17 @@ Three boundaries, and the last is the important one.
 
 **Claims that genuinely span kinds.** "Validate at the boundary" is partly a security Law, partly a feedback-speed Principle, partly an Idiom about *which* boundary. Forcing a single label loses information. Hold two labels and say which part you mean.
 
-**Classifying is not deciding.** The model tells you what kind of claim you are holding. It does not tell you what to do about it. Recognizing something as an Idiom is not permission to ignore it — [chapter 19](19_idioms_7nkn.md) argues that following local convention is usually correct even when you can out-argue it, because reviewability and shared expectations are worth more than being interesting. The model narrows the question; it does not answer it.
+**Classifying is not deciding.** The model tells you what kind of claim you are holding. It does not tell you what to do about it. Recognizing something as an Idiom is not permission to ignore it. [Chapter 19](19_idioms_7nkn.md) argues that following local convention is usually correct even when you can out-argue it, because reviewability and shared expectations are worth more than being interesting. The model narrows the question; it does not answer it.
 
 **The model needs comparative experience it cannot supply.** This is the real limit, and it is uncomfortable.
 
-Running the test requires having seen the alternative. Question 2 — *does violating it produce a wrong program in any language, on any team?* — is unanswerable if you have only ever worked in one ecosystem. You will classify its conventions as Laws, not out of carelessness but because you have no counter-example available, and a rule with no visible exception is indistinguishable from a rule with none.
+Running the test requires having seen the alternative. Question 2 asks whether violating the claim produces a wrong program in any language, on any team. If you have only ever worked in one ecosystem, you cannot answer it. You will classify its conventions as Laws, not out of carelessness but because you have no counter-example available, and a rule with no visible exception is indistinguishable from a rule with none.
 
 The trap is that a single-stack shop is where this failure does the **most** damage and is **hardest** to detect. Nobody arrives with a contradicting habit. Conventions accumulate for reasons that stop applying, and nothing in the environment surfaces that. "We've always done it this way" is not evidence of anything, and in a uniform context it is the only evidence available.
 
-So the honest version is not "in a monoculture you can skip this." It is: **in a monoculture you need this most and can execute it least.** The remedy is not analysis — you cannot reason your way to a counter-example you have never seen. It is deliberately acquiring contrast: reading the *source* of well-regarded projects in another ecosystem, not their blog posts; writing something small in a language whose defaults offend you; asking what a competent person who disagreed with your team would say.
+So the honest version is not "in a monoculture you can skip this." It is: **in a monoculture you need this most and can execute it least.** The remedy is not analysis. You cannot reason your way to a counter-example you have never seen. It is deliberately acquiring contrast: reading the *source* of well-regarded projects in another ecosystem, not their blog posts; writing something small in a language whose defaults offend you; asking what a competent person who disagreed with your team would say.
 
-Until then, follow the local convention — not because it is a good proxy for correctness, but because you do not yet have the standing to overrule it, and being idiosyncratic is worse than being conventionally wrong.
+Until then, follow the local convention. It is a poor proxy for correctness, but you do not yet have the standing to overrule it, and being idiosyncratic is worse than being conventionally wrong.
 
 ---
 
@@ -277,11 +277,11 @@ Until then, follow the local convention — not because it is a good proxy for c
 
 **Analysis where a default would do.** Most decisions are small and the conventional answer is fine. Running a five-question test on a variable name is worse than picking a name.
 
-**A licence to dismiss.** "That's just an Idiom" is available as a way to wave off any advice you dislike. The defence: a classification must come with its *mechanism*, not just its label. If you cannot say why something is an Idiom — which language feature it grew from, what the other ecosystem does instead — you have not classified it, you have dismissed it.
+**A licence to dismiss.** "That's just an Idiom" is available as a way to wave off any advice you dislike. The defence: a classification must come with its *mechanism*, not just its label. If you cannot say which language feature made something an Idiom and what another ecosystem does instead, you have not classified it, you have dismissed it.
 
 **Vocabulary nobody shares.** "That's an Idiom, not a Law" means little to colleagues who haven't read this. The model is for your own thinking; in conversation, say the content: *"that's a C# convention, and the reason it exists doesn't hold here."*
 
-**False precision.** Five neat kinds imply the world has five neat kinds. It does not. The model is a sorting aid whose value is mostly in separating Law from Idiom — the finer distinctions matter far less than that one.
+**False precision.** Five neat kinds imply the world has five neat kinds. It does not. The model is a sorting aid whose value is mostly in separating Law from Idiom; the finer distinctions matter far less than that one.
 
 ---
 
@@ -291,14 +291,14 @@ Until then, follow the local convention — not because it is a good proxy for c
 
 - Layer directories where every feature change touches all of them.
 - A style guide with correctness rules mixed into formatting rules, at the same emphasis.
-- Defensive code guarding a condition the surrounding architecture makes impossible — an inert Law treated as live.
+- Defensive code guarding a condition the surrounding architecture makes impossible: an inert Law treated as live.
 - A design document that cites an authority rather than a mechanism.
 
 **In a conversation:**
 
 - "That's not best practice," offered as a complete argument.
 - "We always do it this way here," with no memory of why.
-- Someone unable to answer *when would this rule be wrong?* — not because the answer is "never," but because the question has never come up.
+- Someone unable to answer *when would this rule be wrong?* because the question has never come up, rather than because the answer is "never."
 - Two people making increasingly detailed arguments while disagreeing about a Force neither has stated.
 
 That last one is the most expensive and the easiest to fix. When an architecture argument will not converge, stop arguing about the Principle and ask what each side believes about the situation. The disagreement is usually not about the advice at all, but about the situation both sides are applying it to.
@@ -307,9 +307,9 @@ That last one is the most expensive and the easiest to fix. When an architecture
 
 ## What this chapter assumed
 
-Five kinds and their authority are assumed and not proven in this chapter. That is worth saying now, because every other chapter makes a claim and then demonstrates it. That the kind determines authority is true by construction, since the kinds are *defined* by their authority — there is nothing left to show.
+Five kinds and their authority are assumed and not proven in this chapter. That is worth saying now, because every other chapter makes a claim and then demonstrates it. That the kind determines authority is true by construction, since the kinds are *defined* by their authority. There is nothing left to show.
 
-[Chapter 03](03_forces_f4m5.md) takes Forces seriously — the properties of a situation that decide which Laws bind and which Principles hold, and why naming one is not the same act as evaluating it.
+[Chapter 03](03_forces_f4m5.md) takes up the properties of a situation that decide which Laws bind and which Principles hold, and why naming one is not the same act as evaluating it.
 
 ---
 

@@ -18,9 +18,9 @@ This is another form of a claim made in a 1996 talk called *Design Patterns in D
 
 The reason to spend a chapter on a claim made in 1996 is that the folk version of it survives, and it is stronger than what was said: *"patterns are just missing language features"*. That asserts complete disappearance. Norvig's own taxonomy has three levels, not two, and the same pattern in another language could be any of them:
 
-- **invisible** — "so much a part of the language that you don't notice".
-- **informal** — it exists as prose you reimplement by hand each time.
-- **formal** — the language lets you implement the pattern itself once and call it.
+- **invisible**, "so much a part of the language that you don't notice".
+- **informal**, it exists as prose you reimplement by hand each time.
+- **formal**, the language lets you implement the pattern itself once and call it.
 
 Only the first is disappearance. Moving from informal to formal is a real gain and leaves the pattern there, named and called.
 
@@ -49,7 +49,7 @@ The sentence between the third excerpt and the fourth goes further than anything
 
 Which says the relationship runs both ways: what is a feature at one language level is a pattern at a weaker one, and the catalogue's contents are a function of where its authors were standing.
 
-**So Norvig's count is not a refutation of the catalogue. It is the catalogue's own prediction, measured.** Read that way the interesting patterns are not the sixteen that got simpler — those were promised — but the seven that did not, and the ones still load-bearing in designs and languages the book never addressed. Those reach past the scope their authors claimed, which is why the patterns that refuse to dissolve get as much room here as the ones that do.
+**So Norvig's count is not a refutation of the catalogue. It is the catalogue's own prediction, measured.** Read that way the interesting patterns are not the sixteen that got simpler, those were promised, but the seven that did not, and the ones still load-bearing in designs and languages the book never addressed. Those reach past the scope their authors claimed, which is why the patterns that refuse to dissolve get as much room here as the ones that do.
 
 **Which patterns are OOP scaffolding is a question with a procedure.** Build the same design in a language that supplies the feature, and look at what is left: either the apparatus goes and the design stays, or it doesn't. This chapter calls that the **translation test**.
 
@@ -102,7 +102,7 @@ Twenty-eight lines as shown, not counting blanks, comments, or the `main` that r
 
 Now the same design in Java 26. Three features arrived in the intervening years: `record`, which is a class whose fields, constructor, and accessors are generated from one line; `sealed`, which fixes the set of types allowed to implement an interface; and pattern matching in `switch`, which can test a value's type and pull its fields out in the same breath.
 
-Together those give Java a **sum type** — a type whose values are one of a fixed, known list of alternatives. An expression is a number *or* an addition *or* a multiplication and nothing else, and because the list is closed the compiler can check that you handled every branch. Rust's `enum`, F#'s discriminated union, and TypeScript's tagged union are the same idea. It is worth having the name, because it is the feature this chapter keeps returning to.
+Together those give Java a **sum type**, a type whose values are one of a fixed, known list of alternatives. An expression is a number *or* an addition *or* a multiplication and nothing else, and because the list is closed the compiler can check that you handled every branch. Rust's `enum`, F#'s discriminated union, and TypeScript's tagged union are the same idea. It is worth having the name, because it is the feature this chapter keeps returning to.
 
 ```java
 // The same design in Java 26. No Visitor, no accept, no double dispatch.
@@ -136,9 +136,9 @@ Add it to the second version and leave `eval` alone:
 New.java:11: error: the switch expression does not cover all possible input values
 ```
 
-Identical guarantee. One costs an interface, a method per node type, and a callback protocol every reader has to hold in their head; the other costs a keyword. Nothing about the design changed — there is still a closed set of node types and an operation defined over all of them, which is the idea Visitor was carrying. What went away was the machinery for expressing it.
+Identical guarantee. One costs an interface, a method per node type, and a callback protocol every reader has to hold in their head; the other costs a keyword. Nothing about the design changed, there is still a closed set of node types and an operation defined over all of them, which is the idea Visitor was carrying. What went away was the machinery for expressing it.
 
-And notice which language this happened in. Not Lisp, not Dylan — Java, the language where Visitor was most entrenched. The pattern did not fail to survive translation into some more expressive language. It expired in place.
+And notice which language this happened in. Not Lisp, not Dylan, Java, the language where Visitor was most entrenched. The pattern did not fail to survive translation into some more expressive language. It expired in place.
 
 ## Strategy, in four languages
 
@@ -166,7 +166,7 @@ final class Checkout {
 }
 ```
 
-**Before showing the Java 26 version, one thing has to be separated out, because conflating the two is how this comparison is usually rigged.** Two independent things could change here. One is the scaffolding — the interface and the classes implementing it. The other is whether the two policies keep their names and their home. Those are not the same decision, and replacing named classes with lambdas dropped into call sites changes both at once, which is not a fair trade and is worth objecting to.
+**Before showing the Java 26 version, one thing has to be separated out, because conflating the two is how this comparison is usually rigged.** Two independent things could change here. One is the scaffolding, the interface and the classes implementing it. The other is whether the two policies keep their names and their home. Those are not the same decision, and replacing named classes with lambdas dropped into call sites changes both at once, which is not a fair trade and is worth objecting to.
 
 So keep the names:
 
@@ -191,7 +191,7 @@ new Checkout(ShippingPolicies::byWeight).total(2000, 3000);
 
 Nine lines of interface and implementing classes became four lines of named methods. Both print `2499` and `2500`. A reader can still list the policies by opening one file, still reuse `byWeight` from a second call site, and still add a third policy by adding one method.
 
-The scaffolding that disappeared was `interface ShippingPolicy` and the two classes whose only content was one method each. What that interface bought — a name for the concept and a place to gather the implementations — the class `ShippingPolicies` still buys, without requiring every policy to be a type.
+The scaffolding that disappeared was `interface ShippingPolicy` and the two classes whose only content was one method each. What that interface bought, a name for the concept and a place to gather the implementations, the class `ShippingPolicies` still buys, without requiring every policy to be a type.
 
 **And the names survive into the tooling, which is the objection people raise next.** `ShippingPolicies::flatRate` is a method reference rather than an inline lambda, and a method reference has a real name at run time. Throwing from inside each:
 
@@ -204,7 +204,7 @@ inline lambda:
 
 So anonymity in a stack trace is a consequence of writing the policy inline, not of using a function value. Both options exist in the new version and only one exists in the old, which is the shape of the whole chapter: the feature removed a requirement rather than a capability.
 
-Go has no inheritance to organize away from, so the field holds a function directly. (A `func(int) int64` is a value like any other — Go functions can be stored in fields, passed, and returned. A plain top-level `func` can be used wherever such a value is wanted.)
+Go has no inheritance to organize away from, so the field holds a function directly. (A `func(int) int64` is a value like any other, Go functions can be stored in fields, passed, and returned. A plain top-level `func` can be used wherever such a value is wanted.)
 
 ```go
 type Checkout struct {
@@ -265,11 +265,11 @@ Norvig's sixteen, with what makes each one invisible, and the seven he did not i
 
 The second group is the interesting one: nothing in the catalogue's stated assumptions accounts for it. The next section takes one of them.
 
-Two entries in the first group are worth a sentence each because their dissolution is so complete that the word has fallen out of use. **Iterator** is `for x in y` — Java got it in 2004, and almost nobody who writes that line knows they are invoking a pattern with a four-method interface behind it. **Command** is a closure: an operation plus the arguments it was going to be called with, packaged as a value you can store and invoke later, which is what a function literal capturing its surroundings already is.
+Two entries in the first group are worth a sentence each because their dissolution is so complete that the word has fallen out of use. **Iterator** is `for x in y`, Java got it in 2004, and almost nobody who writes that line knows they are invoking a pattern with a four-method interface behind it. **Command** is a closure: an operation plus the arguments it was going to be called with, packaged as a value you can store and invoke later, which is what a function literal capturing its surroundings already is.
 
 ## What the language feature cannot touch
 
-Sum types dissolved Visitor. In the same file, with the same feature available, they leave Composite exactly as it was — and the reason is the criterion that decides the whole question.
+Sum types dissolved Visitor. In the same file, with the same feature available, they leave Composite exactly as it was, and the reason is the criterion that decides the whole question.
 
 ```java
 // Composite: a Directory holds Nodes, and is itself a Node.
@@ -278,7 +278,7 @@ sealed interface Node permits FileNode, Directory {}
 record FileNode(String name, long bytes) implements Node {}
 record Directory(String name, List<Node> children) implements Node {}
 
-// The Visitor is gone — this switch is what replaced it.
+// The Visitor is gone, this switch is what replaced it.
 static long totalBytes(Node node) {
     return switch (node) {
         case FileNode file -> file.bytes();
@@ -314,19 +314,19 @@ func (d Directory) TotalBytes() int64 {
 }
 ```
 
-Both print `6700` for the same tree. The dispatch mechanism changed completely between the two and the containment did not, because the containment is not a mechanism. Directories contain files. That is a fact about filesystems, and no language feature has anything to say about it — which is [chapter 12](12_patterns-that-survive-translation_us2k.md)'s category of patterns that answer the shape of the problem rather than a Force.
+Both print `6700` for the same tree. The dispatch mechanism changed completely between the two and the containment did not, because the containment is not a mechanism. Directories contain files. That is a fact about filesystems, and no language feature has anything to say about it, which is [chapter 12](12_patterns-that-survive-translation_us2k.md)'s category of patterns that answer the shape of the problem rather than a Force.
 
 ---
 
 ## Why the claim holds
 
-A pattern is a named design shape plus whatever apparatus the language makes you build to get it. The catalogue assumed a particular language level — Smalltalk and C++ as they stood in 1994 — so for the patterns in question, that apparatus is sized to what those languages could not express.
+A pattern is a named design shape plus whatever apparatus the language makes you build to get it. The catalogue assumed a particular language level, Smalltalk and C++ as they stood in 1994, so for the patterns in question, that apparatus is sized to what those languages could not express.
 
-That is the whole mechanism, and everything above is an instance of it. The Visitor's `accept` methods, the `Visitor` interface, and the callback protocol are three pieces of apparatus that exist only to produce an effect — dispatch on a value's type — that the language did not offer. When the language offers it, the apparatus has nothing to do. The effect was never the apparatus.
+That is the whole mechanism, and everything above is an instance of it. The Visitor's `accept` methods, the `Visitor` interface, and the callback protocol are three pieces of apparatus that exist only to produce an effect, dispatch on a value's type, that the language did not offer. When the language offers it, the apparatus has nothing to do. The effect was never the apparatus.
 
 Which is why the residue is visible in the names. **Apparatus built to simulate a feature has parts with no counterpart in the problem**: there is no `accept` in arithmetic, no `ConcreteStrategy` in shipping, no `visitNum` in an expression tree. Those names came from the pattern, and where the feature has arrived they are the last thing left of it.
 
-There is a reason the dissolving ones cluster. Look at the four that first-class functions handle: Command, Strategy, Template Method, Visitor. All four are the same underlying request — *let the caller supply behaviour* — differing only in when and how it is supplied. A language with function values answers all four with one feature, because there was only ever one question. The catalogue lists four patterns because in a language without function values, the four workarounds genuinely do look different.
+There is a reason the dissolving ones cluster. Look at the four that first-class functions handle: Command, Strategy, Template Method, Visitor. All four are the same underlying request, *let the caller supply behaviour*, differing only in when and how it is supplied. A language with function values answers all four with one feature, because there was only ever one question. The catalogue lists four patterns because in a language without function values, the four workarounds genuinely do look different.
 
 ---
 
@@ -379,9 +379,9 @@ func WithRetry(attempts int, inner Fetcher) Fetcher {
 }
 ```
 
-Both compile, both behave identically against a source that fails twice and then succeeds — three upstream calls, and none on the second fetch once a cache is added outside. **And the function version is longer.** Counting the interface or function type plus two decorations, non-blank and non-comment: thirty-one lines for the structs, thirty-seven for the functions.
+Both compile, both behave identically against a source that fails twice and then succeeds, three upstream calls, and none on the second fetch once a cache is added outside. **And the function version is longer.** Counting the interface or function type plus two decorations, non-blank and non-comment: thirty-one lines for the structs, thirty-seven for the functions.
 
-That is the opposite of what happened to Visitor and Strategy, and the reason is that Go asks almost nothing for a one-method interface. There is no `implements` clause, no separate declaration of intent — a type with the right method satisfies it. When the ceremony around the scaffold is already near zero, a feature that removes ceremony has nothing to collect.
+That is the opposite of what happened to Visitor and Strategy, and the reason is that Go asks almost nothing for a one-method interface. There is no `implements` clause, no separate declaration of intent, a type with the right method satisfies it. When the ceremony around the scaffold is already near zero, a feature that removes ceremony has nothing to collect.
 
 So the language feature bought something here, but it was not less code. It was **composability at the call site**: `WithCache(WithRetry(source))` is an expression, where the struct version needs a nested literal naming both types. That is a real gain and it is not the gain this chapter's claim is about.
 
@@ -401,23 +401,23 @@ func (l loggingStore) List(prefix string) ([]string, error) { return l.inner.Lis
 func (l loggingStore) Count() (int, error)                  { return l.inner.Count() }
 ```
 
-Four forwarding methods that exist to be forwarded through. No language feature removes them, because they are not simulating anything — they are the price of the interface being five methods wide, which is a fact about the design rather than about the compiler. [Chapter 05](05_dependency-and-hiding_agjy.md) works through where that leaves you.
+Four forwarding methods that exist to be forwarded through. No language feature removes them, because they are not simulating anything, they are the price of the interface being five methods wide, which is a fact about the design rather than about the compiler. [Chapter 05](05_dependency-and-hiding_agjy.md) works through where that leaves you.
 
 Decorator therefore sits outside the claim from two directions at once: the ceremony the claim expects to find is not there to remove, and what is there survives every feature you throw at it. Norvig's list was right to omit it.
 
 ### *Not needed in other languages* is about a pair, not a pattern
 
-The claim's *other programming languages* is doing more work than it looks. *Visitor is a workaround for missing sum types* is a claim about a pair — that pattern, and a language that has sum types. It is not a property Visitor carries around, and the other language has to be a particular one.
+The claim's *other programming languages* is doing more work than it looks. *Visitor is a workaround for missing sum types* is a claim about a pair, that pattern, and a language that has sum types. It is not a property Visitor carries around, and the other language has to be a particular one.
 
 This matters because the language you are actually in is not a free variable. If you are maintaining a Java 8 service, "Visitor is a workaround" is completely true and completely useless: the feature that would dissolve it does not exist in your compiler, so the workaround is the correct code and writing it is not a failure of taste. The test tells you where the boundary of your language is. It does not tell you to stand outside it.
 
-The honest use of the translation test is diagnostic rather than prescriptive — it explains *why* a piece of your codebase is shaped the way it is, and it tells you what would happen to that shape if you moved. Neither is an instruction to delete anything.
+The honest use of the translation test is diagnostic rather than prescriptive, it explains *why* a piece of your codebase is shaped the way it is, and it tells you what would happen to that shape if you moved. Neither is an instruction to delete anything.
 
 ---
 
 ## What the claim costs
 
-**The failure modes do not vanish with the scaffold; they move to the feature.** The instinct is to say you have lost the pattern name and with it the literature on the pattern's failure modes. That is mostly wrong, because when the scaffold goes, the scaffold's own problems go with it — there is no wrapper class to drift out of sync with the interface it wraps if there is no wrapper class. What you inherit instead is the failure modes of the language feature, and those are usually more general and better documented.
+**The failure modes do not vanish with the scaffold; they move to the feature.** The instinct is to say you have lost the pattern name and with it the literature on the pattern's failure modes. That is mostly wrong, because when the scaffold goes, the scaffold's own problems go with it, there is no wrapper class to drift out of sync with the interface it wraps if there is no wrapper class. What you inherit instead is the failure modes of the language feature, and those are usually more general and better documented.
 
 So the catalogue you need updates rather than disappears: *decorator gotchas* becomes *function composition gotchas*. The largest of those is order, and it is easy to get wrong because both orders compile and only one is right:
 
@@ -436,13 +436,13 @@ inner, two fetches of the same URL:
   fetching https://example.com
 ```
 
-Neither is a bug. They answer different questions — one measures demand, the other measures load on the source — and choosing without noticing there was a choice is the failure. That is the thing to look up, and it is a property of composing functions rather than of Decorator.
+Neither is a bug. They answer different questions, one measures demand, the other measures load on the source, and choosing without noticing there was a choice is the failure. That is the thing to look up, and it is a property of composing functions rather than of Decorator.
 
 **Inlining is now available, and it is a real way to make things worse.** The demonstration above kept the policies named, which is what makes the comparison fair. Nothing forces that. The old version could not express `new Checkout(weightGrams -> 499)` at a call site and the new one can, so a codebase can acquire fifteen anonymous pricing rules scattered across the files that happen to use them, with no list of what the policies are and `Checkout$$Lambda$14` in the profiler. The feature did not cause this and it did enable it, and "you can now write it inline" is heard as "write it inline" more often than not.
 
 The rule that survives is about size rather than about patterns: a policy of three lines is fine inline, and one of two hundred lines of pricing rules wants a name, a file, and a test, whatever the language permits.
 
-**Erasing the construction erases the announcement.** An interface named `ShippingPolicy` with two implementations tells the next person that variation was anticipated here, where to add the third, and what the contract is. A field typed `func(int) int64` says the same thing to somebody reading that line and nothing to somebody searching the repository for extension points, because there is no name to search for. This is not only a documentation cost — it is reuse and maintenance. A named type is what an IDE lists implementations of, what a reviewer greps for before changing a signature, and what stops a fourth policy being written from scratch somewhere else because nobody knew the first three existed. Keeping the policies in one named place, as above, recovers most of this; keeping nothing recovers none of it.
+**Erasing the construction erases the announcement.** An interface named `ShippingPolicy` with two implementations tells the next person that variation was anticipated here, where to add the third, and what the contract is. A field typed `func(int) int64` says the same thing to somebody reading that line and nothing to somebody searching the repository for extension points, because there is no name to search for. This is not only a documentation cost, it is reuse and maintenance. A named type is what an IDE lists implementations of, what a reviewer greps for before changing a signature, and what stops a fourth policy being written from scratch somewhere else because nobody knew the first three existed. Keeping the policies in one named place, as above, recovers most of this; keeping nothing recovers none of it.
 
 **Running the test as a cleanup is a category error.** The catalogue is a description of shapes that occurred ([Ch. 11](11_what-a-pattern-is-for_3xzc.md)). Finding that some entries were language workarounds is a fact about the languages of 1994, not a licence to remove those shapes from a codebase that still compiles with the compiler it has. The finding is worth having because it changes what you conclude when you meet the pattern, not because it generates work.
 
@@ -454,13 +454,13 @@ The rule that survives is about size rather than about patterns: a policy of thr
 
 - **`accept` methods on a type hierarchy in a language with pattern matching.** The double dispatch is being paid for and the compiler would do it.
 - **A `Factory` whose `create` method contains a single `new` with no branching.** The pattern is a workaround for languages where a class is not a value; if yours are, the factory is a function that could be the constructor.
-- **Per-method forwarding classes** — twenty methods, nineteen of which call straight through. Either the interface is too wide to decorate or the concern is not a decoration at all ([Ch. 05](05_dependency-and-hiding_agjy.md)).
-- **Class names built from pattern names** — `PricingStrategyImpl`, `OrderVisitor`, `ConfigBuilderFactory`. When the pattern has dissolved, these are the residue: names describing apparatus that is no longer there.
+- **Per-method forwarding classes**, twenty methods, nineteen of which call straight through. Either the interface is too wide to decorate or the concern is not a decoration at all ([Ch. 05](05_dependency-and-hiding_agjy.md)).
+- **Class names built from pattern names**, `PricingStrategyImpl`, `OrderVisitor`, `ConfigBuilderFactory`. When the pattern has dissolved, these are the residue: names describing apparatus that is no longer there.
 
 **In a conversation:**
 
 - **"We should use the Strategy pattern here."** In which language? If the answer is one with first-class functions, the proposal is "pass a function," and it should be said that way, because then someone can disagree with the actual design.
-- **"That's just a closure."** Frequently correct, and it is a claim about the implementation rather than about the design. The design question — should this vary at all, and who decides — is untouched by the observation.
+- **"That's just a closure."** Frequently correct, and it is a claim about the implementation rather than about the design. The design question, should this vary at all, and who decides, is untouched by the observation.
 - **"Design patterns are obsolete."** The strong folk version of Norvig, and the seven patterns he did not list are the counter-evidence. So is every pattern in [chapter 12](12_patterns-that-survive-translation_us2k.md) that answers a Force rather than a language gap.
 - **A design document specifying patterns before specifying a language.** The catalogue is not language-independent, and half of it is a description of what you will have to build if you pick a language without the feature.
 
@@ -468,20 +468,20 @@ The question that does the work: **if I wrote this in a language with first-clas
 
 Whatever survives is the design. Whatever vanishes was the cost of expressing it.
 
-Which gives a concrete move, and it is not *strip patterns out of your design documents*. The catalogue is not language-independent, so a document that says "use Strategy here" without saying what it is being written in has underspecified the work: in one language that sentence means an interface and three classes, and in another it means passing a function. **Name the language first, then the design.** Where a pattern name is doing real work, say which part is the design and which part is what your compiler makes you write to get it — because the second part is the part that changes when the language does, and the first part is the part you are actually deciding.
+Which gives a concrete move, and it is not *strip patterns out of your design documents*. The catalogue is not language-independent, so a document that says "use Strategy here" without saying what it is being written in has underspecified the work: in one language that sentence means an interface and three classes, and in another it means passing a function. **Name the language first, then the design.** Where a pattern name is doing real work, say which part is the design and which part is what your compiler makes you write to get it, because the second part is the part that changes when the language does, and the first part is the part you are actually deciding.
 
 The same reading applies in reverse to advice you receive. A blog post recommending a pattern was written in some language, and if it does not say which, you cannot tell whether you are being given a design idea or a workaround for a compiler you do not use.
 
-And *language* here does not have to mean a different one. Visitor changed status between two releases of Java, so the version you compile with is part of the answer — a design document naming Java and not naming the version has answered half the question.
+And *language* here does not have to mean a different one. Visitor changed status between two releases of Java, so the version you compile with is part of the answer, a design document naming Java and not naming the version has answered half the question.
 
-[Chapter 14](14_smuggled-verdicts_8y69.md) turns from names that describe a shape to names that grade one — *anemic domain model*, *god object*, *over-engineered* — where each came from, and what happens to an argument once one of them is accepted.
+[Chapter 14](14_smuggled-verdicts_8y69.md) turns from names that describe a shape to names that grade one, *anemic domain model*, *god object*, *over-engineered*, where each came from, and what happens to an argument once one of them is accepted.
 
 ---
 
 ## Sources
 
-- Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides, *Design Patterns: Elements of Reusable Object-Oriented Software* — Addison-Wesley, 1994.
-- Peter Norvig, *Design Patterns in Dynamic Programming* — Object World, 5 May 1996. [Slides](https://www.norvig.com/design-patterns/), where the landing page carries the later title *Design Patterns in Dynamic Languages*.
+- Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides, *Design Patterns: Elements of Reusable Object-Oriented Software*, Addison-Wesley, 1994.
+- Peter Norvig, *Design Patterns in Dynamic Programming*, Object World, 5 May 1996. [Slides](https://www.norvig.com/design-patterns/), where the landing page carries the later title *Design Patterns in Dynamic Languages*.
 
 ---
 

@@ -2,17 +2,17 @@
 
 ## The claim
 
-**Some vocabulary arrives with its verdict attached, so accepting the word concedes the argument — and how much you have conceded depends on whether the word also names something you can go and check.**
+**Some vocabulary arrives with its verdict attached, so accepting the word concedes the argument, and how much you have conceded depends on whether the word also names something you can go and check.**
 
 Part III has been about patterns, which are names for shapes. [Chapter 11](11_what-a-pattern-is-for_3xzc.md)'s finding was that a name sits outside the five kinds: it picks out a shape, and a shape is not true or false.
 
-Some names defy that: using one asserts something — and they do it while keeping a name's exemption from ever having to be defended.
+Some names defy that: using one asserts something, and they do it while keeping a name's exemption from ever having to be defended.
 
 Pattern culture produces the densest supply of those names, but the mechanism is not confined to patterns.
 
 ## Two questions about any term
 
-[Chapter 11](11_what-a-pattern-is-for_3xzc.md) graded names on two independent properties and refused to put them on one line — a name can compress well and constrain nothing, and Facade is the case that proves it. A similar discipline is needed here, because two different things are being asked and they come apart.
+[Chapter 11](11_what-a-pattern-is-for_3xzc.md) graded names on two independent properties and refused to put them on one line, a name can compress well and constrain nothing, and Facade is the case that proves it. A similar discipline is needed here, because two different things are being asked and they come apart.
 
 **Does the term name a shape you can inspect in the code?** Something you could open the file and confirm or deny.
 
@@ -32,9 +32,9 @@ Four combinations, and all four are occupied:
                                             "not clean"
 ```
 
-**The bottom-left is easy to miss, because the words in it are not doing a technical job.** *Interesting approach.* *A lot of work has clearly gone into this.* They name no shape and pass no verdict, and that is their function rather than their failure — they are what gets said when a response is required and a position is not.
+**The bottom-left is easy to miss, because the words in it are not doing a technical job.** *Interesting approach.* *A lot of work has clearly gone into this.* They name no shape and pass no verdict, and that is their function rather than their failure, they are what gets said when a response is required and a position is not.
 
-Recognizing that cell is worth something, because of what a word from it tells you: **no design feedback was given.** Rewriting something because a senior reviewer called it interesting is acting on a statement that was never about the code. The check is the same one used everywhere else in this chapter — if you accept the word, what have you agreed is true? Here the answer is nothing, and that is the finding rather than a gap in the grid.
+Recognizing that cell is worth something, because of what a word from it tells you: **no design feedback was given.** Rewriting something because a senior reviewer called it interesting is acting on a statement that was never about the code. The check is the same one used everywhere else in this chapter, if you accept the word, what have you agreed is true? Here the answer is nothing, and that is the finding rather than a gap in the grid.
 
 **The top-right cell is this chapter's subject.** A term there names a shape *and* convicts it, which is the combination that does damage inside pattern vocabulary: you can check the shape, so the term looks like a description, and the verdict rides along unexamined.
 
@@ -42,7 +42,7 @@ The bottom-right is a different failure, and reaching it means leaving the terri
 
 Two tests follow from the two questions:
 
-- **For the verdict.** Apply the term to your own code, then say the code is fine as it stands, and see whether the result means anything. *"This is a Transaction Script, and that is the right shape here"* means something. *"This is an anemic domain model, and that is correct here"* does not — *anemic* means sick, so the sentence argues with itself, and the word is unavailable to anyone who disagrees with it.
+- **For the verdict.** Apply the term to your own code, then say the code is fine as it stands, and see whether the result means anything. *"This is a Transaction Script, and that is the right shape here"* means something. *"This is an anemic domain model, and that is correct here"* does not, *anemic* means sick, so the sentence argues with itself, and the word is unavailable to anyone who disagrees with it.
 - **For the shape.** Ask what you would be agreeing is true about the code if you accepted the word. For *Decorator*, that is answerable: something wraps something else with the same interface. For *god object*, it is answerable: one type that most of the system depends on. For *smell*, there is no answer, which is the whole of the bottom-right cell's problem.
 
 ---
@@ -93,7 +93,7 @@ Now two sentences about that code. Both are accurate.
 
 > It is a Transaction Script over a table gateway. Rules checkable from one value are methods on the type, the whole-invoice rule is in the operation, and the uniqueness rule is a database constraint.
 
-> It is an anemic domain model — objects with hardly any behaviour, a bag of getters and setters, with the logic pulled out into services.
+> It is an anemic domain model, objects with hardly any behaviour, a bag of getters and setters, with the logic pulled out into services.
 
 The first describes the file. The second describes the file *and convicts it*, and the difference is not the content. It is that the second sentence has an answer built into it, so a reply has to start by rejecting the vocabulary before it can get to the design. In a code review, the first invites *why is the rule there?* The second invites agreement or a fight.
 
@@ -113,7 +113,7 @@ And the article says so directly:
 
 > Domain Models aren't always the best tool.
 
-So the argument is: *if* you bought the machinery, use it. Applied to the invoice above, the antecedent is absent. There is no mapping layer, no object graph, no identity map, no lazy loading — a struct, some functions, and a table. Nothing was paid, so nothing was wasted, and the cost-benefit argument has nothing to attach to.
+So the argument is: *if* you bought the machinery, use it. Applied to the invoice above, the antecedent is absent. There is no mapping layer, no object graph, no identity map, no lazy loading, a struct, some functions, and a table. Nothing was paid, so nothing was wasted, and the cost-benefit argument has nothing to attach to.
 
 **The verdict travels and the condition does not.** *Incurring the costs of a domain model without the benefits* is nine words carrying a condition; *anemic* is one word carrying the conclusion. [Chapter 15](15_principle-loses-scope_b86v.md) is about why the second outlives the first in transmission. This chapter's interest is narrower and starts where that leaves off: the word that survived **convicts**, so a reply has to reject the vocabulary before it can reach the design.
 
@@ -121,7 +121,7 @@ So the argument is: *if* you bought the machinery, use it. Applied to the invoic
 
 The term offers two positions: behaviour on the objects, or behaviour nowhere. The invoice above is in neither, and the reason it looks like the second is that the term has no name for the third.
 
-**Behaviour is not absent, it is placed** — and what decides the placement is **what the rule must see**: how much data you have to be looking at before you can tell whether a business rule holds.
+**Behaviour is not absent, it is placed**, and what decides the placement is **what the rule must see**: how much data you have to be looking at before you can tell whether a business rule holds.
 
 Ask the question of any rule and it answers where the rule can live:
 
@@ -163,9 +163,9 @@ Fowler's definition, crediting Kent Beck with the coinage:
 
 > A code smell is a surface indication that usually corresponds to a deeper problem in the system.
 
-**A surface indication is a hunch, described accurately.** Elsewhere in the same piece: smells "don't *always* indicate a problem", and they "aren't inherently bad on their own — they are often an indicator of a problem rather than the problem themselves." The definition is built to be arguable, and it is right about what it is defining.
+**A surface indication is a hunch, described accurately.** Elsewhere in the same piece: smells "don't *always* indicate a problem", and they "aren't inherently bad on their own, they are often an indicator of a problem rather than the problem themselves." The definition is built to be arguable, and it is right about what it is defining.
 
-What the definition does not say, and what the word will not carry, is **whose state it reports**. *This smells* says that something in the file tripped an experienced reader's pattern-matching before they could say what. That is real evidence and worth having — compressed experience is why senior reviewers are worth their salary. But it is evidence about the reader, not a property of the file, and no amount of it can be checked by opening the file.
+What the definition does not say, and what the word will not carry, is **whose state it reports**. *This smells* says that something in the file tripped an experienced reader's pattern-matching before they could say what. That is real evidence and worth having, compressed experience is why senior reviewers are worth their salary. But it is evidence about the reader, not a property of the file, and no amount of it can be checked by opening the file.
 
 The tell is that the book's own classification test has nothing to grip. Run [chapter 02](02_the-five-kinds_cjx4.md)'s five questions on *this smells* and it will not place: it is not a Law, a Force, a Principle, an Idiom, or a Style, because it is not a claim about software at all. **If the test cannot take it, you were not handed a design claim.**
 
@@ -175,7 +175,7 @@ So the practical difference is not whether the word gets used. It is whether it 
 
 > This part has code smells, but I can't work out what would go wrong. Can you walk me through why you chose this shape?
 
-The first goes from hunch to conclusion in one step with nothing checkable in between, so the only moves available are deference and refusal, and seniority decides which. The second declares its own status — *I can't work out what would go wrong* — which keeps the hunch labelled, and then converts it into a request for the reasoning.
+The first goes from hunch to conclusion in one step with nothing checkable in between, so the only moves available are deference and refusal, and seniority decides which. The second declares its own status, *I can't work out what would go wrong*, which keeps the hunch labelled, and then converts it into a request for the reasoning.
 
 **A no-shape term is admissible when it is stated as the speaker's state.** Unmarked, it is a verdict with no subject, and there is no design discussion available until somebody supplies the missing shape.
 
@@ -185,16 +185,16 @@ One consequence worth stating, because it inverts the ordering the rest of this 
 
 ## Why the claim holds
 
-A word does two jobs at once: it picks out a thing, and it comes with a stance. Most technical vocabulary keeps the second job near zero. *Hash table*, *mutex*, *idempotent*, *Transaction Script* — each names something and asserts nothing about whether you should want it.
+A word does two jobs at once: it picks out a thing, and it comes with a stance. Most technical vocabulary keeps the second job near zero. *Hash table*, *mutex*, *idempotent*, *Transaction Script*, each names something and asserts nothing about whether you should want it.
 
 A verdict noun bundles them, and the bundling is what makes it hard to answer. To disagree you first have to refuse the word, and refusing a word looks like evasion. **The cost of the verdict is borne by whoever did not pick the vocabulary.**
 
 Two properties follow:
 
-- **It is not a claim, so it never has to be defended.** [Chapter 11](11_what-a-pattern-is-for_3xzc.md)'s point is that names sit outside the five kinds — they are not true or false. A verdict noun exploits that: it does the work of a claim while keeping a name's exemption. Nobody has to state the condition, because on the surface nothing has been asserted.
+- **It is not a claim, so it never has to be defended.** [Chapter 11](11_what-a-pattern-is-for_3xzc.md)'s point is that names sit outside the five kinds, they are not true or false. A verdict noun exploits that: it does the work of a claim while keeping a name's exemption. Nobody has to state the condition, because on the surface nothing has been asserted.
 
-  *God object* is the cleanest case, because this book has written the missing condition down. The noun convicts a type that most of the system depends on. [Chapter 18](18_six-profiles_dnkz.md) works through a compiler, where the abstract syntax tree is read by the type checker, the optimizer, the code generator, the formatter and the language server — and being depended on by everything is exactly right, because the tree is the stable thing at the bottom of the graph ([Ch. 05](05_dependency-and-hiding_agjy.md)). The condition on *avoid god objects* is that the type is still moving. The noun does not carry it, and nobody using the noun has to.
-- **It compresses well, which is why it spreads.** Run [chapter 11](11_what-a-pattern-is-for_3xzc.md)'s first test on it and *anemic domain model* passes easily — three words standing in for a paragraph. It is a good name by that measure. That is the uncomfortable part: the terms that travel furthest are the ones that compress best, and compressing well is what got this one into every code review it appears in ([Ch. 15](15_principle-loses-scope_b86v.md)).
+  *God object* is the cleanest case, because this book has written the missing condition down. The noun convicts a type that most of the system depends on. [Chapter 18](18_six-profiles_dnkz.md) works through a compiler, where the abstract syntax tree is read by the type checker, the optimizer, the code generator, the formatter and the language server, and being depended on by everything is exactly right, because the tree is the stable thing at the bottom of the graph ([Ch. 05](05_dependency-and-hiding_agjy.md)). The condition on *avoid god objects* is that the type is still moving. The noun does not carry it, and nobody using the noun has to.
+- **It compresses well, which is why it spreads.** Run [chapter 11](11_what-a-pattern-is-for_3xzc.md)'s first test on it and *anemic domain model* passes easily, three words standing in for a paragraph. It is a good name by that measure. That is the uncomfortable part: the terms that travel furthest are the ones that compress best, and compressing well is what got this one into every code review it appears in ([Ch. 15](15_principle-loses-scope_b86v.md)).
 
 ---
 
@@ -204,33 +204,33 @@ Two properties follow:
 
 Some loaded terms are loaded correctly, and the test is whether the condition can fail.
 
-**A verdict noun naming a Law violation.** *SQL injection* — building a query by pasting user input into the text of it, so that input containing a quote can close the string and start a statement of its own. The judgement is in the name: *injection* is something done to you. And it is warranted, because there is no configuration of Forces that makes it right. Not on an internal tool, not on an admin page nobody outside can reach, not at any size of team or any latency budget. The condition attached to the verdict is *always*, so compressing it away costs nothing. *Data race* and *buffer overflow* work the same way.
+**A verdict noun naming a Law violation.** *SQL injection*, building a query by pasting user input into the text of it, so that input containing a quote can close the string and start a statement of its own. The judgement is in the name: *injection* is something done to you. And it is warranted, because there is no configuration of Forces that makes it right. Not on an internal tool, not on an admin page nobody outside can reach, not at any size of team or any latency budget. The condition attached to the verdict is *always*, so compressing it away costs nothing. *Data race* and *buffer overflow* work the same way.
 
-**A verdict noun naming a Principle violation.** *Premature optimization* — where the judgement is in the first word. [Chapter 02](02_the-five-kinds_cjx4.md) classifies the slogan it comes from as a Principle routinely quoted with its conditions removed; here the interest is the noun phrase, which asserts that the timing question is settled.
+**A verdict noun naming a Principle violation.** *Premature optimization*, where the judgement is in the first word. [Chapter 02](02_the-five-kinds_cjx4.md) classifies the slogan it comes from as a Principle routinely quoted with its conditions removed; here the interest is the noun phrase, which asserts that the timing question is settled.
 
-Whether an optimization is premature is a latency-budget question, and [chapter 03](03_forces_f4m5.md) works that budget across four orders of magnitude — a page render with 200 milliseconds to spend, against an order matcher with 200 microseconds. Hand-tuning a loop on the first day is waste in the first case and is the entire job in the second.
+Whether an optimization is premature is a latency-budget question, and [chapter 03](03_forces_f4m5.md) works that budget across four orders of magnitude, a page render with 200 milliseconds to spend, against an order matcher with 200 microseconds. Hand-tuning a loop on the first day is waste in the first case and is the entire job in the second.
 
-Same work, same point in the schedule, opposite verdicts. So the term does not describe the code — it announces a conclusion about a Force it never asked anyone to measure, and somebody who disagrees has to reject the word before they can say which case they are in.
+Same work, same point in the schedule, opposite verdicts. So the term does not describe the code, it announces a conclusion about a Force it never asked anyone to measure, and somebody who disagrees has to reject the word before they can say which case they are in.
 
 That gives the claim's boundary a form the book already has: **a verdict noun is legitimate when it names a Law violation, and dangerous when it names a Principle violation.** A Law has no conditions that can fail ([Ch. 02](02_the-five-kinds_cjx4.md)), so a term naming one loses nothing by compressing. A Principle is conditional by definition, so a term naming its violation drops exactly the part that mattered.
 
-*Anemic domain model* fails on the same grounds as *premature optimization*: its condition — you already paid for a domain model — is a Force question, and the answer varies by project.
+*Anemic domain model* fails on the same grounds as *premature optimization*: its condition, you already paid for a domain model, is a Force question, and the answer varies by project.
 
 ### Refusing all judgement-laden vocabulary is its own over-correction
 
 The reading to avoid is that technical language should be neutral. It should not, always. Some code is bad, some designs are mistakes, and a vocabulary with no way to say so is worse than one that occasionally says so wrongly.
 
-*Never use a loaded term* is a slogan of the same kind as the ones this chapter is about — a compressed rule with its conditions removed. The working version is narrower: **when you use a term that convicts, say the condition out loud in the same breath**, because the term will not carry it for you. *This is anemic in Fowler's sense — you are paying for the mapping layer and getting nothing back* is a sentence somebody can answer. *This is anemic* is not.
+*Never use a loaded term* is a slogan of the same kind as the ones this chapter is about, a compressed rule with its conditions removed. The working version is narrower: **when you use a term that convicts, say the condition out loud in the same breath**, because the term will not carry it for you. *This is anemic in Fowler's sense, you are paying for the mapping layer and getting nothing back* is a sentence somebody can answer. *This is anemic* is not.
 
 ### A term's cell is not fixed, so the tests have to be re-run
 
 The grading above describes words as they are used now, by the people around you. It is not a property the word carries permanently, and the clearest evidence is a term that has moved in both directions inside fifteen years.
 
-*Monolith* began in the left column. A single deployable unit — that is all it meant, and *"it is a monolith, and that is the right shape here"* was an unremarkable sentence. Through the middle of the 2010s it crossed to the right: the thing you were migrating away from, the answer to what went wrong, and saying your system was a monolith conceded a point before you had made one. Then *modular monolith* arrived and pulled it partway back, and the neutral sentence is sayable again in some rooms and not in others.
+*Monolith* began in the left column. A single deployable unit, that is all it meant, and *"it is a monolith, and that is the right shape here"* was an unremarkable sentence. Through the middle of the 2010s it crossed to the right: the thing you were migrating away from, the answer to what went wrong, and saying your system was a monolith conceded a point before you had made one. Then *modular monolith* arrived and pulled it partway back, and the neutral sentence is sayable again in some rooms and not in others.
 
-Note which way it moved. It stayed on the top row the whole time — *monolith* always named a shape you could go and check, and the shape never changed. What moved is what a listener assumes you have agreed to by using the word.
+Note which way it moved. It stayed on the top row the whole time, *monolith* always named a shape you could go and check, and the shape never changed. What moved is what a listener assumes you have agreed to by using the word.
 
-Two consequences. **The tests measure a term in a community at a time**, so running them once and remembering the answer will eventually be wrong. And **a word can sit in different cells in two adjacent rooms** — which is not a flaw in the tests, it is the thing they measure, and it is why the answer has to come from the people you are talking to rather than from a glossary.
+Two consequences. **The tests measure a term in a community at a time**, so running them once and remembering the answer will eventually be wrong. And **a word can sit in different cells in two adjacent rooms**, which is not a flaw in the tests, it is the thing they measure, and it is why the answer has to come from the people you are talking to rather than from a glossary.
 
 ---
 
@@ -238,11 +238,11 @@ Two consequences. **The tests measure a term in a community at a time**, so runn
 
 **Auditing vocabulary is a way to avoid answering.** "That term smuggles a verdict" can be true and can also be a refusal to discuss the code. If someone calls a design anemic and the design *is* an object graph with an ORM and no behaviour, they are right, and the etymology of their word is not the topic.
 
-**Which cell a term sits in is genuinely contested for some of them.** *Code smell* is placed as carrying a mild verdict here, because its author defined it as an indication rather than a finding. Someone could argue the hygiene metaphor overwhelms that definition in every real use, which would move it toward the strength of *anemic* without moving it off the bottom row — and that is a reasonable position rather than a misreading.
+**Which cell a term sits in is genuinely contested for some of them.** *Code smell* is placed as carrying a mild verdict here, because its author defined it as an indication rather than a finding. Someone could argue the hygiene metaphor overwhelms that definition in every real use, which would move it toward the strength of *anemic* without moving it off the bottom row, and that is a reasonable position rather than a misreading.
 
 **Watching your own words is a tax on saying anything.** Stating the condition every time you use a compressed term is correct and it is slower, and in a review with forty comments it will not happen. The realistic version is to spend it on the load-bearing ones: the comment that will decide whether something gets rewritten.
 
-**A term with the verdict removed sometimes has nothing left.** Strip *anemic* of its judgement and what remains is *behaviour is not on the entities*, which is a neutral fact about a file and not worth a name. That is a real finding rather than a loss — the compression was doing the convicting — but it does mean the replacement is a sentence rather than a word, and sentences do not travel.
+**A term with the verdict removed sometimes has nothing left.** Strip *anemic* of its judgement and what remains is *behaviour is not on the entities*, which is a neutral fact about a file and not worth a name. That is a real finding rather than a loss, the compression was doing the convicting, but it does mean the replacement is a sentence rather than a word, and sentences do not travel.
 
 ---
 
@@ -250,14 +250,14 @@ Two consequences. **The tests measure a term in a community at a time**, so runn
 
 **In a codebase and its documents:**
 
-- **A review comment naming a defect with no statement of what breaks.** "This is a god object," "this smells," "this is not clean" — none of which say what goes wrong or under what conditions.
+- **A review comment naming a defect with no statement of what breaks.** "This is a god object," "this smells," "this is not clean", none of which say what goes wrong or under what conditions.
 - **An architecture decision record whose rationale is a diagnosis.** *We rejected X because it produced an anemic model* records the verdict and not the reasoning, so nobody can revisit it when the Forces change.
 - **A style guide with a banned-shapes list and no conditions attached.** The shapes are usually right and the missing conditions are what somebody needed.
-- **A term whose opposite has no name.** *Anemic* has no antonym in use — nobody says a model is *robust* as a technical classification — which is a sign the word exists to fail things rather than to sort them.
+- **A term whose opposite has no name.** *Anemic* has no antonym in use, nobody says a model is *robust* as a technical classification, which is a sign the word exists to fail things rather than to sort them.
 
 **In a conversation:**
 
-- **"That is an anti-pattern."** Which one, and what did its author say the conditions were? *Anti-pattern* names no shape of its own — it is a verdict with a filing category attached.
+- **"That is an anti-pattern."** Which one, and what did its author say the conditions were? *Anti-pattern* names no shape of its own, it is a verdict with a filing category attached.
 - **"This isn't clean."** Against what definition, and what happens if it stays?
 - **A design defended by renaming it.** If *Transaction Script* and *anemic domain model* describe the same file, the argument is about the word and the design was never in question.
 - **Agreement reached suspiciously fast after a term is introduced.** Nobody wants to be the person defending sick code, which is what the word is for.
@@ -268,14 +268,14 @@ Two questions do the work, and they are the two axes.
 
 **What would have to be true for this to be fine, and does the term let me say it?** If you can state the condition, you have a claim and can argue with it. If the word forbids the sentence, you have been handed a conclusion.
 
-[Chapter 15](15_principle-loses-scope_b86v.md) opens Part IV, *Principles, Graded*, with the mechanism behind this one — why the fragment that survives repetition is always the part telling you what to do, and never the part telling you when.
+[Chapter 15](15_principle-loses-scope_b86v.md) opens Part IV, *Principles, Graded*, with the mechanism behind this one, why the fragment that survives repetition is always the part telling you what to do, and never the part telling you when.
 
 ---
 
 ## Sources
 
-- Martin Fowler, *AnemicDomainModel*, 25 November 2003 — [martinfowler.com/bliki/AnemicDomainModel.html](https://martinfowler.com/bliki/AnemicDomainModel.html).
-- Martin Fowler, *CodeSmell* — [martinfowler.com/bliki/CodeSmell.html](https://martinfowler.com/bliki/CodeSmell.html).
+- Martin Fowler, *AnemicDomainModel*, 25 November 2003, [martinfowler.com/bliki/AnemicDomainModel.html](https://martinfowler.com/bliki/AnemicDomainModel.html).
+- Martin Fowler, *CodeSmell*, [martinfowler.com/bliki/CodeSmell.html](https://martinfowler.com/bliki/CodeSmell.html).
 
 ---
 

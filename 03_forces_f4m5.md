@@ -2,15 +2,15 @@
 
 ## The claim
 
-**Evaluating the Forces acting on your situation is the groundwork** — and almost nobody does it, which is why so many design arguments cannot be settled.
+**Evaluating the Forces acting on your situation is the groundwork**, and almost nobody does it, which is why so many design arguments cannot be settled.
 
 ## A Force is a dial, not a switch
 
-Forces get read as present or absent. *Is there concurrency? Yes.* And then the design is chosen as though every concurrent system were the same system. But a Force has an **intensity**, and the design does not change once as the intensity rises — it changes several times, and each change discards the previous answer rather than adding to it.
+Forces get read as present or absent. *Is there concurrency? Yes.* And then the design is chosen as though every concurrent system were the same system. But a Force has an **intensity**, and the design changes several times as the intensity rises, each change discarding the previous answer rather than adding to it.
 
 Intensity means **how hard the Force presses on the design**, which is not always the same as how large the number is. Latency is the case where the two run opposite: a 200 millisecond budget leaves the design free, a 200 microsecond budget dictates it, so **the smaller the budget, the stronger the Force.** Read the pressure, not the number.
 
-Below are four ways to handle the same requirement — counting page views — at four intensities of one Force. The comment above each says which intensity it is written for.
+Below are four ways to handle the same requirement, counting page views, at four intensities of one Force. The comment above each says which intensity it is written for.
 
 ```go
 // One writer. A nightly batch job, one goroutine, nothing else running.
@@ -31,7 +31,7 @@ update page set views = views + 1 where id = $1;
 ```sql
 -- Many processes, and the caller retries after a timeout, so the same
 -- event can arrive twice. The write has to be idempotent: applying it
--- again must change nothing. There is no counter any more — there is a
+-- again must change nothing. There is no counter any more; there is a
 -- log, and you count it.
 insert into page_view (page_id, request_id) values ($1, $2)
 on conflict (request_id) do nothing;
@@ -53,7 +53,7 @@ The demonstration is above. Two things about the intensity dial are worth statin
 
 **The positions are not evenly spaced.** Going from one writer to many goroutines is a small change. Going from many processes to many processes with retries is a change of data model, because a retried message is indistinguishable from a second event and the only fix is to make the operation idempotent.
 
-**The intensity is usually lower than the vocabulary suggests.** A web service is described as concurrent, and it is — but if two requests never touch the same row, the Force is inert for that code path. Concurrency binds where writers *collide*, not where they merely coexist.
+**The intensity is usually lower than the vocabulary suggests.** A web service is described as concurrent, and it is, but if two requests never touch the same row, the Force is inert for that code path. Concurrency binds where writers *collide*, not where they merely coexist.
 
 [Chapter 07](07_time_mdbn.md) owns the races themselves; [chapter 08](08_distribution_49yh.md) owns why redelivery cannot be eliminated and idempotency is the answer.
 
@@ -71,13 +71,13 @@ That is the whole Force. Code can be edited; accumulated state often cannot, bec
 medium              lives for            a mistake is fixed by
 local variable      microseconds         editing the line
 struct field        until next deploy    editing it, redeploying
-row in a table      longer than the      a migration — and some are
+row in a table      longer than the      a migration, and some are
                     current codebase     impossible
 published format    as long as any       nothing. You add a second
                     client keeps a copy  field and carry both
 ```
 
-The same act — adding one field — is a different decision at each position.
+The same act, adding one field, is a different decision at each position.
 
 **At the top of the dial**, nothing is at stake, because nothing has accumulated. a `Tip` field can be added to `Order` easily:
 
@@ -106,7 +106,7 @@ If the field turns out to be a mistake, delete it and redeploy. There is no hist
 alter table "order" add column tip bigint not null default 0;
 ```
 
-Every one of the four million existing orders now reads as having a zero tip. That may be false — tips may have been taken in cash, recorded in a notes field, or not tracked at all. Those are different facts, and the default has made them **permanently indistinguishable**. There is no later query that separates "tipped nothing" from "we never knew," because the distinction was never written down.
+Every one of the four million existing orders now reads as having a zero tip. That may be false: tips may have been taken in cash, recorded in a notes field, or not tracked at all. Those are different facts, and the default has made them **permanently indistinguishable**. There is no later query that separates "tipped nothing" from "we never knew," because the distinction was never written down.
 
 The nullable version keeps them apart, and charges for it:
 
@@ -116,7 +116,7 @@ alter table "order" add column tip bigint;   -- null means "not known"
 
 Now every read site handles a null, forever, including the ones written by people who never heard of this migration.
 
-Notice that the mistake is not detectable later. Both migrations succeed, both applications work, and the difference only appears the day someone asks how many customers tipped nothing — by which point the answer is unrecoverable.
+Notice that the mistake is not detectable later. Both migrations succeed, both applications work, and the difference only appears the day someone asks how many customers tipped nothing, by which point the answer is unrecoverable.
 
 **What changes with the Force:** whether a mistake is correctable, and therefore how much care the decision is worth. That is the general form, and the tip column is one instance of it. Two others follow from the same reading.
 
@@ -124,7 +124,7 @@ Notice that the mistake is not detectable later. Both migrations succeed, both a
 
 **Whether "we'll clean it up later" is available.** At the top of the dial it always is. At the bottom it is available only while the wrong state is small, and the window closes silently as rows accumulate.
 
-This Force is the sibling of blast radius, and they are worth keeping distinct: **blast radius is how bad it is when you are wrong; durability is whether you can stop being wrong.** A dashboard with a wrong number has a small blast radius and a short-lived medium — fix the query, and the past repairs itself. A schema with a wrong column has a modest blast radius and a permanent medium, which is why it deserves more argument than its severity alone suggests.
+This Force is the sibling of blast radius, and they are worth keeping distinct: **blast radius is how bad it is when you are wrong; durability is whether you can stop being wrong.** A dashboard with a wrong number has a small blast radius and a short-lived medium: fix the query, and the past repairs itself. A schema with a wrong column has a modest blast radius and a permanent medium, which is why it deserves more argument than its severity alone suggests.
 
 ### Blast radius
 
@@ -135,13 +135,13 @@ This Force is the sibling of blast radius, and they are worth keeping distinct: 
 | a revenue chart is off by a few cents | nobody | fix the code; nothing was issued to anyone |
 | an invoice total is off by a cent | the customer | a support ticket and a corrected invoice |
 | a payment is taken for the wrong amount | the buyer, a month later | a refund, plus reconciliation across every affected account |
-| a drill controller ships with the fault | the operator, on site | recall the unit, reflash it, ship it back — weeks |
+| a drill controller ships with the fault | the operator, on site | recall the unit, reflash it, ship it back (weeks) |
 
 Two conditions make the first row cheap, and both are worth naming because neither is "the error is small."
 
 **The error is below the precision of any decision made from the number.** Nobody chooses differently because a category total reads 4,182.31 instead of 4,182.34. Change the audience to an auditor and the same error stops being tolerable at the same magnitude.
 
-**Nothing was issued.** A chart is derived from source data and recomputed on every load, so fixing the code fixes every future view and no artifact carries the old number. An invoice is the opposite: it was sent, someone has it, and correcting it means a second document and an explanation. That is the property that actually separates row one from row two — not the size of the error but whether anything left the building.
+**Nothing was issued.** A chart is derived from source data and recomputed on every load, so fixing the code fixes every future view and no artifact carries the old number. An invoice is the opposite: it was sent, someone has it, and correcting it means a second document and an explanation. That is the property that actually separates row one from row two, not the size of the error but whether anything left the building.
 
 Now one function, and nothing careless about it:
 
@@ -153,7 +153,7 @@ def split(total, parts):
 
 Behind a dashboard that charts revenue per category, this is correct. The rounding error is smaller than the precision anyone reads off a chart, and no decision changes because of it.
 
-Move the same function — not a rewrite, the same three lines — into invoice generation:
+Move the same function, not a rewrite, the same three lines, into invoice generation:
 
 ```text
 >>> split(8.03, 3)
@@ -173,7 +173,7 @@ def split_minor(total_cents, parts):
     for i in range(parts):
         # The leftover cannot be divided, so it is handed out one cent
         # at a time to the first `remainder` lines. Nothing is dropped
-        # and nothing is invented — the lines always sum to the total.
+        # and nothing is invented: the lines always sum to the total.
         extra = 1 if i < remainder else 0
         lines.append(base + extra)
 
@@ -185,7 +185,7 @@ def split_minor(total_cents, parts):
 [268, 268, 267]           which sums to 803
 ```
 
-**`split` did not change. The blast radius did.** `split_minor` is what you write once you know the radius; the version above is what you write before you know it. That is the point: `split` is not sloppy work that the dashboard tolerates and the invoice exposes — it is *correct* for one and *defective* for the other, and nothing you can see in the function tells you which.
+**`split` did not change. The blast radius did.** `split_minor` is what you write once you know the radius; the version above is what you write before you know it. That is the point: `split` is not sloppy work that the dashboard tolerates and the invoice exposes; it is *correct* for one and *defective* for the other, and nothing you can see in the function tells you which.
 
 **What changes with the Force:** how much prevention is worth buying. This is the Force that decides whether a defensive check is diligence or noise, and it is the one most often read from habit rather than from the situation.
 
@@ -193,7 +193,7 @@ def split_minor(total_cents, parts):
 
 > **How often does this change, and when it does, how many places change with it?**
 
-Something has to change in the first place, and what forces it sits outside the code. Code nobody touches does exactly what it did last year; what moves is tax rules, currencies, browser versions, the API you call, what users expect. A system in use is measured against all of that, so standing still is a slow decline — the first of **Lehman's laws of software evolution**, from Meir Lehman and László Belady's study of large systems in the 1970s: a system that is used must be continually adapted, or it becomes progressively less satisfactory.
+Something has to change in the first place, and what forces it sits outside the code. Code nobody touches does exactly what it did last year; what moves is tax rules, currencies, browser versions, the API you call, what users expect. A system in use is measured against all of that, so standing still is a slow decline, the first of **Lehman's laws of software evolution**, from Meir Lehman and László Belady's study of large systems in the 1970s: a system that is used must be continually adapted, or it becomes progressively less satisfactory.
 
 The question has two readings, and the second is the one that gets skipped.
 
@@ -225,7 +225,7 @@ adding one payment method touches
   layered     6 files   see below
 ```
 
-The six is worth spelling out, because it sounds like an exaggeration and is not. Under a structure with one type per layer, a payment method is not one thing — it is the same idea restated at every boundary it crosses:
+The six is worth spelling out, because it sounds like an exaggeration and is not. Under a structure with one type per layer, a payment method is not one thing; it is the same idea restated at every boundary it crosses:
 
 ```csharp
 // 1. the wire shape
@@ -250,11 +250,11 @@ public interface IPaymentRepository { Task Save(PaymentMethodEntity entity); }
 [HttpPost] public Task<IActionResult> Pay(PaymentMethodDto method) => ...
 ```
 
-Adding *direct debit* means a new case, or a new field, in each of the six — and the mapper twice, once per direction. None of the six decides anything about direct debit that the others do not already know.
+Adding *direct debit* means a new case, or a new field, in each of the six, and the mapper twice, once per direction. None of the six decides anything about direct debit that the others do not already know.
 
 That is not evidence of a careless team. It is a structure whose boundaries do not line up with the way change actually arrives, so every change crosses all of them. [Chapter 05](05_dependency-and-hiding_agjy.md) owns why fan-in sets the price of a change; [chapter 17](17_abstraction-as-insurance_4jk6.md) owns what these particular boundaries cost.
 
-**What changes with the Force:** whether structure that makes adding cheap is worth having. Frequency alone does not decide it — a thing that changes monthly in one file needs nothing.
+**What changes with the Force:** whether structure that makes adding cheap is worth having. Frequency alone does not decide it: a thing that changes monthly in one file needs nothing.
 
 ### Team size and turnover
 
@@ -274,7 +274,7 @@ type Money struct {
 
 ```go
 // Twenty developers, a third of them new this year. A comment is no
-// longer protection — it is a hope that everyone reads it.
+// longer protection; it is a hope that everyone reads it.
 package money
 
 type Money struct {
@@ -295,13 +295,13 @@ The second version is not free: it costs a package boundary and a constructor ca
 
 **AI coding agents sit at the extreme of both questions.** The Force asks how many people must agree and how many will still be here, and for coding agents the answer to the second is *nobody*. The model was present for no conversation and keeps nothing between sessions, and its output arrives at a volume the review step was not sized for. The Forces that would settle the decisions inside that output are facts about your situation, held by you, and they reach the agent only as far as some prompt happened to carry them.
 
-So the prediction is specific. **Two authors with an agent in the loop sit where twenty developers sit.** A comment works only while somebody remembers the argument behind it, and a review habit is the same bet on memory made by a larger group — neither survives a contributor who was present for no conversation and keeps nothing between sessions. The migration named above — comment, then review habit, then type system — stops tracking headcount, and what still holds is what the compiler, a constraint, or a test enforces. [Chapter 21](21_never-written-down_at4r.md) turns to rules nobody wrote down at all, which have nothing to migrate.
+So the prediction is specific. **Two authors with an agent in the loop sit where twenty developers sit.** A comment works only while somebody remembers the argument behind it, and a review habit is the same bet on memory made by a larger group; neither survives a contributor who was present for no conversation and keeps nothing between sessions. The migration named above, from comment to review habit to type system, stops tracking headcount, and what still holds is what the compiler, a constraint, or a test enforces. [Chapter 21](21_never-written-down_at4r.md) turns to rules nobody wrote down at all, which have nothing to migrate.
 
 ### Latency budget
 
 > **What is the time budget for this operation, and what fraction of it does one mechanism cost?**
 
-The same operation — fetching a user's record — under three different budgets:
+The same operation, fetching a user's record, under three different budgets:
 
 ```python
 # A web page render with 200 ms latency budget. A database round trip is one percent
@@ -322,14 +322,14 @@ if user, ok := cache.Get(userID); ok {
 ```
 
 ```c
-/* An exchange order matcher with a 200 microsecond budget — 200
+/* An exchange order matcher with a 200 microsecond budget, 200
    millionths of a second, about the time a single main-memory read
    takes. There is no lookup at all. The data is already resident and
    indexed by id, and the memory layout is the design. */
 user_t *user = &users[user_id];
 ```
 
-**What changes with the Force:** what you are able to spend on abstraction. At 200 milliseconds an interface, a copy, and an allocation are all invisible against a database round trip, so buy them. At 200 microseconds those same three cost a measurable share of everything you have, and the code stops looking like the code in books — not because its authors are cleverer, but because they cannot afford what you can. [Chapter 09](09_scale_637f.md) owns the arithmetic underneath this; [chapter 05](05_dependency-and-hiding_agjy.md)'s entity-component case is this Force pushed to its end.
+**What changes with the Force:** what you are able to spend on abstraction. At 200 milliseconds an interface, a copy, and an allocation are all invisible against a database round trip, so buy them. At 200 microseconds those same three cost a measurable share of everything you have, and the code stops looking like the code in books, not because its authors are cleverer, but because they cannot afford what you can. [Chapter 09](09_scale_637f.md) owns the arithmetic underneath this; [chapter 05](05_dependency-and-hiding_agjy.md)'s entity-component case is this Force pushed to its end.
 
 ### Control of the callers
 
@@ -370,7 +370,7 @@ The Force decides how you can apply that fix:
 
 - **You own every client.** Change both sides, deploy together, delete the old field the same afternoon.
 - **You can see your clients.** Ship both fields, log which one each caller reads, remove the number when the count reaches zero. Weeks, and a dashboard.
-- **You can see nothing.** The numeric field is permanent. You add `id_string`, document that `id` is lossy above 2^53, and carry both indefinitely — and every future field faces the same question before it ships.
+- **You can see nothing.** The numeric field is permanent. You add `id_string`, document that `id` is lossy above 2^53, and carry both indefinitely, and every future field faces the same question before it ships.
 
 Same defect, same fix, three different projects. Nothing about the code told you which one you were in.
 
@@ -383,13 +383,13 @@ CHANGE a type            id="ord-1" amount=0    status="paid"        err=cannot 
 ADD an enum value        id="ord-1" amount=4200 status="partially_refunded"  err=<nil>
 ```
 
-Adding is safe — the old client ignores what it has no field for. The type change is **loud**: an error, a page, fixed within the hour. The rename is the dangerous one, because there is no error and the amount is now **zero** — a payment of nothing, reported as a successful parse, on a machine you cannot reach. The new enum value parses too, leaving the client holding a status it has no branch for.
+Adding is safe: the old client ignores what it has no field for. The type change is **loud**: an error, a page, fixed within the hour. The rename is the dangerous one, because there is no error and the amount is now **zero**, a payment of nothing, reported as a successful parse, on a machine you cannot reach. The new enum value parses too, leaving the client holding a status it has no branch for.
 
-So: **you may add optional things and relax constraints; you may not remove, rename, retype, or tighten.** Nothing there is specific to JSON — it holds for protocol buffers, for a database view another team queries, for a library signature, for the shape of a message on a queue.
+So: **you may add optional things and relax constraints; you may not remove, rename, retype, or tighten.** Nothing there is specific to JSON; it holds for protocol buffers, for a database view another team queries, for a library signature, for the shape of a message on a queue.
 
 What makes this Force different in kind from the other six is one sentence: **you cannot deploy other people's software.** Every other constraint in this book can be answered by changing code you control. At the bottom of this dial, the code that would have to change is on a machine you have no access to, owned by somebody with no reason to hurry.
 
-The bill is visible in any long-lived library. Go promised that code written for Go 1 keeps building, and its standard library now carries **175 declarations marked deprecated** — each one something its maintainers would remove and cannot. Rob Pike counts that promise among the things the Go project got right, and part of what it bought was the discipline: under a guarantee, anything added is added permanently, so a feature has to be worth keeping rather than merely worth having.
+The bill is visible in any long-lived library. Go promised that code written for Go 1 keeps building, and its standard library now carries **175 declarations marked deprecated**, each one something its maintainers would remove and cannot. Rob Pike counts that promise among the things the Go project got right, and part of what it bought was the discipline: under a guarantee, anything added is added permanently, so a feature has to be worth keeping rather than merely worth having.
 
 **What changes with the Force:** not the design, the *plan*. This is the Force that decides how much a mistake costs to correct, which is why it belongs in the room before the API is designed rather than after. [Chapter 05](05_dependency-and-hiding_agjy.md) owns what this implies for what you expose in the first place.
 
@@ -405,7 +405,7 @@ The bill is visible in any long-lived library. Go promised that code written for
 | Latency budget | What is the time budget, and what does one mechanism cost of it? |
 | Control of the callers | Can I change every call site, and would I know if I broke one? |
 
-**Seven is not a closed list.** These are the Forces that recur often enough to be worth naming, and a situation will sometimes hand you a fact that settles a question without appearing here — how a client assembles a request, what an auditor is entitled to ask for. What makes something a Force is the property above rather than membership of this table: it is checkable, and it says what would have to change for the answer to change.
+**Seven is not a closed list.** These are the Forces that recur often enough to be worth naming, and a situation will sometimes hand you a fact that settles a question without appearing here: how a client assembles a request, what an auditor is entitled to ask for. What makes something a Force is the property above rather than membership of this table: it is checkable, and it says what would have to change for the answer to change.
 
 ---
 
@@ -429,18 +429,18 @@ The tempting move is to guess high. It feels like prudence: assume growth, shard
 
 The rule that works is not "defer everything," and it is not "assume the worst" either. Two questions decide it, in order.
 
-> **Does waiting spoil this decision?** If delay lets state pile up that the decision would have prevented, the decision expires — it will not be available later on the same terms.
+> **Does waiting spoil this decision?** If delay lets state pile up that the decision would have prevented, the decision expires; it will not be available later on the same terms.
 > **Is this decision cheap to take today?** If it expires and it is cheap, take it now. If it expires and it is expensive, you are making a bet, and should say so.
 
 These two questions yield three cases:
 
-**1) The decision does not expire, so defer it.** Nothing accumulates while you wait, so the option is worth exactly as much next year. A performance index is the clean example — adding one later is routine work, and the data was never an obstacle, because the rows are not *wrong*, they are merely unindexed.
+**1) The decision does not expire, so defer it.** Nothing accumulates while you wait, so the option is worth exactly as much next year. A performance index is the clean example: adding one later is routine work, and the data was never an obstacle, because the rows are not *wrong*, they are merely unindexed.
 
-FlowCore — a Go workflow library backed by Postgres, and this book's running example — records a design decision of this shape. Go's way to stop a whole package being imported from outside its own module is to place it under a directory named `internal/`, which the compiler enforces. The library was written as a single flat package instead, and the decision log says why the wall was not built up front:
+FlowCore, this book's running example and a Go workflow library backed by Postgres, records a design decision of this shape. Go's way to stop a whole package being imported from outside its own module is to place it under a directory named `internal/`, which the compiler enforces. The library was written as a single flat package instead, and the decision log says why the wall was not built up front:
 
 > `internal/` can be introduced later if a second package genuinely needs to share machinery.
 
-Nothing degrades in the meantime. On the day a second package appears, the directory is created and the imports are updated — the same work it would have been on day one.
+Nothing degrades in the meantime. On the day a second package appears, the directory is created and the imports are updated, the same work it would have been on day one.
 
 **2) The decision expires and is cheap, so take it now.** This is where "stay flexible" gives exactly the wrong answer. From the same log, on whether to declare a database constraint that forbids duplicate rows before anyone has created one:
 
@@ -448,11 +448,11 @@ Nothing degrades in the meantime. On the day a second package appears, the direc
 
 Read that as an asymmetry rather than a prediction. Ship the constraint and discover it is too strict: one `drop index`, and the data was never harmed. Skip it and discover you needed it: the table now contains duplicates that the constraint refuses to accept, so before you can add it you need a migration, a policy for which duplicate survives, and a conversation with every client whose data you are about to change. **The constraint costs one line today and can become impossible tomorrow**, and that is true whether or not duplicates seemed likely.
 
-The general form is uncomfortable and worth stating plainly: **under uncertainty, prefer the decision you can walk back — which is usually the stricter one.** Strictness is the direction that can be relaxed. Permissiveness is the direction that accumulates facts you then have to live with.
+The general form is uncomfortable and worth stating plainly: **under uncertainty, prefer the decision you can walk back, which is usually the stricter one.** Strictness is the direction that can be relaxed. Permissiveness is the direction that accumulates facts you then have to live with.
 
-**3) The decision expires and is expensive, so you are making a bet.** Sharding is the standard case. Waiting genuinely does make it worse, because every month adds data to move — so the first question says act. But it is ruinous to do early, so the second question says wait, and the two do not resolve.
+**3) The decision expires and is expensive, so you are making a bet.** Sharding is the standard case. Waiting genuinely does make it worse, because every month adds data to move, so the first question says act. But it is ruinous to do early, so the second question says wait, and the two do not resolve.
 
-This is the only place where *how likely is this need* earns a vote, and it earns one because the decision is a forecast whether or not you admit it. What usually beats taking the bet is buying an option instead of the machinery: keep the code from assuming a single node — no cross-shard joins written into queries, no autoincrement keys assumed globally unique — without splitting anything. That costs little now and keeps the expensive decision cheap to make later, which converts a case-three problem into a case-one problem.
+This is the only place where *how likely is this need* earns a vote, and it earns one because the decision is a forecast whether or not you admit it. What usually beats taking the bet is buying an option instead of the machinery: keep the code from assuming a single node (no cross-shard joins written into queries, no autoincrement keys assumed globally unique) without splitting anything. That costs little now and keeps the expensive decision cheap to make later, which converts a case-three problem into a case-one problem.
 
 ### A Force with no design consequence
 
@@ -460,7 +460,7 @@ If both ends of the dial produce the same code, the Force is not live here and n
 
 The dial that matters is the range the Force can plausibly take **in your situation**, not the range it takes across all software. When that range is a single point, there is nothing to read.
 
-A build script runs once, on one machine, invoked by one person or one CI job. Concurrency is a fact about it — there is exactly one writer — but it is not a Force acting on the design, because the intensity cannot move. Imagining a version with a hundred concurrent writers does not help: that is a different program with a different purpose, not this one at a different setting.
+A build script runs once, on one machine, invoked by one person or one CI job. Concurrency is a fact about it: there is exactly one writer. But it is not a Force acting on the design, because the intensity cannot move. Imagining a version with a hundred concurrent writers does not help: that is a different program with a different purpose, not this one at a different setting.
 
 So the test is: **name the intensities this thing could plausibly have within its own lifetime, and write the design for each.** If there is only one intensity, the Force is inert here. If there are several and they produce the same design, the Force is live but not binding on this decision. Either way, stop.
 
@@ -473,17 +473,17 @@ The difference shows up in what you can do about it. An unmeasured Force has an 
 Concretely, two decisions that look alike:
 
 ```go
-// Decision A. "How many merchants will we have?" — unmeasured, and
+// Decision A. "How many merchants will we have?", unmeasured, and
 // measurable. Today it is 40. The question is whether to build sharding.
 // You can defer this and watch the number.
 
-// Decision B. "Will this product still exist in two years?" — no
+// Decision B. "Will this product still exist in two years?", no
 // instrument exists. Any number you write down is invented.
 ```
 
 For A, deferral is a plan: the trigger is a count you can watch, and the cost of being wrong is bounded by how fast the number can move.
 
-For B there is nothing to defer *to*. So the response is not a better estimate but a different question — what does this decision cost me if the product is cancelled in eighteen months? A schema designed for a scale that never arrives is money spent. A schema that is merely simple costs nothing extra if the product dies and is cheap to extend if it lives.
+For B there is nothing to defer *to*. So the response is not a better estimate but a different question: what does this decision cost me if the product is cancelled in eighteen months? A schema designed for a scale that never arrives is money spent. A schema that is merely simple costs nothing extra if the product dies and is cheap to extend if it lives.
 
 That is the reversibility question again, and it is the only one that still works when the instruments run out.
 
@@ -491,7 +491,7 @@ That is the reversibility question again, and it is the only one that still work
 
 ## What the claim costs
 
-**Naming a Force, without evaluating it, licenses machinery.** "We have concurrency" becomes a distributed lock, in a program with one writer. This is the failure mode the chapter's claim is aimed at: identifying a Force is the cheap half and feels like the whole job, so the design gets chosen from the name while the intensity is never read — and the intensity is almost always lower than the name suggests. The discipline: no Force may be cited in a design discussion without a number beside it, or the words *we don't know* said out loud.
+**Naming a Force, without evaluating it, licenses machinery.** "We have concurrency" becomes a distributed lock, in a program with one writer. This is the failure mode the chapter's claim is aimed at: identifying a Force is the cheap half and feels like the whole job, so the design gets chosen from the name while the intensity is never read, and the intensity is almost always lower than the name suggests. The discipline: no Force may be cited in a design discussion without a number beside it, or the words *we don't know* said out loud.
 
 **Half of these are estimates about the future wearing a measurement's clothes.** Team size in two years. Change frequency of a feature that does not exist yet. Peak traffic for a product with no users. Concurrency and latency can be measured today; the rest are forecasts, and should be labelled as such wherever they are written down.
 
@@ -508,33 +508,33 @@ That is the reversibility question again, and it is the only one that still work
 - **Retry with exponential backoff around a call to a function in the same binary.** A distribution Force imported wholesale from somewhere it was real. Read the intensity and there is nothing to retry: an in-process call does not suffer packet loss or a slow node, so a failure is a bug in your own code and calling it three times more slowly just delays the report by six seconds.
 - **A read-modify-write in a request handler.** A concurrency Force present and unread, and the symptom is silent data loss: two requests read the same value, both write, and the second overwrites the first with no error anywhere ([Ch. 07](07_time_mdbn.md)).
 - **Retry logic with no idempotency key.** Half of a Force read: the failure was anticipated, the redelivery it causes was not ([Ch. 08](08_distribution_49yh.md)).
-- **A `not null default` in a migration** that quietly asserts something false about every row that predates it. The durability Force went unread: the author was thinking about the code, where a zero value is a harmless placeholder, and not about the rows, where it is a claim that this never happened — permanently indistinguishable from a claim that nobody recorded it.
+- **A `not null default` in a migration** that quietly asserts something false about every row that predates it. The durability Force went unread: the author was thinking about the code, where a zero value is a harmless placeholder, and not about the rows, where it is a claim that this never happened, permanently indistinguishable from a claim that nobody recorded it.
 - **A cache with no invalidation rule.** The latency Force was read and the change-frequency Force was not, so the design answers one question and ignores the one that decides whether it is correct.
 - **An invariant enforced by a comment, in a codebase with forty contributors** and a third of them new this year.
-- **Interfaces, queues, and feature flags added for a shape of scale that has not arrived** — and no note anywhere saying what would have to become true for them to be needed.
+- **Interfaces, queues, and feature flags added for a shape of scale that has not arrived**, with no note anywhere saying what would have to become true for them to be needed.
 
 **"High scale" names no intensity and no design**, which is why the word *shape* is in that last bullet: a steady million requests an hour, an idle service that takes a million in one minute twice a day, and a modest request rate over a hundred terabytes are three different situations that share a vocabulary and share almost no design decisions. Machinery built for one shape is dead weight under the others, which is why "we built it for scale" is compatible with falling over on the first real load.
 
 **In a conversation:**
 
 - **"It needs to scale."** With no number attached, this is not a Force, it is a mood.
-- **"That's not how it's done"** — where the reason, when you dig, turns out to be a Force that held at the speaker's last job and has not been checked against this one.
+- **"That's not how it's done"**, where the reason, when you dig, turns out to be a Force that held at the speaker's last job and has not been checked against this one.
 - **A design defended by a Force nobody has measured in a year.** Team size, traffic, and client count all move without a commit.
 - **"Just in case"** doing the work that a measurement should be doing.
 
-The remedy in each case is the same, and it is almost never applied — stop arguing about the Principle and ask each side what they believe about the situation.
+The remedy in each case is the same, and it is almost never applied: stop arguing about the Principle and ask each side what they believe about the situation.
 
-Part II — *Laws, and Where They Bind* — opens with [chapter 04](04_families-of-law_q5c6.md) and three kinds of true: a proven theorem, a near-tautology, and an empirical regularity.
+Part II, *Laws, and Where They Bind*, opens with [chapter 04](04_families-of-law_q5c6.md) and three kinds of true: a proven theorem, a near-tautology, and an empirical regularity.
 
 ---
 
 ## Sources
 
-- Meir M. Lehman, *Programs, Life Cycles, and Laws of Software Evolution* — Proceedings of the IEEE 68(9), September 1980.
-- Go 1 and the Future of Go Programs — [go.dev/doc/go1compat](https://go.dev/doc/go1compat).
+- Meir M. Lehman, *Programs, Life Cycles, and Laws of Software Evolution*, Proceedings of the IEEE 68(9), September 1980.
+- Go 1 and the Future of Go Programs, [go.dev/doc/go1compat](https://go.dev/doc/go1compat).
 - Rob Pike, *What We Got Right, What We Got Wrong*, closing talk at GopherConAU, Sydney, 10 November 2023, published 4 January 2024. [Text and slides](https://commandcenter.blogspot.com/2024/01/what-we-got-right-what-we-got-wrong.html).
-- Go, internal packages — [go.dev/doc/go1.4#internalpackages](https://go.dev/doc/go1.4#internalpackages).
-- FlowCore, `docs/decisions.md`, decision 1 — [github.com/mike-akdeniz/flowcore](https://github.com/mike-akdeniz/flowcore).
+- Go, internal packages, [go.dev/doc/go1.4#internalpackages](https://go.dev/doc/go1.4#internalpackages).
+- FlowCore, `docs/decisions.md`, decision 1, [github.com/mike-akdeniz/flowcore](https://github.com/mike-akdeniz/flowcore).
 
 ---
 
