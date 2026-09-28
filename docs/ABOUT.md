@@ -6,16 +6,16 @@ How *Load-Bearing* is put together. The book itself starts at [`README.md`](../R
 
 Each chapter follows this shape:
 
-1. **The claim** — one sentence, and the chapter opens on it.
-2. **The demonstration** — code, in two or more languages when the point concerns translation. It carries no heading of its own: its sections sit at the top level, named for what each one shows, so the contents page of a chapter reads as its argument rather than as a rubric. [Chapter 03](03_forces_f4m5.md) is the exception, where `## Seven Forces` groups an enumeration that would otherwise scatter.
-3. **Why the claim holds** — the mechanism, never the authority. No argument from who said it.
-4. **Where the claim doesn't apply** — mandatory, with a worked counter-example.
-5. **What the claim costs** — every choice has a bill.
-6. **How to recognize the failure** — what it looks like in a real codebase when someone got this wrong.
+1. **The claim**: one sentence, and the chapter opens on it.
+2. **The demonstration**: code, in two or more languages when the point concerns translation. It carries no heading of its own: its sections sit at the top level, named for what each one shows, so the contents page of a chapter reads as its argument rather than as a rubric. [Chapter 03](03_forces_f4m5.md) is the exception, where `## Seven Forces` groups an enumeration that would otherwise scatter.
+3. **Why the claim holds**: the mechanism, never the authority. No argument from who said it.
+4. **Where the claim doesn't apply**: mandatory, with a worked counter-example.
+5. **What the claim costs**: every choice has a bill.
+6. **How to recognize the failure**: what it looks like in a real codebase when someone got this wrong.
 
 **The two case studies are the exception.**
 [Chapters 16](../16_tdd-and-mocks_u8eu.md) and [17](../17_abstraction-as-insurance_4jk6.md) are case studies in [chapter 15](../15_principle-loses-scope_b86v.md)'s claim rather than claims of their own.
-So each opens on the advice as it actually travels and on what its source said, and its mandatory counter-example asks when following the compressed version is right — the same rule, framed for a chapter that makes no claim to bound.
+So each opens on the advice as it actually travels and on what its source said, and its mandatory counter-example asks when following the compressed version is right (the same rule, framed for a chapter that makes no claim to bound).
 
 The argument's last paragraph hands off to the next chapter, written as prose with no label.
 Then the back matter, after a divider: a **Sources** section listing every work the chapter cites, with links, and last a navigation row.
@@ -24,11 +24,11 @@ Then the back matter, after a divider: a **Sources** section listing every work 
 
 **Languages.**
 Go carries most of the examples, since the running example is written in it, and Python is the second.
-Java and C# appear where a point needs a class-based contrast — Java mostly in the chapters on missing language features and on behaviour placement, C# in the early structural chapters.
+Java and C# appear where a point needs a class-based contrast: Java mostly in the chapters on missing language features and on behaviour placement, C# in the early structural chapters.
 SQL runs through seven chapters, and C, Rust, and JavaScript appear once or twice each, where nothing else would show the point.
 
 **Running example.**
-[FlowCore](https://github.com/mike-akdeniz/flowcore) supplies examples in Parts I, II, IV, V and VI — its 38-entry decision log means the reasoning behind a choice can be quoted rather than guessed at.
+[FlowCore](https://github.com/mike-akdeniz/flowcore) supplies examples in Parts I, II, IV, V and VI; its 38-entry decision log means the reasoning behind a choice can be quoted rather than guessed at.
 Each appearance shows a different facet, other domains supply the contrast, and no chapter rests on FlowCore alone.
 
 ## Files
@@ -38,23 +38,23 @@ The four characters at the end are permanent: a chapter's number and its slug ca
 
 Working documents live in `docs/`:
 
-- `docs/DECISIONS.md` — editorial decisions, with the reasoning and the options that lost.
-- `docs/LEDGER.md` — concept and example ownership, one owner per concept. Read before drafting, updated after.
-- `docs/STATUS.md` — which chapter is at which status.
-- `docs/pending-tasks/` — work owed to chapters that are already drafted, and the gaps the book knows it has.
+- `docs/DECISIONS.md`: editorial decisions, with the reasoning and the options that lost.
+- `docs/LEDGER.md`: concept and example ownership, one owner per concept. Read before drafting, updated after.
+- `docs/STATUS.md`: which chapter is at which status.
+- `docs/pending-tasks/`: work owed to chapters that are already drafted, and the gaps the book knows it has.
 
 ## License
 
-The prose is licensed **[CC BY-NC 4.0](../LICENSE)** — read it, quote it, translate it, teach from it, build on it.
-Two conditions: credit — name the author, link back, and say if you changed anything — and not for commercial purposes, which the licence defines as use primarily intended for commercial advantage or monetary compensation.
+The prose is licensed **[CC BY-NC 4.0](../LICENSE)**: read it, quote it, translate it, teach from it, build on it.
+Two conditions: credit (name the author, link back, and say if you changed anything) and not for commercial purposes, which the licence defines as use primarily intended for commercial advantage or monetary compensation.
 Commercial rights are reserved; ask.
 
-**Code samples are CC0** — public domain.
+**Code samples are CC0**: public domain.
 Lift any snippet into your own project without attribution.
 
 ## How to cite
 
 > Akdeniz, M. *Load-Bearing: Which Software Principles Hold, and Where They Stop.*
-> https://github.com/mike-akdeniz/load-bearing — licensed CC BY-NC 4.0.
+> https://github.com/mike-akdeniz/load-bearing, licensed CC BY-NC 4.0.
 
-If you make something with visible traces of this book — a course, a talk, a video, an article — the attribution above and a link are what the license asks for.
+If you make something with visible traces of this book (a course, a talk, a video, an article), the attribution above and a link are what the license asks for.
