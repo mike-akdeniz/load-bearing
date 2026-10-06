@@ -2,103 +2,32 @@
 
 *Which Software Principles Hold, and Where They Stop*
 
-By [Mike Akdeniz](https://github.com/mike-akdeniz)  ·  [CC BY-NC 4.0](LICENSE)  ·  [How this book was written](#how-this-book-was-written)
+By [Mike Akdeniz](https://github.com/mike-akdeniz)  ·  [CC BY-NC 4.0](LICENSE)
+
+> **AccountRepository needs an interface. Depend on abstractions.**
+
+Says the code review on your latest commit.
+Your gut says the interface would be pure drudgery here, but you can't make that case convincingly, so you comply and move on.
+
+A builder opening up a kitchen doesn't guess whether a wall can come out. They look at what rests on it.
+Software advice comes with no such inspection: there is the sentence, and there is the confidence of the person who said it.
 
 **Many claims you meet about software are one of five kinds, and the kind determines how much authority it has**, not the confidence of the person saying it, not their track record, not how widely it is repeated.
-The same wiring code is unremarkable in Go and gets sent back in review in C#, and neither version is more correct.
-→ [Chapter 02: The Five Kinds of Claim](02_the-five-kinds_cjx4.md)
 
-**Your clock cannot tell you what happened first.**
-Two consecutive reads of the system clock return the same number 95% of the time on one machine, with nothing going wrong.
-That number is measured, not asserted.
-→ [Chapter 07: Time: Concurrency and Clocks](07_time_mdbn.md)
+**→ [Start reading: Chapter 01, Is This Load-Bearing?](01_load-bearing_w8kq.md)**
 
-**You cannot tell a late reply from one that is never coming.**
-Not that it is hard. You cannot. Most of what is impossible in distributed systems follows from it.
-Asking *are you still there?* does not help either: a reply proves the channel works now, and your question was about the past.
-→ [Chapter 08: Distribution: What's Impossible](08_distribution_49yh.md)
+## What's in it
 
-**"This should be a Repository." What would that rule out?**
-A design pattern name earns its place by forbidding something.
-Run that test on the names you use in code review and count how many survive it.
-→ [Chapter 11: What a Design Pattern Is For](11_what-a-pattern-is-for_3xzc.md)
+Twenty-two chapters, from concurrency and clocks, distributed impossibility and queueing, through design patterns, TDD and abstraction, to the decisions a team never writes down.
+Each chapter makes a claim and shows, with a worked case, where it stops.
+The code is mostly Go, with Python second.
 
-**Why design arguments don't get settled.**
-Because both sides are arguing about the answer while disagreeing about the situation, and nobody wrote the situation down.
-→ [Chapter 03: Forces: The Inputs Nobody Names](03_forces_f4m5.md)
-
-Those are five of twenty-two chapters. Each one makes a claim and states where it stops.
 → [All chapters](00_toc.md)
-
-## The premise
-
-Most software advice is true.
-Almost none of it says what *kind* of claim it is.
-
-"Dependencies must be acyclic" is nearly a mathematical fact.
-"Every repository gets an interface" is a local convention of one ecosystem.
-Both arrive in the same tone of voice, in the same conference talk, from people with equal confidence.
-So the convention gets applied with the force of a law, and the law gets treated as one option among several.
-
-This book is a field guide for telling the difference.
-Its central question is the one a builder asks before knocking out a wall: **is this load-bearing?**
-Some walls carry the structure.
-Some are partitions someone painted to look structural.
-Removing the first brings the roof down; removing the second is redecorating.
-
-The book is written to be **received**, not obeyed.
-Its subject is how to read advice (a blog post, a review comment, a pattern name, a strong opinion in a meeting) and place it correctly before deciding what to do about it.
-
-## The spine: five kinds
-
-Every chapter classifies its material against this table. Four of the five are advice and form a ladder of authority; Force is not advice, which is why there are four levels and five kinds.
-
-| | What it is | Authority | Example |
-|---|---|---|---|
-| **Law** | true by the mechanics of computation | absolute | acyclic dependency; check-then-act races |
-| **Force** | properties of your situation | not advice; inputs | concurrency, durability, blast radius, team size |
-| **Principle** | good advice *given* certain Forces | conditional | "put the rule where it can be enforced" |
-| **Idiom** | ecosystem conventions | local, non-transferable | free functions in Go; DI containers in C# |
-| **Style** | arbitrary but worth consistency | none, but pick one | naming, formatting |
-
-The recurring failure, which appears in every part of this book:
-
-> **An Idiom gets promoted to a Law by advocacy, then applied where the Forces don't hold.**
-
-## The rule this book holds itself to
-
-**No chapter ships without a real counter-example.**
-
-Every chapter has a mandatory *Where the claim doesn't apply* section containing a worked case, not a hedge.
-"This always applies" is never an acceptable answer; if a boundary can't be found, that is evidence the claim is too vague to be useful, not evidence that it is universal.
-
-This applies to Laws too.
-They don't stop being true, but they stop being *relevant*, and knowing when they stop mattering is the same skill.
 
 ## How this book was written
 
-The ideas, the arguments and the examples are the author's; the prose was drafted by a large language model (Claude), one chapter at a time, and then edited and sent back.
+The ideas, the arguments and the examples are mine. The prose was drafted by a large language model (Claude), one chapter at a time, then edited and sent back across 95 review passes, all in the commit history.
+Every editorial decision, including the ones where the model's proposal was rejected, is in [`docs/DECISIONS.md`](docs/DECISIONS.md), so that claim can be checked rather than taken on trust.
 
-The thesis (that software advice comes in kinds of differing authority, and that most of the damage comes from confusing them) began as a page of handwritten notes, not as a prompt.
-
-Those notes came out of building [FlowCore](https://github.com/mike-akdeniz/flowcore), a Go workflow library whose design decisions were argued through and written down one at a time, as they were made.
-Asking which of its choices were forced, which were conventional, and which were only habit is what turned into this book.
-
-Every chapter is read, argued with, and sent back; 95 review passes of the author's own are in the commit history.
-The drafts have so far contained a contradiction that survived a full pass, a shortcut rule that was exactly backwards, and a claim about single-stack teams that experience says is false.
-Each was caught by the author, not by the model, and each is recorded in [`docs/DECISIONS.md`](docs/DECISIONS.md) with the reasoning that settled it.
-
-Structural decisions (the title, the terminology, the chapter list, what gets cut, and what the book refuses to claim) are the author's.
-
-So: **the sentences are generated; the argument, the judgment, and the responsibility for what it says are the author's.**
-The decision log is there so that claim can be checked rather than taken on trust.
-
-## Contents
-
-All twenty-two chapters, in six parts, are listed in **[`00_toc.md`](00_toc.md)**.
-Each chapter states its own claim and where that claim stops, so the contents page lists them and leaves the arguing to them.
-
-How the book is put together (the chapter rubric, the language conventions, the running example, the license and how to cite it) is in **[`docs/ABOUT.md`](docs/ABOUT.md)**.
-
-> **Status: v1.1.0.** All twenty-two chapters are written and have been read end to end.
-> Corrections and disagreements welcome; open an issue.
+**Status: v1.1.0.** All twenty-two chapters are written and have been read end to end. Corrections and disagreements welcome; open an issue.
+How the book is put together, and how to cite it: [`docs/ABOUT.md`](docs/ABOUT.md).
