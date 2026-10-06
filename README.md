@@ -6,7 +6,7 @@
 
 "Every repository gets an interface" is a local convention of one ecosystem.
 
-Both arrive in the same tone of voice, in the same conference talk, from people with equal confidence.
+Both arrive in the same tone of voice, with equal confidence, so the local convention gets applied everywhere as if it were a mathematical fact.
 
 This book is a field guide for telling the difference.
 Its central question is the one a builder asks before knocking out a wall: **is this load-bearing?**

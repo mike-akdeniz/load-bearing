@@ -8317,3 +8317,21 @@ The `v1.0.0` tag remains on its original commit. An annotated `v1.1.0` tag shoul
 
 **What does not change.**
 `docs/STATUS.md` continues to track chapter status separately from the book's version, as established in decision 213.
+
+## 219. The README becomes a front door with one way in
+
+**Date.** 2026-10-06
+
+**Context.**
+The README had grown into the book's introduction: five chapter hooks, the premise, the table of the five kinds, the rule the book holds itself to, a six-paragraph account of how it was written, and the contents and status. The author's verdict was that it was overloaded, with several places to start and no clear one, and that it should be as short as FlowCore's: catch the reader, send them to the best first chapter, and list only what is essential after that.
+
+**Decision.**
+The README keeps the title and subtitle, the premise in its shortest form (the acyclic-versus-repository pair, the line saying what confusing them costs, and the wall), and one link: *Start reading: Chapter 01*. After it come three lines on what the book covers with a link to the contents, the authorship disclosure in two sentences, the status, and the byline.
+
+- **One entry point, chapter 01**, replacing decision 105's ordered list of five hooks that began with chapter 02. Chapter 01 is where the premise is argued from a code review every reader has received; the five-kinds model follows in chapter 02, where it is read in order.
+- **The five hooks, the table of kinds and the rubric section leave the README.** Each lives in the chapter it summarised: the table in chapter 02, the rubric in `docs/ABOUT.md`.
+- **The disclosure stays in the README**, as decision 104 requires, shortened to the claim and its evidence: the ideas, arguments and examples are the author's, the prose was drafted by a model and sent back across 95 review passes, and `docs/DECISIONS.md` is where that can be checked.
+- **The byline moves to the foot of the page**, revising decision 212. That decision put it under the subtitle so the disclosure would be one click from the title rather than far down the page. On a page this short the disclosure is on the first screen and written in the first person, so the byline no longer has that work to do.
+
+**What does not change.**
+No chapter text, so the version stays `v1.1.0` under decision 213.
