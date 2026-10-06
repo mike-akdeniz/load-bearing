@@ -2,17 +2,17 @@
 
 *Which Software Principles Hold, and Where They Stop*
 
-By [Mike Akdeniz](https://github.com/mike-akdeniz)  ·  [CC BY-NC 4.0](LICENSE)
+"Dependencies must be acyclic" is nearly a mathematical fact.
 
-> **AccountRepository needs an interface. Depend on abstractions.**
+"Every repository gets an interface" is a local convention of one ecosystem.
 
-Says the code review on your latest commit.
-Your gut says the interface would be pure drudgery here, but you can't make that case convincingly, so you comply and move on.
+Both arrive in the same tone of voice, in the same conference talk, from people with equal confidence.
 
-A builder opening up a kitchen doesn't guess whether a wall can come out. They look at what rests on it.
-Software advice comes with no such inspection: there is the sentence, and there is the confidence of the person who said it.
-
-**Many claims you meet about software are one of five kinds, and the kind determines how much authority it has**, not the confidence of the person saying it, not their track record, not how widely it is repeated.
+This book is a field guide for telling the difference.
+Its central question is the one a builder asks before knocking out a wall: **is this load-bearing?**
+Some walls carry the structure.
+Some are partitions someone painted to look structural.
+Removing the first brings the roof down; removing the second is redecorating.
 
 **→ [Start reading: Chapter 01, Is This Load-Bearing?](01_load-bearing_w8kq.md)**
 
@@ -31,3 +31,5 @@ Every editorial decision, including the ones where the model's proposal was reje
 
 **Status: v1.1.0.** All twenty-two chapters are written and have been read end to end. Corrections and disagreements welcome; open an issue.
 How the book is put together, and how to cite it: [`docs/ABOUT.md`](docs/ABOUT.md).
+
+By [Mike Akdeniz](https://github.com/mike-akdeniz)  ·  [CC BY-NC 4.0](LICENSE)
