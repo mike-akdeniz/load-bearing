@@ -22,14 +22,14 @@ Twenty-two chapters, from concurrency and clocks, distributed impossibility and 
 Each chapter makes a claim and shows, with a worked case, where it stops.
 The code is mostly Go, with Python second.
 
-→ [All chapters](00_toc.md)
+→ [All chapters](00_toc.md)  ·  [PDF](https://github.com/mike-akdeniz/load-bearing/releases/latest/download/load-bearing.pdf)  ·  [EPUB](https://github.com/mike-akdeniz/load-bearing/releases/latest/download/load-bearing.epub)
 
 ## How this book was written
 
 The ideas, the arguments and the examples are mine. The prose was drafted by a large language model (Claude), one chapter at a time, then edited and sent back across 95 review passes, all in the commit history.
 Every editorial decision, including the ones where the model's proposal was rejected, is in [`docs/DECISIONS.md`](docs/DECISIONS.md), so that claim can be checked rather than taken on trust.
 
-**Status: v1.1.0.** All twenty-two chapters are written and have been read end to end. Corrections and disagreements welcome; open an issue.
+**Status: v1.1.1.** All twenty-two chapters are written and have been read end to end. Corrections and disagreements welcome; open an issue.
 How the book is put together, and how to cite it: [`docs/ABOUT.md`](docs/ABOUT.md).
 
 By [Mike Akdeniz](https://github.com/mike-akdeniz)  ·  [CC BY-NC 4.0](LICENSE)

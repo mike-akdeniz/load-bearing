@@ -353,7 +353,7 @@ Four rules, and they exist because the source is read as prose and will one day 
 Everything else stays as it reads best.
 Long code lines, box-drawing characters in diagrams, `>` blockquotes, and `---` section dividers are all fine — each is a build-time transformation, and none is worth making the source uglier for.
 
-**For whoever writes the PDF build.**
+**The PDF and EPUB build** is `tools/build-book.py` (`python3 tools/build-book.py`, output in `build/`, which is git-ignored). It implements what follows.
 Long code lines are handled by `fvextra`, which extends the `fancyvrb` environments pandoc already emits, so pandoc's syntax highlighting is kept:
 
 ```latex

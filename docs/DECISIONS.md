@@ -8335,3 +8335,40 @@ The README keeps the title and subtitle, the premise in its shortest form (the a
 
 **What does not change.**
 No chapter text, so the version stays `v1.1.0` under decision 213.
+
+## 220. A PDF and EPUB build, and a cover
+
+**Date.** 2026-10-07
+
+**Context.**
+The book could only be read on GitHub. The author wants it in ebook catalogs as well, which take a PDF or EPUB and a cover image. The chapter conventions in `CLAUDE.md` were written for a print build that did not exist yet.
+
+**Decision.**
+`tools/build-book.py` builds both files into `build/`, which is git-ignored, with pandoc, and with tectonic for the PDF. `tools/make-cover.py` draws `docs/cover.png`. The source does not change; the build adapts it on the way through.
+
+- **Order and parts come from `00_toc.md`**, so the contents page and the files cannot disagree. The build stops if they do.
+- **A cross-reference becomes a link inside the book**, keyed on the chapter's four-character identifier, the reason those identifiers exist.
+- **GitHub-only lines are dropped:** each chapter's navigation footer, and the italic part line above a part's first chapter, since the book has part pages.
+- **The introduction is the README** without its links into the repository, the contents summary and the status line. The version goes on the title page and on the last page.
+- **The licence, the source link and the author's LinkedIn sit on the last page**, the author's call: the reader starts at the title, not at the fine print.
+- **Code follows the conventions above:** long lines wrap with a visible ↪, and diagrams never wrap.
+- **The cover is plain typography in upright Charter**, the PDF's typeface, and nothing else; a drawn beam and an italic subtitle were tried and dropped, the author's call. 1600 × 2560, the size Google Play Books asks for.
+
+**What does not change.**
+No chapter text, so the version stays `v1.1.0` under decision 213.
+
+## 221. The PDF and EPUB ship as v1.1.1
+
+**Date.** 2026-10-07
+
+**Context.**
+Decision 220's files need a home and a version. Decision 213 moves the middle number for a revised chapter or added material and the last for corrections. New formats of unchanged text are neither.
+
+**Decision.**
+`v1.1.1`, a GitHub Release with both files attached, built from the tagged commit so the version printed inside them is the tag. The README links them next to the contents, through GitHub's `releases/latest/download/` address, so the links follow every later release without an edit.
+
+- **The last number, not the middle**, because a reader who sees the middle number move expects chapters that changed, and none did. From here on, a release that changes only the formats moves the last number.
+- **The download line starts with `→`**, like the line it extends, so the build's introduction drops it with the others.
+
+**What does not change.**
+No chapter text. `docs/STATUS.md` keeps its own axis, as decision 213 set.
